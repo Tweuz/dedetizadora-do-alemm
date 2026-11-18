@@ -18,6 +18,7 @@ var pitch_limit: float = deg_to_rad(89.0)
 @onready var head: Node3D = $Head
 @onready var camera: Camera3D = $Head/Camera3D
 @onready var flashlight: SpotLight3D = $Head/Flashlight
+@onready var detector: Node3D = $Head/Detector
 @onready var mesh: MeshInstance3D = $MeshInstance3D
 @onready var synchronizer: MultiplayerSynchronizer = $MultiplayerSynchronizer
 
@@ -50,6 +51,10 @@ func _ready() -> void:
 		
 		# 3. Captura o cursor do mouse para a movimentação em primeira pessoa
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		
+		# 4. Detector inicia recolhido/desligado no jogador local
+		if has_node("Head/Detector"):
+			detector.set_active(false)
 	else:
 		# Jogador Remoto:
 		# Desativa câmera e processamento de inputs locais.
@@ -57,6 +62,11 @@ func _ready() -> void:
 		camera.current = false
 		set_physics_process(false)
 		set_process_unhandled_input(false)
+		
+		# O detector é exclusivo para a interface do jogador local
+		if has_node("Head/Detector"):
+			detector.visible = false
+			detector.set_process(false)
 
 # ==============================================================================
 # ENTRADAS DE USUÁRIO (MOUSE E TECLAS RÁPIDAS)
@@ -95,6 +105,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	# Alternar lanterna com a tecla 'F'
 	if event.is_action_pressed("toggle_flashlight"):
 		toggle_flashlight()
+		get_viewport().set_input_as_handled()
+		return
+
+	# Alternar detector de fantasma com a tecla 'Q' (apenas no jogador local)
+	if event.is_action_pressed("toggle_detector"):
+		if has_node("Head/Detector"):
+			detector.toggle_active()
 		get_viewport().set_input_as_handled()
 		return
 
@@ -158,6 +175,7 @@ func _setup_default_inputs() -> void:
 	_add_action_key("move_right", KEY_D)
 	_add_action_key("sprint", KEY_SHIFT)
 	_add_action_key("toggle_flashlight", KEY_F)
+	_add_action_key("toggle_detector", KEY_Q)
 
 func _add_action_key(action: String, keycode: Key) -> void:
 	if not InputMap.has_action(action):

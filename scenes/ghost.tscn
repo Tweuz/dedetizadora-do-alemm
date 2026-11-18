@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3 uid="uid://ghost_scene_dedetizadora"]
+
+[ext_resource type="Script" path="res://scripts/ghost.gd" id="1_ghost"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ghost"]
+radius = 0.45
+height = 1.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ghost"]
+transparency = 1
+cull_mode = 0
+albedo_color = Color(0.35, 0.65, 1, 0.45)
+emission_enabled = true
+emission = Color(0.2, 0.5, 0.95, 1)
+emission_energy_multiplier = 0.8
+roughness = 0.3
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ghost"]
+material = SubResource("StandardMaterial3D_ghost")
+radius = 0.45
+height = 1.9
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ghost"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:visible")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+
+[node name="Ghost" type="CharacterBody3D" groups=["ghost"]]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1_ghost")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+shape = SubResource("CapsuleShape3D_ghost")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+mesh = SubResource("CapsuleMesh_ghost")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 0.6
+target_desired_distance = 0.6
+path_height_offset = 0.1
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ghost")

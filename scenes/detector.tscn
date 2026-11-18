@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3 uid="uid://detector_scene_dedetizadora"]
+
+[ext_resource type="Script" path="res://scripts/detector.gd" id="1_detector"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_case"]
+albedo_color = Color(0.12, 0.12, 0.14, 1)
+roughness = 0.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_case"]
+material = SubResource("StandardMaterial3D_case")
+size = Vector3(0.12, 0.18, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_screen"]
+albedo_color = Color(0.04, 0.08, 0.04, 1)
+roughness = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_screen"]
+material = SubResource("StandardMaterial3D_screen")
+size = Vector3(0.09, 0.06, 0.005)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_led"]
+albedo_color = Color(0.1, 0.1, 0.1, 1)
+emission_enabled = true
+emission = Color(0.1, 0.1, 0.1, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_led"]
+material = SubResource("StandardMaterial3D_led")
+radius = 0.012
+height = 0.024
+
+[node name="Detector" type="Node3D"]
+script = ExtResource("1_detector")
+
+[node name="CaseMesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_case")
+
+[node name="ScreenMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.035, 0.026)
+mesh = SubResource("BoxMesh_screen")
+
+[node name="LedLight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.035, 0.028)
+mesh = SubResource("SphereMesh_led")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+unit_size = 2.0
+max_distance = 10.0
+bus = &"Master"
