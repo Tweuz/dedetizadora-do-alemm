@@ -11,7 +11,7 @@ const MOVE_SPEED: float = 2.0
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var synchronizer: MultiplayerSynchronizer = $MultiplayerSynchronizer
 
-# Dados do cômodo favorito e patrulha
+# Dados do cômodo/setor favorito e patrulha
 var favorite_room: Marker3D = null
 var favorite_room_position: Vector3 = Vector3.ZERO
 var current_target_position: Vector3 = Vector3.ZERO
@@ -50,14 +50,14 @@ func _choose_favorite_room() -> void:
 	if not rooms.is_empty():
 		favorite_room = rooms.pick_random() as Marker3D
 		favorite_room_position = favorite_room.global_position
-		# Teleporta inicialmente o fantasma para o cômodo favorito
+		# Teleporta inicialmente o fantasma para o setor favorito
 		global_position = favorite_room_position + Vector3(0, 0.5, 0)
-		print("[FANTASMA] Cômodo favorito escolhido: %s na posição %v" % [favorite_room.name, favorite_room_position])
+		print("[FANTASMA] Setor favorito do cemitério escolhido: %s na posição %v" % [favorite_room.name, favorite_room_position])
 	else:
 		favorite_room_position = global_position
 		print("[FANTASMA] Nenhum marcador no grupo 'ghost_rooms' encontrado. Usando posição inicial.")
 
-# Seleciona um ponto aleatório ao redor do cômodo favorito para vagar
+# Seleciona um ponto aleatório ao redor do setor favorito para vagar
 func _pick_next_patrol_point() -> void:
 	var angle: float = randf() * TAU
 	var radius: float = randf_range(1.5, 5.5)
@@ -111,7 +111,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 # ==============================================================================
-# EVENTO DE APAGAR LUZES DO CÔMODO (RPC SINCRONIZADO)
+# EVENTO DE APAGÃO E PISCAR DOS POSTES (RPC SINCRONIZADO)
 # ==============================================================================
 
 func _start_light_flicker_loop() -> void:
@@ -122,46 +122,72 @@ func _start_light_flicker_loop() -> void:
 		if not is_inside_tree() or not multiplayer.is_server():
 			return
 			
-		# Determina o ponto central do apagão (cômodo favorito ou posição atual do fantasma)
-		var center_pos: Vector3 = favorite_room_position if favorite_room else global_position
-		
-		# Envia RPC informando a posição exata para que todos os clientes apaguem as mesmas luzes
-		trigger_light_blackout.rpc(center_pos)
+		# O fantasma apaga os postes dentro de um raio de 12 metros a partir de sua posição atual
+		trigger_light_blackout.rpc(global_position, 12.0)
 
 @rpc("call_local", "reliable")
-func trigger_light_blackout(center_pos: Vector3) -> void:
-	var lights = get_tree().get_nodes_in_group("room_lights")
-	var target_lights: Array[Light3D] = []
+func trigger_light_blackout(ghost_pos: Vector3, radius: float = 12.0) -> void:
+	var posts = get_tree().get_nodes_in_group("street_lights")
+	# Compatibilidade caso ainda haja nós no grupo room_lights
+	if posts.is_empty():
+		posts = get_tree().get_nodes_in_group("room_lights")
 
-	# Seleciona as luzes pertencentes ao cômodo afetado (raio de 8 metros ao redor do ponto central)
-	for node in lights:
-		if node is Light3D:
-			if node.global_position.distance_to(center_pos) <= 8.0:
+	var target_lights: Array[Node] = []
+
+	# Seleciona os postes de iluminação dentro do raio do fantasma
+	for node in posts:
+		if node is Node3D:
+			if node.global_position.distance_to(ghost_pos) <= radius:
 				target_lights.append(node)
 
-	# Fallback: se nenhuma luz estiver no raio imediato, apaga a luz mais próxima do cômodo
-	if target_lights.is_empty() and not lights.is_empty():
-		var nearest_light: Light3D = null
+	# Fallback: caso nenhum poste esteja no raio imediato, afeta o poste mais próximo
+	if target_lights.is_empty() and not posts.is_empty():
+		var nearest_post: Node = null
 		var min_dist: float = INF
-		for node in lights:
-			if node is Light3D:
-				var dist: float = node.global_position.distance_to(center_pos)
+		for node in posts:
+			if node is Node3D:
+				var dist: float = node.global_position.distance_to(ghost_pos)
 				if dist < min_dist:
 					min_dist = dist
-					nearest_light = node
-		if nearest_light:
-			target_lights.append(nearest_light)
+					nearest_post = node
+		if nearest_post:
+			target_lights.append(nearest_post)
 
-	# Apaga as luzes
-	for light in target_lights:
-		light.visible = false
+	if target_lights.is_empty():
+		return
 
-	print("[FANTASMA] As luzes do cômodo se apagaram misteriosamente!")
+	print("[FANTASMA] Postes de luz próximos começam a piscar de forma irregular...")
 
-	# Aguarda 5 segundos no escuro e religa
+	# 1. Antes de apagar, as luzes piscam de forma irregular por 1,5 s
+	var flicker_delays: Array[float] = [0.14, 0.08, 0.20, 0.06, 0.18, 0.10, 0.22, 0.12, 0.18, 0.12, 0.10]
+	var current_state: bool = false
+	for delay in flicker_delays:
+		current_state = not current_state
+		_set_nodes_light_state(target_lights, current_state)
+		await get_tree().create_timer(delay).timeout
+		if not is_inside_tree():
+			return
+
+	# 2. Depois ficam apagadas 5 s
+	_set_nodes_light_state(target_lights, false)
+	print("[FANTASMA] Postes apagados no escuro total!")
+
 	await get_tree().create_timer(5.0).timeout
-	for light in target_lights:
-		if is_instance_valid(light):
-			light.visible = true
-			
-	print("[FANTASMA] As luzes do cômodo voltaram a acender.")
+	if not is_inside_tree():
+		return
+
+	# 3. E reacendem
+	_set_nodes_light_state(target_lights, true)
+	print("[FANTASMA] Postes voltaram a acender.")
+
+# Altera o estado da luz e da lâmpada de uma lista de postes ou luzes
+func _set_nodes_light_state(nodes: Array[Node], enabled: bool) -> void:
+	for node in nodes:
+		if not is_instance_valid(node):
+			continue
+		if node.has_method("set_light_enabled"):
+			node.set_light_enabled(enabled)
+		elif node is Light3D:
+			node.visible = enabled
+		elif node.has_node("OmniLight3D"):
+			node.get_node("OmniLight3D").visible = enabled

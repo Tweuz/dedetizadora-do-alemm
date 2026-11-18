@@ -1,14 +1,15 @@
-[gd_scene load_steps=19 format=3 uid="uid://main_scene_dedetizadora"]
+[gd_scene load_steps=20 format=3 uid="uid://main_scene_dedetizadora"]
 
 [ext_resource type="Script" path="res://scripts/network_manager.gd" id="1_network"]
 [ext_resource type="PackedScene" uid="uid://ui_menu_dedetizadora" path="res://ui/menu.tscn" id="2_menu"]
+[ext_resource type="PackedScene" uid="uid://lamp_post_dedetizadora" path="res://scenes/lamp_post.tscn" id="3_lamp"]
 
 [sub_resource type="Environment" id="Environment_horror"]
 background_mode = 1
 background_color = Color(0.015, 0.015, 0.025, 1)
 ambient_light_source = 2
-ambient_light_color = Color(0.04, 0.05, 0.07, 1)
-ambient_light_energy = 0.5
+ambient_light_color = Color(0.015, 0.02, 0.035, 1)
+ambient_light_energy = 0.15
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_level"]
 
@@ -70,8 +71,8 @@ environment = SubResource("Environment_horror")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.866025, 0.25, -0.433013, 0, 0.866025, 0.5, 0.5, -0.433013, 0.75, 0, 10, 0)
-light_color = Color(0.3, 0.38, 0.55, 1)
-light_energy = 0.15
+light_color = Color(0.2, 0.28, 0.45, 1)
+light_energy = 0.04
 shadow_enabled = true
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
@@ -190,42 +191,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 [node name="RoomStorage" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.5, 8)
 
-[node name="RoomLights" type="Node3D" parent="."]
+[node name="StreetLights" type="Node3D" parent="."]
 
-[node name="LightLivingRoom" type="OmniLight3D" parent="RoomLights" groups=["room_lights"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 3.5, -8)
-light_color = Color(1, 0.88, 0.65, 1)
-light_energy = 0.6
-shadow_enabled = true
-omni_range = 6.0
+[node name="LampPost1" parent="StreetLights" instance=ExtResource("3_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -8)
 
-[node name="LightKitchen" type="OmniLight3D" parent="RoomLights" groups=["room_lights"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 3.5, -8)
-light_color = Color(1, 0.88, 0.65, 1)
-light_energy = 0.6
-shadow_enabled = true
-omni_range = 6.0
+[node name="LampPost2" parent="StreetLights" instance=ExtResource("3_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -8)
 
-[node name="LightHallway" type="OmniLight3D" parent="RoomLights" groups=["room_lights"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
-light_color = Color(1, 0.88, 0.65, 1)
-light_energy = 0.6
-shadow_enabled = true
-omni_range = 6.0
+[node name="LampPost3" parent="StreetLights" instance=ExtResource("3_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 
-[node name="LightStorage" type="OmniLight3D" parent="RoomLights" groups=["room_lights"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 3.5, 8)
-light_color = Color(1, 0.88, 0.65, 1)
-light_energy = 0.6
-shadow_enabled = true
-omni_range = 6.0
+[node name="LampPost4" parent="StreetLights" instance=ExtResource("3_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 4)
 
-[node name="LightEntrance" type="OmniLight3D" parent="RoomLights" groups=["room_lights"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 12)
-light_color = Color(1, 0.88, 0.65, 1)
-light_energy = 0.6
-shadow_enabled = true
-omni_range = 6.0
+[node name="LampPost5" parent="StreetLights" instance=ExtResource("3_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 6)
+
+[node name="LampPost6" parent="StreetLights" instance=ExtResource("3_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11)
 
 [node name="Players" type="Node3D" parent="."]
 
