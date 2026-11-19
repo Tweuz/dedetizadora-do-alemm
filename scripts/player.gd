@@ -206,3 +206,10 @@ func shake_camera(duration: float, intensity: float = 0.25) -> void:
 		return
 	_shake_timer = duration
 	_shake_intensity = intensity
+
+# Rede de segurança: teleporte sincronizado caso o jogador caia abaixo do mapa (y < -15)
+@rpc("call_local", "reliable")
+func rpc_teleport(target_position: Vector3) -> void:
+	global_position = target_position
+	velocity = Vector3.ZERO
+	print("[JOGADOR %s] Teleportado de volta ao ponto seguro: %v" % [name, target_position])

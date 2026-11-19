@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://abertura_scene_dedetizadora"]
+[gd_scene load_steps=24 format=3 uid="uid://abertura_scene_dedetizadora"]
 
 [ext_resource type="Script" path="res://scripts/abertura.gd" id="1_abertura"]
 [ext_resource type="PackedScene" uid="uid://placa_aviso_dedetizadora" path="res://scenes/placa_aviso.tscn" id="2_placa"]
@@ -12,10 +12,10 @@ roughness = 0.95
 
 [sub_resource type="BoxMesh" id="Mesh_WildTerrain"]
 material = SubResource("Mat_WildTerrain")
-size = Vector3(80, 1, 64)
+size = Vector3(80, 1, 74)
 
 [sub_resource type="BoxShape3D" id="Shape_WildTerrain"]
-size = Vector3(80, 1, 64)
+size = Vector3(80, 1, 74)
 
 [sub_resource type="StandardMaterial3D" id="Mat_DirtRoad"]
 albedo_color = Color(0.2, 0.16, 0.12, 1)
@@ -24,6 +24,18 @@ roughness = 0.9
 [sub_resource type="BoxMesh" id="Mesh_DirtRoad"]
 material = SubResource("Mat_DirtRoad")
 size = Vector3(6, 1.02, 60)
+
+[sub_resource type="BoxShape3D" id="Shape_WallSide"]
+size = Vector3(1, 8, 60)
+
+[sub_resource type="BoxShape3D" id="Shape_WallSouth"]
+size = Vector3(14, 8, 1)
+
+[sub_resource type="BoxShape3D" id="Shape_WallNorth"]
+size = Vector3(4, 8, 1)
+
+[sub_resource type="BoxShape3D" id="Shape_VoidArea"]
+size = Vector3(200, 10, 200)
 
 [sub_resource type="StandardMaterial3D" id="Mat_VanBody"]
 albedo_color = Color(0.12, 0.16, 0.22, 1)
@@ -67,7 +79,7 @@ size = Vector3(2.4, 2.3, 5.0)
 script = ExtResource("1_abertura")
 
 [node name="Ground" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 65)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 68)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
 mesh = SubResource("Mesh_WildTerrain")
@@ -76,8 +88,38 @@ mesh = SubResource("Mesh_WildTerrain")
 shape = SubResource("Shape_WildTerrain")
 
 [node name="RoadMesh" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, -3)
 mesh = SubResource("Mesh_DirtRoad")
+
+[node name="MapBoundaries" type="StaticBody3D" parent="."]
+
+[node name="CollisionWest" type="CollisionShape3D" parent="MapBoundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.8, 4, 64)
+shape = SubResource("Shape_WallSide")
+
+[node name="CollisionEast" type="CollisionShape3D" parent="MapBoundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8, 4, 64)
+shape = SubResource("Shape_WallSide")
+
+[node name="CollisionSouth" type="CollisionShape3D" parent="MapBoundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 93)
+shape = SubResource("Shape_WallSouth")
+
+[node name="CollisionNorthW" type="CollisionShape3D" parent="MapBoundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4, 35)
+shape = SubResource("Shape_WallNorth")
+
+[node name="CollisionNorthE" type="CollisionShape3D" parent="MapBoundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4, 35)
+shape = SubResource("Shape_WallNorth")
+
+[node name="VoidSafetyArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15, 65)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VoidSafetyArea"]
+shape = SubResource("Shape_VoidArea")
 
 [node name="Van" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 90)
@@ -135,78 +177,95 @@ script = ExtResource("5_flicker")
 [node name="Signs" type="Node3D" parent="."]
 
 [node name="Placa1" parent="Signs" instance=ExtResource("2_placa")]
-transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -3.5, 0, 81)
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -3.8, 0, 81)
+board_tilt_deg = 2.0
+wood_tone = Color(0.18, 0.14, 0.11, 1)
 
 [node name="Placa2" parent="Signs" instance=ExtResource("2_placa")]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 3.5, 0, 75)
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 3.8, 0, 75)
+board_tilt_deg = -16.0
+wood_tone = Color(0.14, 0.11, 0.09, 1)
+has_stain = true
 
 [node name="Placa3" parent="Signs" instance=ExtResource("2_placa")]
-transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -3.5, 0, 69)
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -3.8, 0, 69)
+board_tilt_deg = 3.0
+text_tilt_deg = -4.0
+wood_tone = Color(0.17, 0.15, 0.13, 1)
 
 [node name="Placa4" parent="Signs" instance=ExtResource("2_placa")]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 3.5, 0, 63)
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 3.8, 0, 63)
+board_tilt_deg = -4.0
+wood_tone = Color(0.19, 0.15, 0.12, 1)
 
 [node name="Placa5" parent="Signs" instance=ExtResource("2_placa")]
-transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -3.5, 0, 57)
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -3.8, 0, 57)
+board_tilt_deg = 20.0
+wood_tone = Color(0.15, 0.13, 0.11, 1)
+has_stain = true
 
 [node name="Placa6" parent="Signs" instance=ExtResource("2_placa")]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 3.5, 0, 51)
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 3.8, 0, 51)
+board_tilt_deg = -5.0
+text_tilt_deg = 5.0
+wood_tone = Color(0.18, 0.15, 0.12, 1)
 
 [node name="Placa7" parent="Signs" instance=ExtResource("2_placa")]
-transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -3.5, 0, 45)
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -3.8, 0, 45)
+board_tilt_deg = 4.0
+wood_tone = Color(0.14, 0.12, 0.1, 1)
 
 [node name="Placa8" parent="Signs" instance=ExtResource("2_placa")]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 3.5, 0, 39)
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 3.8, 0, 39)
+board_tilt_deg = -14.0
+wood_tone = Color(0.13, 0.1, 0.08, 1)
+has_stain = true
 
-[node name="Trees" type="Node3D" parent="."]
+[node name="LivingTrees" type="Node3D" parent="."]
 
-[node name="TreeLiving_W1" parent="Trees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0, 82)
+[node name="LivingTree_W1" parent="LivingTrees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 41)
 
-[node name="TreeLiving_W2" parent="Trees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 0, 68)
+[node name="LivingTree_W2" parent="LivingTrees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 49)
 
-[node name="TreeLiving_W3" parent="Trees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.0, 0, 52)
+[node name="LivingTree_W3" parent="LivingTrees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 57)
 
-[node name="TreeLiving_W4" parent="Trees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.0, 0, 40)
+[node name="LivingTree_W4" parent="LivingTrees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 65)
 
-[node name="TreeLiving_E1" parent="Trees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.0, 0, 78)
+[node name="LivingTree_W5" parent="LivingTrees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 73)
 
-[node name="TreeLiving_E2" parent="Trees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0, 62)
+[node name="LivingTree_W6" parent="LivingTrees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 81)
 
-[node name="TreeLiving_E3" parent="Trees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, 48)
+[node name="LivingTree_E1" parent="LivingTrees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 44)
 
-[node name="TreeLiving_E4" parent="Trees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.0, 0, 38)
+[node name="LivingTree_E2" parent="LivingTrees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 52)
 
-[node name="Tree_Back_W1" parent="Trees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.0, 0, 86)
+[node name="LivingTree_E3" parent="LivingTrees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 60)
 
-[node name="Tree_Back_W2" parent="Trees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.0, 0, 72)
+[node name="LivingTree_E4" parent="LivingTrees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 68)
 
-[node name="Tree_Back_W3" parent="Trees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 0, 58)
+[node name="LivingTree_E5" parent="LivingTrees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 76)
 
-[node name="Tree_Back_W4" parent="Trees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.0, 0, 44)
+[node name="LivingTree_E6" parent="LivingTrees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 84)
 
-[node name="Tree_Back_E1" parent="Trees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.0, 0, 84)
+[node name="Forest" type="Node3D" parent="."]
 
-[node name="Tree_Back_E2" parent="Trees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.0, 0, 70)
+[node name="MultiMeshStraight" type="MultiMeshInstance3D" parent="Forest"]
 
-[node name="Tree_Back_E3" parent="Trees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.0, 0, 54)
+[node name="MultiMeshCrooked" type="MultiMeshInstance3D" parent="Forest"]
 
-[node name="Tree_Back_E4" parent="Trees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0, 42)
+[node name="MultiMeshCurved" type="MultiMeshInstance3D" parent="Forest"]
 
 [node name="WindAudioPlayer" type="AudioStreamPlayer" parent="."]
 bus = &"Master"
