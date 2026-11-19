@@ -59,6 +59,14 @@ func _choose_favorite_room() -> void:
 
 # Seleciona um ponto aleatório ao redor do setor favorito para vagar
 func _pick_next_patrol_point() -> void:
+	# Chance de 20% de trocar de setor no cemitério para perambular entre as áreas (portão, capela, cripta, etc.)
+	if randf() < 0.2:
+		var rooms = get_tree().get_nodes_in_group("ghost_rooms")
+		if not rooms.is_empty():
+			favorite_room = rooms.pick_random() as Marker3D
+			favorite_room_position = favorite_room.global_position
+			print("[FANTASMA] O fantasma mudou de setor e agora vaga em direção a: ", favorite_room.name)
+
 	var angle: float = randf() * TAU
 	var radius: float = randf_range(1.5, 5.5)
 	var offset: Vector3 = Vector3(cos(angle) * radius, 0.0, sin(angle) * radius)

@@ -1,0 +1,868 @@
+[gd_scene load_steps=21 format=3 uid="uid://cemiterio_map_dedetizadora"]
+
+[ext_resource type="PackedScene" uid="uid://lamp_post_dedetizadora" path="res://scenes/lamp_post.tscn" id="1_lamp"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_cemetery"]
+agent_height = 1.8
+agent_radius = 0.45
+agent_max_climb = 0.35
+agent_max_slope = 45.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Ground"]
+albedo_color = Color(0.12, 0.15, 0.11, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="Mesh_Ground"]
+material = SubResource("Mat_Ground")
+size = Vector3(64, 1, 74)
+
+[sub_resource type="BoxShape3D" id="Shape_Ground"]
+size = Vector3(64, 1, 74)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Path"]
+albedo_color = Color(0.24, 0.22, 0.19, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_Path"]
+material = SubResource("Mat_Path")
+size = Vector3(4, 1.02, 56)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Wall"]
+albedo_color = Color(0.28, 0.28, 0.3, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Mat_Building"]
+albedo_color = Color(0.25, 0.23, 0.24, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="Mat_TombOld"]
+albedo_color = Color(0.2, 0.22, 0.2, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="Mesh_TombOld"]
+material = SubResource("Mat_TombOld")
+size = Vector3(0.7, 1.1, 0.3)
+
+[sub_resource type="BoxShape3D" id="Shape_TombOld"]
+size = Vector3(0.7, 1.1, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="Mat_TombNew"]
+albedo_color = Color(0.32, 0.32, 0.34, 1)
+roughness = 0.75
+
+[sub_resource type="BoxMesh" id="Mesh_TombNew"]
+material = SubResource("Mat_TombNew")
+size = Vector3(0.75, 1.2, 0.3)
+
+[sub_resource type="BoxShape3D" id="Shape_TombNew"]
+size = Vector3(0.75, 1.2, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="Mat_WoodDoor"]
+albedo_color = Color(0.18, 0.12, 0.08, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="Mesh_Door"]
+material = SubResource("Mat_WoodDoor")
+size = Vector3(0.3, 2.4, 1.6)
+
+[sub_resource type="BoxShape3D" id="Shape_Door"]
+size = Vector3(0.3, 2.4, 1.6)
+
+[sub_resource type="BoxMesh" id="Mesh_StairsStep"]
+material = SubResource("Mat_Building")
+size = Vector3(3, 0.5, 0.6)
+
+[sub_resource type="BoxShape3D" id="Shape_StairsStep"]
+size = Vector3(3, 0.5, 0.6)
+
+[node name="Cemiterio" type="Node3D"]
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_cemetery")
+
+[node name="Ground" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Ground"]
+mesh = SubResource("Mesh_Ground")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Ground"]
+shape = SubResource("Shape_Ground")
+
+[node name="PathMesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 7)
+mesh = SubResource("Mesh_Path")
+
+[node name="PerimeterWalls" type="Node3D" parent="NavigationRegion3D"]
+
+[node name="WallNorth" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -35)
+use_collision = true
+size = Vector3(60.6, 2, 0.6)
+material = SubResource("Mat_Wall")
+
+[node name="WallWest" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 1, 0)
+use_collision = true
+size = Vector3(0.6, 2, 70.6)
+material = SubResource("Mat_Wall")
+
+[node name="WallEast" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 1, 0)
+use_collision = true
+size = Vector3(0.6, 2, 70.6)
+material = SubResource("Mat_Wall")
+
+[node name="WallSouthWest" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.25, 1, 35)
+use_collision = true
+size = Vector3(27.5, 2, 0.6)
+material = SubResource("Mat_Wall")
+
+[node name="WallSouthEast" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.25, 1, 35)
+use_collision = true
+size = Vector3(27.5, 2, 0.6)
+material = SubResource("Mat_Wall")
+
+[node name="GatePillarW" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, 1.2, 35)
+use_collision = true
+size = Vector3(0.8, 2.4, 0.8)
+material = SubResource("Mat_Wall")
+
+[node name="GatePillarE" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 1.2, 35)
+use_collision = true
+size = Vector3(0.8, 2.4, 0.8)
+material = SubResource("Mat_Wall")
+
+[node name="Buildings" type="Node3D" parent="NavigationRegion3D"]
+
+[node name="Chapel" type="Node3D" parent="NavigationRegion3D/Buildings"]
+
+[node name="WallNorth" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, -28)
+use_collision = true
+size = Vector3(14, 4.5, 0.5)
+material = SubResource("Mat_Building")
+
+[node name="WallWest" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2.25, -24)
+use_collision = true
+size = Vector3(0.5, 4.5, 8.5)
+material = SubResource("Mat_Building")
+
+[node name="WallSouthW" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 2.25, -20)
+use_collision = true
+size = Vector3(5, 4.5, 0.5)
+material = SubResource("Mat_Building")
+
+[node name="WallSouthE" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 2.25, -20)
+use_collision = true
+size = Vector3(5, 4.5, 0.5)
+material = SubResource("Mat_Building")
+
+[node name="WallEastN" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2.25, -26.5)
+use_collision = true
+size = Vector3(0.5, 4.5, 3)
+material = SubResource("Mat_Building")
+
+[node name="WallEastS" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2.25, -21.5)
+use_collision = true
+size = Vector3(0.5, 4.5, 3)
+material = SubResource("Mat_Building")
+
+[node name="Roof" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.6, -24)
+use_collision = true
+size = Vector3(14.5, 0.3, 8.5)
+material = SubResource("Mat_Building")
+
+[node name="Basement" type="Node3D" parent="NavigationRegion3D/Buildings"]
+
+[node name="Floor" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -3.75, -24)
+use_collision = true
+size = Vector3(10, 0.5, 8)
+material = SubResource("Mat_Building")
+
+[node name="WallNorth" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -2, -28)
+use_collision = true
+size = Vector3(10, 3, 0.5)
+material = SubResource("Mat_Building")
+
+[node name="WallSouth" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -2, -20)
+use_collision = true
+size = Vector3(10, 3, 0.5)
+material = SubResource("Mat_Building")
+
+[node name="WallEast" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -2, -24)
+use_collision = true
+size = Vector3(0.5, 3, 8.5)
+material = SubResource("Mat_Building")
+
+[node name="WallWestN" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -2, -26.5)
+use_collision = true
+size = Vector3(0.5, 3, 3)
+material = SubResource("Mat_Building")
+
+[node name="WallWestS" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -2, -21.5)
+use_collision = true
+size = Vector3(0.5, 3, 3)
+material = SubResource("Mat_Building")
+
+[node name="Roof" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -0.4, -24)
+use_collision = true
+size = Vector3(10.5, 0.3, 8.5)
+material = SubResource("Mat_Building")
+
+[node name="LockedBasementDoor" type="StaticBody3D" parent="NavigationRegion3D/Buildings/Basement"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -2.3, -24)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Buildings/Basement/LockedBasementDoor"]
+mesh = SubResource("Mesh_Door")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Buildings/Basement/LockedBasementDoor"]
+shape = SubResource("Shape_Door")
+
+[node name="Stairs" type="Node3D" parent="NavigationRegion3D/Buildings/Basement"]
+
+[node name="Step1" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement/Stairs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.3, -0.25, -24)
+use_collision = true
+size = Vector3(0.6, 0.5, 2)
+material = SubResource("Mat_Building")
+
+[node name="Step2" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement/Stairs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.8, -0.75, -24)
+use_collision = true
+size = Vector3(0.6, 0.5, 2)
+material = SubResource("Mat_Building")
+
+[node name="Step3" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement/Stairs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.3, -1.25, -24)
+use_collision = true
+size = Vector3(0.6, 0.5, 2)
+material = SubResource("Mat_Building")
+
+[node name="Step4" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement/Stairs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.8, -1.75, -24)
+use_collision = true
+size = Vector3(0.6, 0.5, 2)
+material = SubResource("Mat_Building")
+
+[node name="Step5" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement/Stairs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.3, -2.25, -24)
+use_collision = true
+size = Vector3(0.6, 0.5, 2)
+material = SubResource("Mat_Building")
+
+[node name="Step6" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement/Stairs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.8, -2.75, -24)
+use_collision = true
+size = Vector3(0.6, 0.5, 2)
+material = SubResource("Mat_Building")
+
+[node name="StairsRamp" type="CSGPolygon3D" parent="NavigationRegion3D/Buildings/Basement/Stairs"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 10, -3.5, -25)
+polygon = PackedVector2Array(0, 0, 2, 0, 2, 3.5, 0, 0)
+depth = 3.0
+material = SubResource("Mat_Building")
+
+[node name="Crypt" type="Node3D" parent="NavigationRegion3D/Buildings"]
+
+[node name="WallNorth" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Crypt"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 1.75, -27)
+use_collision = true
+size = Vector3(10, 3.5, 0.5)
+material = SubResource("Mat_Building")
+
+[node name="WallSouthW" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Crypt"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 1.75, -21)
+use_collision = true
+size = Vector3(4, 3.5, 0.5)
+material = SubResource("Mat_Building")
+
+[node name="WallSouthE" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Crypt"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1.75, -21)
+use_collision = true
+size = Vector3(4, 3.5, 0.5)
+material = SubResource("Mat_Building")
+
+[node name="WallWest" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Crypt"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 1.75, -24)
+use_collision = true
+size = Vector3(0.5, 3.5, 6.5)
+material = SubResource("Mat_Building")
+
+[node name="WallEast" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Crypt"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 1.75, -24)
+use_collision = true
+size = Vector3(0.5, 3.5, 6.5)
+material = SubResource("Mat_Building")
+
+[node name="Roof" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Crypt"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 3.6, -24)
+use_collision = true
+size = Vector3(10.5, 0.3, 6.5)
+material = SubResource("Mat_Building")
+
+[node name="Gravedigger" type="Node3D" parent="NavigationRegion3D/Buildings"]
+
+[node name="WallNorthW" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Gravedigger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 1.75, 13)
+use_collision = true
+size = Vector3(4, 3.5, 0.5)
+material = SubResource("Mat_Building")
+
+[node name="WallNorthE" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Gravedigger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1.75, 13)
+use_collision = true
+size = Vector3(4, 3.5, 0.5)
+material = SubResource("Mat_Building")
+
+[node name="WallSouth" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Gravedigger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 1.75, 19)
+use_collision = true
+size = Vector3(10, 3.5, 0.5)
+material = SubResource("Mat_Building")
+
+[node name="WallWest" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Gravedigger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 1.75, 16)
+use_collision = true
+size = Vector3(0.5, 3.5, 6.5)
+material = SubResource("Mat_Building")
+
+[node name="WallEast" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Gravedigger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 1.75, 16)
+use_collision = true
+size = Vector3(0.5, 3.5, 6.5)
+material = SubResource("Mat_Building")
+
+[node name="Roof" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Gravedigger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 3.6, 16)
+use_collision = true
+size = Vector3(10.5, 0.3, 6.5)
+material = SubResource("Mat_Building")
+
+[node name="Shed" type="Node3D" parent="NavigationRegion3D/Buildings"]
+
+[node name="WallNorthW" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Shed"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1.75, 13)
+use_collision = true
+size = Vector3(4, 3.5, 0.5)
+material = SubResource("Mat_Building")
+
+[node name="WallNorthE" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Shed"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 1.75, 13)
+use_collision = true
+size = Vector3(4, 3.5, 0.5)
+material = SubResource("Mat_Building")
+
+[node name="WallSouth" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Shed"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 1.75, 19)
+use_collision = true
+size = Vector3(10, 3.5, 0.5)
+material = SubResource("Mat_Building")
+
+[node name="WallWest" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Shed"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 1.75, 16)
+use_collision = true
+size = Vector3(0.5, 3.5, 6.5)
+material = SubResource("Mat_Building")
+
+[node name="WallEast" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Shed"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 1.75, 16)
+use_collision = true
+size = Vector3(0.5, 3.5, 6.5)
+material = SubResource("Mat_Building")
+
+[node name="Roof" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Shed"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 3.6, 16)
+use_collision = true
+size = Vector3(10.5, 0.3, 6.5)
+material = SubResource("Mat_Building")
+
+[node name="Tombs" type="Node3D" parent="NavigationRegion3D"]
+
+[node name="TombsOld" type="Node3D" parent="NavigationRegion3D/Tombs"]
+
+[node name="TombOld1" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+transform = Transform3D(0.995, 0, 0.099, 0, 1, 0, -0.099, 0, 0.995, -7, 0.55, -14)
+use_collision = true
+size = Vector3(0.7, 1.1, 0.3)
+material = SubResource("Mat_TombOld")
+
+[node name="TombOld2" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.55, -14)
+use_collision = true
+size = Vector3(0.7, 1.1, 0.3)
+material = SubResource("Mat_TombOld")
+
+[node name="TombOld3" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+transform = Transform3D(0.99, 0.1, 0, -0.1, 0.99, 0, 0, 0, 1, -17, 0.55, -14)
+use_collision = true
+size = Vector3(0.7, 1.1, 0.3)
+material = SubResource("Mat_TombOld")
+
+[node name="TombOld4" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0.55, -14)
+use_collision = true
+size = Vector3(0.7, 1.1, 0.3)
+material = SubResource("Mat_TombOld")
+
+[node name="TombOld5" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+transform = Transform3D(0.98, 0, -0.19, 0, 1, 0, 0.19, 0, 0.98, -8, 0.55, -9)
+use_collision = true
+size = Vector3(0.7, 1.1, 0.3)
+material = SubResource("Mat_TombOld")
+
+[node name="TombOld6" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0.55, -9)
+use_collision = true
+size = Vector3(0.7, 1.1, 0.3)
+material = SubResource("Mat_TombOld")
+
+[node name="TombOld7" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+transform = Transform3D(0.995, 0, 0.099, 0, 1, 0, -0.099, 0, 0.995, -19, 0.55, -9)
+use_collision = true
+size = Vector3(0.7, 1.1, 0.3)
+material = SubResource("Mat_TombOld")
+
+[node name="TombOld8" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.55, -9)
+use_collision = true
+size = Vector3(0.7, 1.1, 0.3)
+material = SubResource("Mat_TombOld")
+
+[node name="TombOld9" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0.55, -4)
+use_collision = true
+size = Vector3(0.7, 1.1, 0.3)
+material = SubResource("Mat_TombOld")
+
+[node name="TombOld10" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+transform = Transform3D(0.98, 0.1, 0.1, 0, 0.99, -0.1, -0.14, 0.1, 0.98, -12, 0.55, -4)
+use_collision = true
+size = Vector3(0.7, 1.1, 0.3)
+material = SubResource("Mat_TombOld")
+
+[node name="TombOld11" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 0.55, -4)
+use_collision = true
+size = Vector3(0.7, 1.1, 0.3)
+material = SubResource("Mat_TombOld")
+
+[node name="TombOld12" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+transform = Transform3D(0.99, 0, 0.14, 0, 1, 0, -0.14, 0, 0.99, -23, 0.55, -4)
+use_collision = true
+size = Vector3(0.7, 1.1, 0.3)
+material = SubResource("Mat_TombOld")
+
+[node name="TombOld13" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.55, 1)
+use_collision = true
+size = Vector3(0.7, 1.1, 0.3)
+material = SubResource("Mat_TombOld")
+
+[node name="TombOld14" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+transform = Transform3D(0.995, 0, -0.099, 0, 1, 0, 0.099, 0, 0.995, -13.5, 0.55, 1)
+use_collision = true
+size = Vector3(0.7, 1.1, 0.3)
+material = SubResource("Mat_TombOld")
+
+[node name="TombOld15" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0.55, 1)
+use_collision = true
+size = Vector3(0.7, 1.1, 0.3)
+material = SubResource("Mat_TombOld")
+
+[node name="TombOld16" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+transform = Transform3D(0.99, 0, 0.14, 0, 1, 0, -0.14, 0, 0.99, -24.5, 0.55, 1)
+use_collision = true
+size = Vector3(0.7, 1.1, 0.3)
+material = SubResource("Mat_TombOld")
+
+[node name="TombOld17" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.55, 6)
+use_collision = true
+size = Vector3(0.7, 1.1, 0.3)
+material = SubResource("Mat_TombOld")
+
+[node name="TombOld18" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+transform = Transform3D(0.98, 0, -0.19, 0, 1, 0, 0.19, 0, 0.98, -16, 0.55, 6)
+use_collision = true
+size = Vector3(0.7, 1.1, 0.3)
+material = SubResource("Mat_TombOld")
+
+[node name="TombsNew" type="Node3D" parent="NavigationRegion3D/Tombs"]
+
+[node name="TombNew1" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0.6, -14)
+use_collision = true
+size = Vector3(0.75, 1.2, 0.3)
+material = SubResource("Mat_TombNew")
+
+[node name="TombNew2" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.6, -14)
+use_collision = true
+size = Vector3(0.75, 1.2, 0.3)
+material = SubResource("Mat_TombNew")
+
+[node name="TombNew3" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0.6, -14)
+use_collision = true
+size = Vector3(0.75, 1.2, 0.3)
+material = SubResource("Mat_TombNew")
+
+[node name="TombNew4" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0.6, -14)
+use_collision = true
+size = Vector3(0.75, 1.2, 0.3)
+material = SubResource("Mat_TombNew")
+
+[node name="TombNew5" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.6, -9)
+use_collision = true
+size = Vector3(0.75, 1.2, 0.3)
+material = SubResource("Mat_TombNew")
+
+[node name="TombNew6" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0.6, -9)
+use_collision = true
+size = Vector3(0.75, 1.2, 0.3)
+material = SubResource("Mat_TombNew")
+
+[node name="TombNew7" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.6, -9)
+use_collision = true
+size = Vector3(0.75, 1.2, 0.3)
+material = SubResource("Mat_TombNew")
+
+[node name="TombNew8" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 0.6, -9)
+use_collision = true
+size = Vector3(0.75, 1.2, 0.3)
+material = SubResource("Mat_TombNew")
+
+[node name="TombNew9" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0.6, -4)
+use_collision = true
+size = Vector3(0.75, 1.2, 0.3)
+material = SubResource("Mat_TombNew")
+
+[node name="TombNew10" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.6, -4)
+use_collision = true
+size = Vector3(0.75, 1.2, 0.3)
+material = SubResource("Mat_TombNew")
+
+[node name="TombNew11" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0.6, -4)
+use_collision = true
+size = Vector3(0.75, 1.2, 0.3)
+material = SubResource("Mat_TombNew")
+
+[node name="TombNew12" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0.6, -4)
+use_collision = true
+size = Vector3(0.75, 1.2, 0.3)
+material = SubResource("Mat_TombNew")
+
+[node name="TombNew13" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.6, 1)
+use_collision = true
+size = Vector3(0.75, 1.2, 0.3)
+material = SubResource("Mat_TombNew")
+
+[node name="TombNew14" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0.6, 1)
+use_collision = true
+size = Vector3(0.75, 1.2, 0.3)
+material = SubResource("Mat_TombNew")
+
+[node name="TombNew15" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.6, 1)
+use_collision = true
+size = Vector3(0.75, 1.2, 0.3)
+material = SubResource("Mat_TombNew")
+
+[node name="TombNew16" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 0.6, 1)
+use_collision = true
+size = Vector3(0.75, 1.2, 0.3)
+material = SubResource("Mat_TombNew")
+
+[node name="TombNew17" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.6, 6)
+use_collision = true
+size = Vector3(0.75, 1.2, 0.3)
+material = SubResource("Mat_TombNew")
+
+[node name="TombNew18" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.6, 6)
+use_collision = true
+size = Vector3(0.75, 1.2, 0.3)
+material = SubResource("Mat_TombNew")
+
+[node name="SpawnPoints" type="Node3D" parent="."]
+
+[node name="SpawnPoint1" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.5, 33)
+
+[node name="SpawnPoint2" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, 33)
+
+[node name="SpawnPoint3" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 33)
+
+[node name="SpawnPoint4" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.5, 33)
+
+[node name="GhostRooms" type="Node3D" parent="."]
+
+[node name="RoomChapel" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -24)
+
+[node name="RoomCrypt" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.5, -24)
+
+[node name="RoomGravedigger" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.5, 16)
+
+[node name="RoomShed" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.5, 16)
+
+[node name="ExorcismRoom" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -3, -24)
+
+[node name="RoomOldGraves" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0.5, -4)
+
+[node name="RoomNewGraves" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.5, -4)
+
+[node name="RoomEntrance" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 28)
+
+[node name="StreetLights" type="Node3D" parent="."]
+
+[node name="LampPost_Path_W1" parent="StreetLights" instance=ExtResource("1_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 0, 26)
+
+[node name="LampPost_Path_W2" parent="StreetLights" instance=ExtResource("1_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 0, 16)
+
+[node name="LampPost_Path_W3" parent="StreetLights" instance=ExtResource("1_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 0, 6)
+
+[node name="LampPost_Path_W4" parent="StreetLights" instance=ExtResource("1_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 0, -4)
+
+[node name="LampPost_Path_W5" parent="StreetLights" instance=ExtResource("1_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 0, -14)
+
+[node name="LampPost_Path_E1" parent="StreetLights" instance=ExtResource("1_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 0, 21)
+
+[node name="LampPost_Path_E2" parent="StreetLights" instance=ExtResource("1_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 0, 11)
+
+[node name="LampPost_Path_E3" parent="StreetLights" instance=ExtResource("1_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 0, 1)
+
+[node name="LampPost_Path_E4" parent="StreetLights" instance=ExtResource("1_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 0, -9)
+
+[node name="LampPost_Path_E5" parent="StreetLights" instance=ExtResource("1_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 0, -19)
+
+[node name="LampPost_Chapel" parent="StreetLights" instance=ExtResource("1_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, -18)
+
+[node name="LampPost_Crypt" parent="StreetLights" instance=ExtResource("1_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, -19)
+
+[node name="LampPost_Gravedigger" parent="StreetLights" instance=ExtResource("1_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, 11)
+
+[node name="LampPost_Shed" parent="StreetLights" instance=ExtResource("1_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, 11)
+
+[node name="LampPost_Basement" parent="StreetLights" instance=ExtResource("1_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0, -21)
+
+[node name="LampPost_OldGraves" parent="StreetLights" instance=ExtResource("1_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, -3)
+
+[node name="LampPost_NewGraves" parent="StreetLights" instance=ExtResource("1_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -3)
+
+[node name="ItemSpawnPoints" type="Node3D" parent="."]
+
+[node name="Item_Crypt_1" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0.3, -25)
+
+[node name="Item_Crypt_2" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0.3, -25)
+
+[node name="Item_Crypt_3" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.3, -23)
+
+[node name="Item_Crypt_4" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 0.3, -22)
+
+[node name="Item_Crypt_5" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 0.3, -22)
+
+[node name="Item_Chapel_1" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -26)
+
+[node name="Item_Chapel_2" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.3, -26)
+
+[node name="Item_Chapel_3" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.3, -26)
+
+[node name="Item_Chapel_4" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.3, -22)
+
+[node name="Item_Chapel_5" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.3, -22)
+
+[node name="Item_Chapel_6" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -22)
+
+[node name="Item_Basement_1" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, -3.2, -26)
+
+[node name="Item_Basement_2" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, -3.2, -26)
+
+[node name="Item_Basement_3" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, -3.2, -22)
+
+[node name="Item_Basement_4" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, -3.2, -22)
+
+[node name="Item_Gravedigger_1" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0.3, 17)
+
+[node name="Item_Gravedigger_2" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0.3, 17)
+
+[node name="Item_Gravedigger_3" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0.3, 14.5)
+
+[node name="Item_Gravedigger_4" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0.3, 14.5)
+
+[node name="Item_Gravedigger_5" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.3, 18)
+
+[node name="Item_Shed_1" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.3, 17)
+
+[node name="Item_Shed_2" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0.3, 17)
+
+[node name="Item_Shed_3" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.3, 14.5)
+
+[node name="Item_Shed_4" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0.3, 14.5)
+
+[node name="Item_Shed_5" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.3, 18)
+
+[node name="Item_OldGraves_1" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0.3, -15)
+
+[node name="Item_OldGraves_2" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.3, -15)
+
+[node name="Item_OldGraves_3" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0.3, -15)
+
+[node name="Item_OldGraves_4" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.3, -10)
+
+[node name="Item_OldGraves_5" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0.3, -10)
+
+[node name="Item_OldGraves_6" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0.3, -10)
+
+[node name="Item_OldGraves_7" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0.3, -5)
+
+[node name="Item_OldGraves_8" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.3, -5)
+
+[node name="Item_OldGraves_9" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 0.3, -5)
+
+[node name="Item_OldGraves_10" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.3, 0)
+
+[node name="Item_OldGraves_11" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5, 0.3, 0)
+
+[node name="Item_NewGraves_1" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0.3, -15)
+
+[node name="Item_NewGraves_2" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.3, -15)
+
+[node name="Item_NewGraves_3" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0.3, -15)
+
+[node name="Item_NewGraves_4" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.3, -10)
+
+[node name="Item_NewGraves_5" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0.3, -10)
+
+[node name="Item_NewGraves_6" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.3, -10)
+
+[node name="Item_NewGraves_7" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0.3, -5)
+
+[node name="Item_NewGraves_8" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.3, -5)
+
+[node name="Item_NewGraves_9" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0.3, -5)
+
+[node name="Item_NewGraves_10" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.3, 0)
+
+[node name="Item_NewGraves_11" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0.3, 0)
+
+[node name="Item_Perimeter_1" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0.3, -33)
+
+[node name="Item_Perimeter_2" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.3, -33)
+
+[node name="Item_Perimeter_3" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0.3, 33)
+
+[node name="Item_Perimeter_4" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.3, 33)
+
+[node name="Item_Perimeter_5" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 32)

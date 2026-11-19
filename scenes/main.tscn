@@ -1,8 +1,8 @@
-[gd_scene load_steps=20 format=3 uid="uid://main_scene_dedetizadora"]
+[gd_scene load_steps=5 format=3 uid="uid://main_scene_dedetizadora"]
 
 [ext_resource type="Script" path="res://scripts/network_manager.gd" id="1_network"]
 [ext_resource type="PackedScene" uid="uid://ui_menu_dedetizadora" path="res://ui/menu.tscn" id="2_menu"]
-[ext_resource type="PackedScene" uid="uid://lamp_post_dedetizadora" path="res://scenes/lamp_post.tscn" id="3_lamp"]
+[ext_resource type="PackedScene" uid="uid://cemiterio_map_dedetizadora" path="res://scenes/cemiterio.tscn" id="3_cemiterio"]
 
 [sub_resource type="Environment" id="Environment_horror"]
 background_mode = 1
@@ -10,58 +10,6 @@ background_color = Color(0.015, 0.015, 0.025, 1)
 ambient_light_source = 2
 ambient_light_color = Color(0.015, 0.02, 0.035, 1)
 ambient_light_energy = 0.15
-
-[sub_resource type="NavigationMesh" id="NavigationMesh_level"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
-albedo_color = Color(0.18, 0.18, 0.2, 1)
-roughness = 0.85
-
-[sub_resource type="BoxMesh" id="BoxMesh_floor"]
-material = SubResource("StandardMaterial3D_floor")
-size = Vector3(32, 1, 32)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
-size = Vector3(32, 1, 32)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wall"]
-albedo_color = Color(0.28, 0.28, 0.32, 1)
-roughness = 0.9
-
-[sub_resource type="BoxMesh" id="BoxMesh_wall_h"]
-material = SubResource("StandardMaterial3D_wall")
-size = Vector3(32, 4, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_wall_h"]
-size = Vector3(32, 4, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_wall_v"]
-material = SubResource("StandardMaterial3D_wall")
-size = Vector3(1, 4, 32)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_wall_v"]
-size = Vector3(1, 4, 32)
-
-[sub_resource type="BoxMesh" id="BoxMesh_inner_1"]
-material = SubResource("StandardMaterial3D_wall")
-size = Vector3(14, 4, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_inner_1"]
-size = Vector3(14, 4, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_inner_2"]
-material = SubResource("StandardMaterial3D_wall")
-size = Vector3(1, 4, 14)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_inner_2"]
-size = Vector3(1, 4, 14)
-
-[sub_resource type="BoxMesh" id="BoxMesh_pillar"]
-material = SubResource("StandardMaterial3D_wall")
-size = Vector3(2, 4, 2)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_pillar"]
-size = Vector3(2, 4, 2)
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_network")
@@ -75,141 +23,7 @@ light_color = Color(0.2, 0.28, 0.45, 1)
 light_energy = 0.04
 shadow_enabled = true
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
-navigation_mesh = SubResource("NavigationMesh_level")
-
-[node name="Level" type="Node3D" parent="NavigationRegion3D"]
-
-[node name="Floor" type="StaticBody3D" parent="NavigationRegion3D/Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Level/Floor"]
-mesh = SubResource("BoxMesh_floor")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Level/Floor"]
-shape = SubResource("BoxShape3D_floor")
-
-[node name="Walls" type="Node3D" parent="NavigationRegion3D/Level"]
-
-[node name="WallNorth" type="StaticBody3D" parent="NavigationRegion3D/Level/Walls"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -16)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Level/Walls/WallNorth"]
-mesh = SubResource("BoxMesh_wall_h")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Level/Walls/WallNorth"]
-shape = SubResource("BoxShape3D_wall_h")
-
-[node name="WallSouth" type="StaticBody3D" parent="NavigationRegion3D/Level/Walls"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 16)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Level/Walls/WallSouth"]
-mesh = SubResource("BoxMesh_wall_h")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Level/Walls/WallSouth"]
-shape = SubResource("BoxShape3D_wall_h")
-
-[node name="WallEast" type="StaticBody3D" parent="NavigationRegion3D/Level/Walls"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 2, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Level/Walls/WallEast"]
-mesh = SubResource("BoxMesh_wall_v")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Level/Walls/WallEast"]
-shape = SubResource("BoxShape3D_wall_v")
-
-[node name="WallWest" type="StaticBody3D" parent="NavigationRegion3D/Level/Walls"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 2, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Level/Walls/WallWest"]
-mesh = SubResource("BoxMesh_wall_v")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Level/Walls/WallWest"]
-shape = SubResource("BoxShape3D_wall_v")
-
-[node name="WallInner1" type="StaticBody3D" parent="NavigationRegion3D/Level/Walls"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, -4)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Level/Walls/WallInner1"]
-mesh = SubResource("BoxMesh_inner_1")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Level/Walls/WallInner1"]
-shape = SubResource("BoxShape3D_inner_1")
-
-[node name="WallInner2" type="StaticBody3D" parent="NavigationRegion3D/Level/Walls"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2, 4)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Level/Walls/WallInner2"]
-mesh = SubResource("BoxMesh_inner_2")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Level/Walls/WallInner2"]
-shape = SubResource("BoxShape3D_inner_2")
-
-[node name="Pillar1" type="StaticBody3D" parent="NavigationRegion3D/Level/Walls"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2, 7)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Level/Walls/Pillar1"]
-mesh = SubResource("BoxMesh_pillar")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Level/Walls/Pillar1"]
-shape = SubResource("BoxShape3D_pillar")
-
-[node name="Pillar2" type="StaticBody3D" parent="NavigationRegion3D/Level/Walls"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2, -7)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Level/Walls/Pillar2"]
-mesh = SubResource("BoxMesh_pillar")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Level/Walls/Pillar2"]
-shape = SubResource("BoxShape3D_pillar")
-
-[node name="SpawnPoints" type="Node3D" parent="."]
-
-[node name="SpawnPoint1" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.5, 12)
-
-[node name="SpawnPoint2" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.5, 13)
-
-[node name="SpawnPoint3" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.5, 13)
-
-[node name="SpawnPoint4" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.5, 12)
-
-[node name="GhostRooms" type="Node3D" parent="."]
-
-[node name="RoomLivingRoom" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.5, -8)
-
-[node name="RoomKitchen" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.5, -8)
-
-[node name="RoomHallway" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-
-[node name="RoomStorage" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.5, 8)
-
-[node name="StreetLights" type="Node3D" parent="."]
-
-[node name="LampPost1" parent="StreetLights" instance=ExtResource("3_lamp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -8)
-
-[node name="LampPost2" parent="StreetLights" instance=ExtResource("3_lamp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -8)
-
-[node name="LampPost3" parent="StreetLights" instance=ExtResource("3_lamp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
-
-[node name="LampPost4" parent="StreetLights" instance=ExtResource("3_lamp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 4)
-
-[node name="LampPost5" parent="StreetLights" instance=ExtResource("3_lamp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 6)
-
-[node name="LampPost6" parent="StreetLights" instance=ExtResource("3_lamp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11)
+[node name="Cemiterio" parent="." instance=ExtResource("3_cemiterio")]
 
 [node name="Players" type="Node3D" parent="."]
 
