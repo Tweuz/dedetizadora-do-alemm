@@ -1,0 +1,212 @@
+[gd_scene load_steps=22 format=3 uid="uid://abertura_scene_dedetizadora"]
+
+[ext_resource type="Script" path="res://scripts/abertura.gd" id="1_abertura"]
+[ext_resource type="PackedScene" uid="uid://placa_aviso_dedetizadora" path="res://scenes/placa_aviso.tscn" id="2_placa"]
+[ext_resource type="PackedScene" uid="uid://arvore_viva_dedetizadora" path="res://scenes/arvore_viva.tscn" id="3_arvore"]
+[ext_resource type="PackedScene" uid="uid://lamp_post_dedetizadora" path="res://scenes/lamp_post.tscn" id="4_lamp"]
+[ext_resource type="Script" path="res://scripts/flickering_lamp.gd" id="5_flicker"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_WildTerrain"]
+albedo_color = Color(0.08, 0.11, 0.07, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="Mesh_WildTerrain"]
+material = SubResource("Mat_WildTerrain")
+size = Vector3(80, 1, 64)
+
+[sub_resource type="BoxShape3D" id="Shape_WildTerrain"]
+size = Vector3(80, 1, 64)
+
+[sub_resource type="StandardMaterial3D" id="Mat_DirtRoad"]
+albedo_color = Color(0.2, 0.16, 0.12, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="Mesh_DirtRoad"]
+material = SubResource("Mat_DirtRoad")
+size = Vector3(6, 1.02, 60)
+
+[sub_resource type="StandardMaterial3D" id="Mat_VanBody"]
+albedo_color = Color(0.12, 0.16, 0.22, 1)
+metallic = 0.5
+roughness = 0.45
+
+[sub_resource type="BoxMesh" id="Mesh_VanBody"]
+material = SubResource("Mat_VanBody")
+size = Vector3(2.2, 1.9, 4.8)
+
+[sub_resource type="StandardMaterial3D" id="Mat_VanStripe"]
+albedo_color = Color(0.85, 0.65, 0.15, 1)
+roughness = 0.4
+
+[sub_resource type="BoxMesh" id="Mesh_VanStripe"]
+material = SubResource("Mat_VanStripe")
+size = Vector3(2.24, 0.25, 4.84)
+
+[sub_resource type="StandardMaterial3D" id="Mat_VanGlass"]
+albedo_color = Color(0.04, 0.06, 0.08, 1)
+roughness = 0.15
+
+[sub_resource type="BoxMesh" id="Mesh_VanCabin"]
+material = SubResource("Mat_VanGlass")
+size = Vector3(2.1, 0.9, 1.6)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Tire"]
+albedo_color = Color(0.08, 0.08, 0.08, 1)
+roughness = 0.8
+
+[sub_resource type="CylinderMesh" id="Mesh_Wheel"]
+material = SubResource("Mat_Tire")
+top_radius = 0.38
+bottom_radius = 0.38
+height = 0.28
+
+[sub_resource type="BoxShape3D" id="Shape_Van"]
+size = Vector3(2.4, 2.3, 5.0)
+
+[node name="Abertura" type="Node3D"]
+script = ExtResource("1_abertura")
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 65)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("Mesh_WildTerrain")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("Shape_WildTerrain")
+
+[node name="RoadMesh" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+mesh = SubResource("Mesh_DirtRoad")
+
+[node name="Van" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 90)
+
+[node name="BodyMesh" type="MeshInstance3D" parent="Van"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+mesh = SubResource("Mesh_VanBody")
+
+[node name="StripeMesh" type="MeshInstance3D" parent="Van"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+mesh = SubResource("Mesh_VanStripe")
+
+[node name="CabinGlass" type="MeshInstance3D" parent="Van"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85, -1.2)
+mesh = SubResource("Mesh_VanCabin")
+
+[node name="WheelFL" type="MeshInstance3D" parent="Van"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -1.1, 0.38, -1.5)
+mesh = SubResource("Mesh_Wheel")
+
+[node name="WheelFR" type="MeshInstance3D" parent="Van"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 1.1, 0.38, -1.5)
+mesh = SubResource("Mesh_Wheel")
+
+[node name="WheelRL" type="MeshInstance3D" parent="Van"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -1.1, 0.38, 1.5)
+mesh = SubResource("Mesh_Wheel")
+
+[node name="WheelRR" type="MeshInstance3D" parent="Van"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 1.1, 0.38, 1.5)
+mesh = SubResource("Mesh_Wheel")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Van"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("Shape_Van")
+
+[node name="SpawnPoints" type="Node3D" parent="."]
+
+[node name="SpawnPoint1" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.5, 85)
+
+[node name="SpawnPoint2" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, 85)
+
+[node name="SpawnPoint3" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 85)
+
+[node name="SpawnPoint4" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.5, 85)
+
+[node name="FlickeringLampPost" parent="." instance=ExtResource("4_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8, 0, 65)
+script = ExtResource("5_flicker")
+
+[node name="Signs" type="Node3D" parent="."]
+
+[node name="Placa1" parent="Signs" instance=ExtResource("2_placa")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -3.5, 0, 81)
+
+[node name="Placa2" parent="Signs" instance=ExtResource("2_placa")]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 3.5, 0, 75)
+
+[node name="Placa3" parent="Signs" instance=ExtResource("2_placa")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -3.5, 0, 69)
+
+[node name="Placa4" parent="Signs" instance=ExtResource("2_placa")]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 3.5, 0, 63)
+
+[node name="Placa5" parent="Signs" instance=ExtResource("2_placa")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -3.5, 0, 57)
+
+[node name="Placa6" parent="Signs" instance=ExtResource("2_placa")]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 3.5, 0, 51)
+
+[node name="Placa7" parent="Signs" instance=ExtResource("2_placa")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -3.5, 0, 45)
+
+[node name="Placa8" parent="Signs" instance=ExtResource("2_placa")]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 3.5, 0, 39)
+
+[node name="Trees" type="Node3D" parent="."]
+
+[node name="TreeLiving_W1" parent="Trees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0, 82)
+
+[node name="TreeLiving_W2" parent="Trees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 0, 68)
+
+[node name="TreeLiving_W3" parent="Trees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.0, 0, 52)
+
+[node name="TreeLiving_W4" parent="Trees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.0, 0, 40)
+
+[node name="TreeLiving_E1" parent="Trees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.0, 0, 78)
+
+[node name="TreeLiving_E2" parent="Trees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0, 62)
+
+[node name="TreeLiving_E3" parent="Trees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, 48)
+
+[node name="TreeLiving_E4" parent="Trees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.0, 0, 38)
+
+[node name="Tree_Back_W1" parent="Trees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.0, 0, 86)
+
+[node name="Tree_Back_W2" parent="Trees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.0, 0, 72)
+
+[node name="Tree_Back_W3" parent="Trees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 0, 58)
+
+[node name="Tree_Back_W4" parent="Trees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.0, 0, 44)
+
+[node name="Tree_Back_E1" parent="Trees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.0, 0, 84)
+
+[node name="Tree_Back_E2" parent="Trees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.0, 0, 70)
+
+[node name="Tree_Back_E3" parent="Trees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.0, 0, 54)
+
+[node name="Tree_Back_E4" parent="Trees" instance=ExtResource("3_arvore")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0, 42)
+
+[node name="WindAudioPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Master"

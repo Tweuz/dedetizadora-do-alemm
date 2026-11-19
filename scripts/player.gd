@@ -22,6 +22,10 @@ var pitch_limit: float = deg_to_rad(89.0)
 @onready var mesh: MeshInstance3D = $MeshInstance3D
 @onready var synchronizer: MultiplayerSynchronizer = $MultiplayerSynchronizer
 
+# Variáveis para tremor de câmera (camera shake)
+var _shake_timer: float = 0.0
+var _shake_intensity: float = 0.0
+
 func _enter_tree() -> void:
 	# Define a autoridade de rede deste nó usando o nome do nó.
 	# Quando o MultiplayerSpawner cria o jogador, o nome dele é definido como o peer_id (ex: "1", "248192").
@@ -36,6 +40,9 @@ func _enter_tree() -> void:
 		$MultiplayerSynchronizer.set_multiplayer_authority(peer_id)
 
 func _ready() -> void:
+	# Registra no grupo global de jogadores para lógica de rede, portão e detecção
+	add_to_group("players")
+
 	# Cria dinamicamente as ações no InputMap caso ainda não existam no project.godot
 	_setup_default_inputs()
 	
@@ -123,6 +130,15 @@ func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
 
+	# Efeito de tremor de câmera (ao bater o portão, etc.)
+	if _shake_timer > 0.0:
+		_shake_timer -= delta
+		camera.h_offset = randf_range(-_shake_intensity, _shake_intensity)
+		camera.v_offset = randf_range(-_shake_intensity, _shake_intensity)
+	else:
+		camera.h_offset = 0.0
+		camera.v_offset = 0.0
+
 	# Aplica gravidade básica caso esteja no ar
 	if not is_on_floor():
 		velocity.y -= GRAVITY * delta
@@ -183,3 +199,10 @@ func _add_action_key(action: String, keycode: Key) -> void:
 		var ev: InputEventKey = InputEventKey.new()
 		ev.physical_keycode = keycode
 		InputMap.action_add_event(action, ev)
+
+# Aciona tremor na câmera do jogador local
+func shake_camera(duration: float, intensity: float = 0.25) -> void:
+	if not is_multiplayer_authority():
+		return
+	_shake_timer = duration
+	_shake_intensity = intensity

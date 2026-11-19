@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://placa_aviso_dedetizadora"]
+
+[ext_resource type="Script" path="res://scripts/warning_sign.gd" id="1_sign"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_WoodPost"]
+albedo_color = Color(0.18, 0.14, 0.11, 1)
+roughness = 0.9
+
+[sub_resource type="CylinderMesh" id="Mesh_WoodPost"]
+material = SubResource("Mat_WoodPost")
+top_radius = 0.04
+bottom_radius = 0.05
+height = 1.6
+
+[sub_resource type="BoxMesh" id="Mesh_SignBoard"]
+material = SubResource("Mat_WoodPost")
+size = Vector3(1.6, 0.6, 0.06)
+
+[node name="PlacaAviso" type="Node3D"]
+script = ExtResource("1_sign")
+
+[node name="PostMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("Mesh_WoodPost")
+
+[node name="BoardMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+mesh = SubResource("Mesh_SignBoard")
+
+[node name="Label3D" type="Label3D" parent="BoardMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.035)
+pixel_size = 0.003
+text = "NÃO ENTRE"
+font_size = 28
+outline_size = 4
+modulate = Color(0.9, 0.2, 0.2, 1)
+outline_modulate = Color(0, 0, 0, 1)

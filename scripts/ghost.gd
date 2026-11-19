@@ -142,18 +142,20 @@ func trigger_light_blackout(ghost_pos: Vector3, radius: float = 12.0) -> void:
 
 	var target_lights: Array[Node] = []
 
-	# Seleciona os postes de iluminação dentro do raio do fantasma
+	# Seleciona os postes de iluminação dentro do raio do fantasma e estritamente dentro do cemitério (Z <= 35)
 	for node in posts:
 		if node is Node3D:
+			if node.global_position.z > 35.0:
+				continue
 			if node.global_position.distance_to(ghost_pos) <= radius:
 				target_lights.append(node)
 
-	# Fallback: caso nenhum poste esteja no raio imediato, afeta o poste mais próximo
+	# Fallback: caso nenhum poste esteja no raio imediato, afeta o poste mais próximo dentro do cemitério
 	if target_lights.is_empty() and not posts.is_empty():
 		var nearest_post: Node = null
 		var min_dist: float = INF
 		for node in posts:
-			if node is Node3D:
+			if node is Node3D and node.global_position.z <= 35.0:
 				var dist: float = node.global_position.distance_to(ghost_pos)
 				if dist < min_dist:
 					min_dist = dist

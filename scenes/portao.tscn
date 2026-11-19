@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3 uid="uid://portao_dedetizadora"]
+
+[ext_resource type="Script" path="res://scripts/portao.gd" id="1_portao"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_GateMetal"]
+albedo_color = Color(0.12, 0.12, 0.14, 1)
+metallic = 0.85
+roughness = 0.35
+
+[sub_resource type="BoxMesh" id="Mesh_GateLeaf"]
+material = SubResource("Mat_GateMetal")
+size = Vector3(2.2, 2.4, 0.1)
+
+[sub_resource type="BoxShape3D" id="Shape_GateLeaf"]
+size = Vector3(2.2, 2.4, 0.15)
+
+[sub_resource type="BoxShape3D" id="Shape_InsideArea"]
+size = Vector3(8, 4, 6)
+
+[node name="Portao" type="Node3D"]
+script = ExtResource("1_portao")
+
+[node name="HingeLeft" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="HingeLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 1.2, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="HingeLeft/StaticBody3D"]
+mesh = SubResource("Mesh_GateLeaf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HingeLeft/StaticBody3D"]
+shape = SubResource("Shape_GateLeaf")
+
+[node name="HingeRight" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="HingeRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 1.2, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="HingeRight/StaticBody3D"]
+mesh = SubResource("Mesh_GateLeaf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HingeRight/StaticBody3D"]
+shape = SubResource("Shape_GateLeaf")
+
+[node name="InsideArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -3.5)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InsideArea"]
+shape = SubResource("Shape_InsideArea")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+unit_size = 5.0
+max_distance = 45.0
+bus = &"Master"

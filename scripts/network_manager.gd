@@ -18,8 +18,9 @@ const MAX_PLAYERS: int = 4
 @onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
 @onready var spawn_points_container: Node3D = (
 	get_node_or_null("SpawnPoints") if has_node("SpawnPoints")
+	else (get_node_or_null("Abertura/SpawnPoints") if has_node("Abertura/SpawnPoints")
 	else (get_node_or_null("Cemiterio/SpawnPoints") if has_node("Cemiterio/SpawnPoints")
-	else find_child("SpawnPoints", true, false))
+	else find_child("SpawnPoints", true, false)))
 )
 
 # Índice sequencial para distribuir novos jogadores em pontos de spawn diferentes
@@ -149,11 +150,16 @@ func _spawn_player(id: int) -> void:
 	# Define o nome do nó exatamente como a string do ID (ex: "1", "24981273")
 	player.name = str(id)
 	
-	# Posiciona o jogador em um dos Marker3D de spawn perto do portão sul
+	# Posiciona o jogador em um dos Marker3D de spawn da abertura (em frente à van)
 	if not spawn_points_container:
-		spawn_points_container = find_child("SpawnPoints", true, false)
+		spawn_points_container = (
+			get_node_or_null("SpawnPoints") if has_node("SpawnPoints")
+			else (get_node_or_null("Abertura/SpawnPoints") if has_node("Abertura/SpawnPoints")
+			else (get_node_or_null("Cemiterio/SpawnPoints") if has_node("Cemiterio/SpawnPoints")
+			else find_child("SpawnPoints", true, false)))
+		)
 
-	var spawn_pos: Vector3 = Vector3(0, 0.5, 33.0)
+	var spawn_pos: Vector3 = Vector3(0, 0.5, 85.0)
 	if spawn_points_container and spawn_points_container.get_child_count() > 0:
 		var points = spawn_points_container.get_children()
 		var selected_marker = points[_next_spawn_index % points.size()] as Node3D
@@ -161,7 +167,7 @@ func _spawn_player(id: int) -> void:
 		_next_spawn_index += 1
 	else:
 		# Fallback com pequeno deslocamento aleatório caso não haja marcadores
-		spawn_pos = Vector3(randf_range(-1.5, 1.5), 0.5, randf_range(32.0, 34.0))
+		spawn_pos = Vector3(randf_range(-1.5, 1.5), 0.5, randf_range(84.0, 86.0))
 
 	player.position = spawn_pos
 
