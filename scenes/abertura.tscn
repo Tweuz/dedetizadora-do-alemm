@@ -1,8 +1,7 @@
-[gd_scene load_steps=24 format=3 uid="uid://abertura_scene_dedetizadora"]
+[gd_scene load_steps=23 format=3 uid="uid://abertura_scene_dedetizadora"]
 
 [ext_resource type="Script" path="res://scripts/abertura.gd" id="1_abertura"]
 [ext_resource type="PackedScene" uid="uid://placa_aviso_dedetizadora" path="res://scenes/placa_aviso.tscn" id="2_placa"]
-[ext_resource type="PackedScene" uid="uid://arvore_viva_dedetizadora" path="res://scenes/arvore_viva.tscn" id="3_arvore"]
 [ext_resource type="PackedScene" uid="uid://lamp_post_dedetizadora" path="res://scenes/lamp_post.tscn" id="4_lamp"]
 [ext_resource type="Script" path="res://scripts/flickering_lamp.gd" id="5_flicker"]
 
@@ -221,43 +220,39 @@ board_tilt_deg = -14.0
 wood_tone = Color(0.13, 0.1, 0.08, 1)
 has_stain = true
 
-[node name="LivingTrees" type="Node3D" parent="."]
+[node name="Placa9" parent="Signs" instance=ExtResource("2_placa")]
+transform = Transform3D(0.998, 0, 0.063, 0, 1, 0, -0.063, 0, 0.998, -7.5, 1.4, 72)
+board_tilt_deg = 8.0
+wood_tone = Color(0.12, 0.09, 0.07, 1)
 
-[node name="LivingTree_W1" parent="LivingTrees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 41)
+[node name="Placa10" parent="Signs" instance=ExtResource("2_placa")]
+transform = Transform3D(0.994, 0, -0.105, 0, 1, 0, 0.105, 0, 0.994, 7.2, 2.1, 60)
+board_tilt_deg = -6.0
+wood_tone = Color(0.13, 0.10, 0.08, 1)
 
-[node name="LivingTree_W2" parent="LivingTrees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 49)
+[node name="Placa11" parent="Signs" instance=ExtResource("2_placa")]
+transform = Transform3D(0.978, 0, 0.208, 0, 1, 0, -0.208, 0, 0.978, -8.0, 1.8, 48)
+board_tilt_deg = 12.0
+wood_tone = Color(0.11, 0.09, 0.07, 1)
+has_stain = true
 
-[node name="LivingTree_W3" parent="LivingTrees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 57)
+[node name="Placa12" parent="Signs" instance=ExtResource("2_placa")]
+transform = Transform3D(0.999, 0, -0.052, 0, 1, 0, 0.052, 0, 0.999, 7.5, 1.2, 43)
+board_tilt_deg = -3.0
+wood_tone = Color(0.14, 0.11, 0.09, 1)
 
-[node name="LivingTree_W4" parent="LivingTrees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 65)
+[node name="Placa13" parent="Signs" instance=ExtResource("2_placa")]
+transform = Transform3D(0.996, 0, 0.087, 0, 1, 0, -0.087, 0, 0.996, -7.0, 2.3, 36)
+board_tilt_deg = 5.0
+wood_tone = Color(0.12, 0.10, 0.08, 1)
 
-[node name="LivingTree_W5" parent="LivingTrees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 73)
+[node name="Placa14" parent="Signs" instance=ExtResource("2_placa")]
+transform = Transform3D(0.988, 0, -0.156, 0, 1, 0, 0.156, 0, 0.988, 8.0, 1.6, 78)
+board_tilt_deg = -9.0
+wood_tone = Color(0.13, 0.10, 0.07, 1)
+has_stain = true
 
-[node name="LivingTree_W6" parent="LivingTrees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 81)
-
-[node name="LivingTree_E1" parent="LivingTrees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 44)
-
-[node name="LivingTree_E2" parent="LivingTrees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 52)
-
-[node name="LivingTree_E3" parent="LivingTrees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 60)
-
-[node name="LivingTree_E4" parent="LivingTrees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 68)
-
-[node name="LivingTree_E5" parent="LivingTrees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 76)
-
-[node name="LivingTree_E6" parent="LivingTrees" instance=ExtResource("3_arvore")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 84)
+[node name="EyesContainer" type="Node3D" parent="."]
 
 [node name="Forest" type="Node3D" parent="."]
 

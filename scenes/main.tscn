@@ -1,9 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://main_scene_dedetizadora"]
+[gd_scene format=3 uid="uid://8vc8itjbae2o"]
 
-[ext_resource type="Script" path="res://scripts/network_manager.gd" id="1_network"]
-[ext_resource type="PackedScene" uid="uid://ui_menu_dedetizadora" path="res://ui/menu.tscn" id="2_menu"]
-[ext_resource type="PackedScene" uid="uid://cemiterio_map_dedetizadora" path="res://scenes/cemiterio.tscn" id="3_cemiterio"]
-[ext_resource type="PackedScene" uid="uid://abertura_scene_dedetizadora" path="res://scenes/abertura.tscn" id="4_abertura"]
+[ext_resource type="Script" uid="uid://bx63fvxilt41s" path="res://scripts/network_manager.gd" id="1_network"]
+[ext_resource type="PackedScene" path="res://ui/menu.tscn" id="2_menu"]
+[ext_resource type="PackedScene" path="res://scenes/cemiterio.tscn" id="3_cemiterio"]
+[ext_resource type="PackedScene" path="res://scenes/abertura.tscn" id="4_abertura"]
 
 [sub_resource type="Environment" id="Environment_horror"]
 background_mode = 1
@@ -16,28 +16,28 @@ fog_light_color = Color(0.025, 0.035, 0.05, 1)
 fog_density = 0.018
 fog_sky_affect = 0.5
 
-[node name="Main" type="Node3D"]
+[node name="Main" type="Node3D" unique_id=1909424221]
 script = ExtResource("1_network")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1388043884]
 environment = SubResource("Environment_horror")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=173771435]
 transform = Transform3D(0.866025, 0.25, -0.433013, 0, 0.866025, 0.5, 0.5, -0.433013, 0.75, 0, 10, 0)
 light_color = Color(0.2, 0.28, 0.45, 1)
 light_energy = 0.02
 shadow_enabled = true
 
-[node name="Abertura" parent="." instance=ExtResource("4_abertura")]
+[node name="Abertura" parent="." unique_id=776347377 instance=ExtResource("4_abertura")]
 
-[node name="Cemiterio" parent="." instance=ExtResource("3_cemiterio")]
+[node name="Cemiterio" parent="." unique_id=1996285373 instance=ExtResource("3_cemiterio")]
 
-[node name="Players" type="Node3D" parent="."]
+[node name="Players" type="Node3D" parent="." unique_id=2120102915]
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1315913682]
 _spawnable_scenes = PackedStringArray("res://scenes/player.tscn", "res://scenes/ghost.tscn")
 spawn_path = NodePath("../Players")
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1992298625]
 
-[node name="Menu" parent="UI" instance=ExtResource("2_menu")]
+[node name="Menu" parent="UI" unique_id=179350346 instance=ExtResource("2_menu")]
