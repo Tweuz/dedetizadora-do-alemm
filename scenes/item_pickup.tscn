@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://item_pickup_dedetizadora"]
+
+[ext_resource type="Script" path="res://scripts/item_pickup.gd" id="1_item"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_item"]
+size = Vector3(0.35, 0.25, 0.35)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact"]
+size = Vector3(0.8, 0.8, 0.8)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_item"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:item_id")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:display_name")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:item_color")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+
+[node name="ItemPickup" type="Node3D" groups=["items"]]
+script = ExtResource("1_item")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0)
+mesh = SubResource("BoxMesh_item")
+
+[node name="InteractionArea" type="Area3D" parent="."]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("BoxShape3D_interact")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_item")

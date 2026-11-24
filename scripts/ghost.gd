@@ -61,6 +61,11 @@ enum State {
 @export var light_off_time: float = 8.0         # Tempo que a luz permanece apagada (~8s)
 @export var patrol_blackout_check_delay: float = 4.0 # Intervalo entre checagens de postes na patrulha
 
+# Detecção de Travamento
+@export_group("Detecção de Travamento")
+@export var stuck_time_threshold: float = 3.0 # Segundos sem se mover para considerar travado
+@export var stuck_dist_threshold: float = 0.3 # Deslocamento mínimo esperado em metros
+
 # --- VARIÁVEIS SINCRONIZADAS ---
 @export var current_phase: int = Phase.CALM:
 	set(val):
@@ -68,6 +73,9 @@ enum State {
 		_apply_appearance_visibility()
 
 @export var current_state: int = State.PATROL
+@export var _phase_0_timer: float = 0.0
+@export var _phase_1_timer: float = 0.0
+@export var _chase_cooldown_timer: float = 0.0
 
 # --- NÓS FILHOS ---
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
@@ -79,16 +87,17 @@ enum State {
 
 # --- ESTADO INTERNO DA IA (SERVIDOR) ---
 var _gate_clock_started: bool = false
-var _phase_0_timer: float = 0.0
-var _phase_1_timer: float = 0.0
 var _phase_0_flicker_timer: float = 0.0
 
 var _current_target_player: CharacterBody3D = null
 var _last_seen_player_pos: Vector3 = Vector3.ZERO
 var _lose_sight_timer: float = 0.0
 var _search_spin_timer: float = 0.0
-var _chase_cooldown_timer: float = 0.0
 var _blackout_check_timer: float = 0.0
+
+# Variáveis para verificação de travamento
+var _stuck_timer: float = 0.0
+var _last_stuck_check_pos: Vector3 = Vector3.ZERO
 
 var _patrol_points: Array[Node] = []
 var _current_patrol_marker: Marker3D = null
@@ -220,6 +229,9 @@ func _physics_process(delta: float) -> void:
 	if _chase_cooldown_timer > 0.0:
 		_chase_cooldown_timer -= delta
 
+	# Checagem de travamento (se mudou menos de 0,3m em 3s durante deslocamento)
+	_check_stuck(delta)
+
 	# Checagem contínua de apagão de postes próximos por onde passa
 	_process_light_blackout(delta)
 
@@ -349,7 +361,17 @@ func _pick_next_patrol_point() -> void:
 	var candidates = _patrol_points.duplicate()
 	if _current_patrol_marker and candidates.size() > 1:
 		candidates.erase(_current_patrol_marker)
+	candidates.shuffle()
 
+	# Procura o primeiro candidato que seja comprovadamente alcançável
+	for c in candidates:
+		if c is Marker3D and _is_target_reachable(c.global_position):
+			_current_patrol_marker = c
+			nav_agent.target_position = c.global_position
+			_is_waiting_at_point = false
+			return
+
+	# Fallback caso a checagem rigorosa não encontre
 	_current_patrol_marker = candidates.pick_random() as Marker3D
 	if _current_patrol_marker:
 		nav_agent.target_position = _current_patrol_marker.global_position
@@ -360,31 +382,80 @@ func _pick_distant_patrol_point() -> void:
 	if _patrol_points.is_empty():
 		return
 
-	# Escolhe o ponto de patrulha mais distante da posição atual para se afastar
-	var furthest_marker: Marker3D = null
-	var max_dist: float = -1.0
-	for pt in _patrol_points:
-		if pt is Marker3D:
-			var d = global_position.distance_to(pt.global_position)
-			if d > max_dist:
-				max_dist = d
-				furthest_marker = pt
+	# Ordena os pontos por distância decrescente e escolhe o mais distante alcançável
+	var sorted_points = _patrol_points.duplicate()
+	sorted_points.sort_custom(func(a: Node, b: Node) -> bool:
+		if not (a is Node3D) or not (b is Node3D):
+			return false
+		return global_position.distance_to(a.global_position) > global_position.distance_to(b.global_position)
+	)
 
-	if furthest_marker:
-		_current_patrol_marker = furthest_marker
-		nav_agent.target_position = furthest_marker.global_position
-		_is_waiting_at_point = false
-	else:
-		_pick_next_patrol_point()
+	for pt in sorted_points:
+		if pt is Marker3D and _is_target_reachable(pt.global_position):
+			_current_patrol_marker = pt
+			nav_agent.target_position = pt.global_position
+			_is_waiting_at_point = false
+			return
+
+	_pick_next_patrol_point()
 
 func _ensure_patrol_points() -> void:
 	if _patrol_points.is_empty():
 		_patrol_points = get_tree().get_nodes_in_group("patrol_points")
-		# Se não encontrar, tenta os ghost_rooms ou item_spawn como fallback
 		if _patrol_points.is_empty():
 			_patrol_points = get_tree().get_nodes_in_group("ghost_rooms")
 		if _patrol_points.is_empty():
 			_patrol_points = get_tree().get_nodes_in_group("item_spawn")
+
+func _is_target_reachable(target_pos: Vector3) -> bool:
+	if not nav_agent:
+		return true
+	var map = nav_agent.get_navigation_map()
+	if not map.is_valid():
+		return true
+	var path = NavigationServer3D.map_get_path(map, global_position, target_pos, true)
+	if path.is_empty():
+		return false
+	# Se o caminho calculado termina razoavelmente próximo do alvo (< 2.5m)
+	var end_point = path[path.size() - 1]
+	return end_point.distance_to(target_pos) <= 2.5
+
+func _check_stuck(delta: float) -> void:
+	# Só verifica se estiver se deslocando ativamente
+	if _is_waiting_at_point:
+		_stuck_timer = 0.0
+		_last_stuck_check_pos = global_position
+		return
+
+	_stuck_timer += delta
+	if _stuck_timer >= stuck_time_threshold:
+		var moved_dist = global_position.distance_to(_last_stuck_check_pos)
+		if moved_dist < stuck_dist_threshold:
+			print("[FANTASMA] travado, trocando de ponto")
+			_stuck_timer = 0.0
+			_last_stuck_check_pos = global_position
+			if current_state == State.CHASE:
+				_enter_search()
+			else:
+				current_state = State.PATROL
+				_pick_next_patrol_point()
+		else:
+			_stuck_timer = 0.0
+			_last_stuck_check_pos = global_position
+
+func _is_player_in_safe_spot(player: CharacterBody3D) -> bool:
+	# Se o jogador capturado estiver no CellSpot ou em um captured_spot, o fantasma não deve tentar ir até lá
+	var cell_spot = get_tree().get_first_node_in_group("cell_spot")
+	if cell_spot and cell_spot is Node3D:
+		if player.global_position.distance_to(cell_spot.global_position) < 3.5:
+			return true
+
+	var cap_spots = get_tree().get_nodes_in_group("captured_spots")
+	for sp in cap_spots:
+		if sp is Node3D and player.global_position.distance_to(sp.global_position) < 3.5:
+			return true
+
+	return false
 
 # ==============================================================================
 # ESTADO 2: PERSEGUIÇÃO
@@ -482,6 +553,11 @@ func _detect_target_player() -> CharacterBody3D:
 
 	for p in players:
 		if not is_instance_valid(p) or not (p is CharacterBody3D):
+			continue
+		if p.get("is_dead") == true:
+			continue
+		# Não persegue se o jogador estiver no CellSpot ou em um captured_spot
+		if _is_player_in_safe_spot(p):
 			continue
 
 		var dist = global_position.distance_to(p.global_position)
