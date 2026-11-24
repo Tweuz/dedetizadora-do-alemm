@@ -4,6 +4,8 @@ extends Node3D
 # SCRIPT DO PORTÃO DO CEMITÉRIO (ARTICULADO, SOM DE RANGIDO, PANCADA E SHAKE)
 # ==============================================================================
 
+signal gate_slammed
+
 const SoundBank = preload("res://scripts/sound_bank.gd")
 
 @export var approach_distance: float = 6.0
@@ -131,6 +133,9 @@ func rpc_slam_gate() -> void:
 		audio_player.stream = SoundBank.get_sound("pancada")
 		audio_player.pitch_scale = randf_range(0.9, 1.05)
 		audio_player.play()
+
+	# Emite sinal da batida do portão (inicia o relógio do fantasma no servidor e clientes)
+	gate_slammed.emit()
 
 	# 2. Bloqueia a colisão definitivamente
 	col_left.disabled = false

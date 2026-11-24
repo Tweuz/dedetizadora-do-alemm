@@ -34,6 +34,24 @@ static func get_sound(sound_name: String) -> AudioStream:
 				_whisper_pool.append(_create_whisper_sound())
 		return _whisper_pool.pick_random()
 
+	# Caso especial para grito: busca arquivos externos grito_N.ogg ou grito.ogg, ou gera proceduralmente
+	if s_name.begins_with("grito"):
+		var grito_files: Array[String] = []
+		for n in range(1, 10):
+			var p: String = "res://audio/grito_%d.ogg" % n
+			if ResourceLoader.exists(p):
+				grito_files.append(p)
+		if ResourceLoader.exists("res://audio/grito.ogg"):
+			grito_files.append("res://audio/grito.ogg")
+
+		if not grito_files.is_empty():
+			var picked_path: String = grito_files.pick_random()
+			return load(picked_path)
+
+		if not _cached_streams.has("grito"):
+			_cached_streams["grito"] = _create_scream_sound()
+		return _cached_streams["grito"]
+
 	# 1. Verifica se já está em cache
 	if _cached_streams.has(s_name):
 		return _cached_streams[s_name]
@@ -64,6 +82,8 @@ static func get_sound(sound_name: String) -> AudioStream:
 			generated = _create_foliage_sound()
 		"vento":
 			generated = _create_wind_sound()
+		"grito":
+			generated = _create_scream_sound()
 		_:
 			push_warning("[SoundBank] Som não reconhecido: " + sound_name + ". Usando som genérico.")
 			generated = _create_slam_sound()
@@ -141,28 +161,25 @@ static func _create_slam_sound() -> AudioStreamWAV:
 	wav.data = data
 	return wav
 
-# Som de folhas balançando / farfalhar na árvore
+# Som de folhagem/galho seco: ruído branco de clique suave com decaimento exponencial
 static func _create_foliage_sound() -> AudioStreamWAV:
 	var wav = AudioStreamWAV.new()
 	wav.format = AudioStreamWAV.FORMAT_16_BITS
 	wav.mix_rate = 22050
-	var duration: float = 1.6
+	var duration: float = 0.35
 	var num_samples: int = int(22050 * duration)
 	var data = PackedByteArray()
 	data.resize(num_samples * 2)
 
-	var last_val: float = 0.0
 	for i in range(num_samples):
 		var t: float = float(i) / 22050.0
-		# Envelope com subida e descida suave
-		var env: float = sin((t / duration) * PI) * (0.7 + 0.3 * sin(t * 12.0))
+		var env: float = exp(-t * 18.0)
+		# Variação sutil no estalo
+		var crackle: float = (randf() * 2.0 - 1.0) * env
+		if randf() < 0.05:
+			crackle += (randf() * 2.0 - 1.0) * env * 1.5
 
-		# Ruído filtrado passa-baixa simples (suavização temporal)
-		var white_noise: float = randf() * 2.0 - 1.0
-		last_val = lerp(last_val, white_noise, 0.18)
-
-		var sample_val: float = last_val * env * 0.6
-		var sample_int: int = int(clamp(sample_val, -1.0, 1.0) * 14000.0)
+		var sample_int: int = int(clamp(crackle, -1.0, 1.0) * 16000.0)
 		data.encode_s16(i * 2, sample_int)
 
 	wav.data = data
@@ -173,25 +190,91 @@ static func _create_wind_sound() -> AudioStreamWAV:
 	var wav = AudioStreamWAV.new()
 	wav.format = AudioStreamWAV.FORMAT_16_BITS
 	wav.mix_rate = 22050
-	wav.loop_mode = AudioStreamWAV.LOOP_FORWARD
 	var duration: float = 4.0
 	var num_samples: int = int(22050 * duration)
-	wav.loop_begin = 0
-	wav.loop_end = num_samples
 	var data = PackedByteArray()
 	data.resize(num_samples * 2)
 
 	var last_val: float = 0.0
 	for i in range(num_samples):
 		var t: float = float(i) / 22050.0
+		# Ruído rosa / filtrado (filtro passa-baixas simples)
+		var white: float = randf() * 2.0 - 1.0
+		last_val = lerp(last_val, white, 0.06)
 
-		# Variação lenta de rajada
-		var gust: float = 0.4 + 0.3 * sin(t * 1.5) + 0.2 * sin(t * 3.2)
-		var white_noise: float = randf() * 2.0 - 1.0
-		last_val = lerp(last_val, white_noise, 0.06)
+		# Modulação de intensidade do vento soprando
+		var gust: float = 0.5 + 0.5 * sin(t * 1.2) * sin(t * 0.7 + 0.5)
+		var sample_val: float = last_val * (0.4 + 0.6 * gust)
 
-		var sample_val: float = last_val * gust * 0.4
-		var sample_int: int = int(clamp(sample_val, -1.0, 1.0) * 10000.0)
+		# Garante que as extremidades fechem em loop sem estalo
+		var edge_fade: float = 1.0
+		if t < 0.2:
+			edge_fade = t / 0.2
+		elif t > (duration - 0.2):
+			edge_fade = (duration - t) / 0.2
+		sample_val *= edge_fade
+
+		var sample_int: int = int(clamp(sample_val, -1.0, 1.0) * 12000.0)
+		data.encode_s16(i * 2, sample_int)
+
+	wav.data = data
+	wav.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	wav.loop_begin = 0
+	wav.loop_end = num_samples
+	return wav
+
+# Som de grito aterrorizante: ruído distorcido forte com subida de tom (~1.5 s)
+static func _create_scream_sound() -> AudioStreamWAV:
+	var wav = AudioStreamWAV.new()
+	wav.format = AudioStreamWAV.FORMAT_16_BITS
+	wav.mix_rate = 22050
+	var duration: float = 1.5
+	var num_samples: int = int(22050 * duration)
+	var data = PackedByteArray()
+	data.resize(num_samples * 2)
+
+	var y1: float = 0.0
+	var y2: float = 0.0
+
+	for i in range(num_samples):
+		var t: float = float(i) / 22050.0
+		var progress: float = t / duration
+
+		# Envelope de volume: ataque rápido (0.05s) e sustentação com decaimento no final
+		var env: float = 1.0
+		if progress < 0.06:
+			env = progress / 0.06
+		else:
+			env = clamp(1.0 - (progress - 0.5) / 0.5, 0.0, 1.0)
+		env = pow(env, 0.8)
+
+		# Subida dramática de tom/frequência: de 400Hz até 1400Hz com vibrato irregular
+		var base_pitch: float = 400.0 + 900.0 * pow(progress, 0.7) + 80.0 * sin(t * 45.0)
+		var phase: float = t * base_pitch * TAU
+
+		# Ruído branco distorcido e áspero
+		var noise: float = (randf() * 2.0 - 1.0) * 0.45
+
+		# Ressonância de voz humana gritando (ondas quadradas/senos saturados)
+		var s1: float = sin(phase)
+		var s2: float = 0.6 * sin(phase * 1.5)
+		var s3: float = 0.4 * sin(phase * 2.0)
+		var raw_voice: float = (s1 + s2 + s3 + noise) * 1.4
+
+		# Distorção e saturação não-linear (hard clipping suave / overdrive)
+		var distorted: float = clamp(raw_voice, -0.9, 0.9)
+		distorted = sin(distorted * 1.3)
+
+		# Filtro passa-faixa dinâmico para dar aspecto de garganta berrando
+		var center_f: float = clamp(base_pitch * 1.4, 600.0, 3200.0)
+		var w: float = 2.0 * PI * center_f / 22050.0
+		var r: float = 0.91
+		var filtered: float = distorted * (1.0 - r) + 2.0 * r * cos(w) * y1 - r * r * y2
+		y2 = y1
+		y1 = filtered
+
+		var sample_val: float = (distorted * 0.4 + filtered * 0.6) * env * 0.9
+		var sample_int: int = int(clamp(sample_val, -1.0, 1.0) * 26000.0)
 		data.encode_s16(i * 2, sample_int)
 
 	wav.data = data

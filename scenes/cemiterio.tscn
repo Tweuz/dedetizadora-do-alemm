@@ -1,7 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://cemiterio_map_dedetizadora"]
+[gd_scene load_steps=23 format=3 uid="uid://cemiterio_map_dedetizadora"]
 
 [ext_resource type="PackedScene" uid="uid://lamp_post_dedetizadora" path="res://scenes/lamp_post.tscn" id="1_lamp"]
 [ext_resource type="PackedScene" uid="uid://portao_dedetizadora" path="res://scenes/portao.tscn" id="2_gate"]
+
+[sub_resource type="BoxShape3D" id="Shape_ChapelEntrance"]
+size = Vector3(4, 3, 2)
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_cemetery"]
 agent_height = 1.8
@@ -856,3 +859,81 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.3, 33)
 
 [node name="Item_Perimeter_5" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 32)
+
+[node name="ChapelEntranceArea" type="Area3D" parent="." groups=["chapel_entrance"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -20)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ChapelEntranceArea"]
+shape = SubResource("Shape_ChapelEntrance")
+
+[node name="PatrolPoints" type="Node3D" parent="."]
+
+[node name="Patrol_Path_South" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 25)
+
+[node name="Patrol_Path_MidSouth" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 12)
+
+[node name="Patrol_Path_Center" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Patrol_Path_MidNorth" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -10)
+
+[node name="Patrol_Chapel_Door" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -18)
+
+[node name="Patrol_Chapel_Inside" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -24)
+
+[node name="Patrol_OldGraves_South" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.5, 0)
+
+[node name="Patrol_OldGraves_North" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0.5, -12)
+
+[node name="Patrol_NewGraves_South" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.5, 0)
+
+[node name="Patrol_NewGraves_North" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.5, -12)
+
+[node name="Patrol_Crypt_Entrance" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.5, -19)
+
+[node name="Patrol_Crypt_Inside" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.5, -24)
+
+[node name="Patrol_Gravedigger_Outside" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.5, 11)
+
+[node name="Patrol_Gravedigger_Inside" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.5, 16)
+
+[node name="Patrol_Shed_Outside" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.5, 11)
+
+[node name="Patrol_Shed_Inside" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.5, 16)
+
+[node name="CapturedSpots" type="Node3D" parent="."]
+
+[node name="Spot_OldGraves" type="Marker3D" parent="CapturedSpots" groups=["captured_spots"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.5, -6)
+
+[node name="Spot_NewGraves" type="Marker3D" parent="CapturedSpots" groups=["captured_spots"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.5, -6)
+
+[node name="Spot_Gravedigger" type="Marker3D" parent="CapturedSpots" groups=["captured_spots"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0.5, 14)
+
+[node name="Spot_Shed" type="Marker3D" parent="CapturedSpots" groups=["captured_spots"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0.5, 14)
+
+[node name="Spot_Crypt" type="Marker3D" parent="CapturedSpots" groups=["captured_spots"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0.5, -23)
+
+[node name="CellSpot" type="Marker3D" parent="." groups=["cell_spot"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.5, 0.5, -24.5)

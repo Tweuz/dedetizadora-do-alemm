@@ -49,8 +49,21 @@ func _process(delta: float) -> void:
 	var ghost = get_tree().get_first_node_in_group("ghost") as Node3D
 	
 	if not ghost or not is_instance_valid(ghost):
-		# Sem fantasma na cena: sem bip e LED verde padrão
-		_update_led(COLOR_GREEN, false)
+		# Sem fantasma na cena: sem bip e LED apagado
+		_update_led(COLOR_OFF, false)
+		time_until_next_beep = 0.0
+		return
+
+	# Detector fica mudo e com LED apagado enquanto o fantasma estiver invisível (Fase 0 - Calma)
+	var is_ghost_active_phase: bool = true
+	if "current_phase" in ghost:
+		if ghost.current_phase == 0: # Phase.CALM = 0
+			is_ghost_active_phase = false
+	elif not ghost.visible:
+		is_ghost_active_phase = false
+
+	if not is_ghost_active_phase:
+		_update_led(COLOR_OFF, false)
 		time_until_next_beep = 0.0
 		return
 

@@ -29,6 +29,15 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath("Head/Flashlight:visible")
 properties/3/spawn = true
 properties/3/replication_mode = 2
+properties/4/path = NodePath(".:player_name")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+properties/5/path = NodePath(".:lives")
+properties/5/spawn = true
+properties/5/replication_mode = 2
+properties/6/path = NodePath(".:is_dead")
+properties/6/spawn = true
+properties/6/replication_mode = 2
 
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 2
@@ -61,5 +70,200 @@ spot_attenuation = 1.2
 transform = Transform3D(0.984808, 0.0301537, 0.17101, 0, 0.984808, -0.173648, -0.173648, 0.17101, 0.969846, -0.28, -0.22, -0.42)
 visible = false
 
+[node name="ScreamAudioPlayer" type="AudioStreamPlayer3D" parent="."]
+unit_size = 6.0
+max_distance = 60.0
+bus = &"Master"
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_player")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD"]
+anchors_preset = 0
+offset_right = 160.0
+offset_bottom = 60.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+
+[node name="LivesContainer" type="HBoxContainer" parent="HUD/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Life1" type="Label" parent="HUD/MarginContainer/LivesContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.15, 0.15, 1)
+theme_override_font_sizes/font_size = 28
+text = "✝"
+
+[node name="Life2" type="Label" parent="HUD/MarginContainer/LivesContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.15, 0.15, 1)
+theme_override_font_sizes/font_size = 28
+text = "✝"
+
+[node name="Life3" type="Label" parent="HUD/MarginContainer/LivesContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.15, 0.15, 1)
+theme_override_font_sizes/font_size = 28
+text = "✝"
+
+[node name="JumpscareControl" type="Control" parent="HUD"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BlackRect" type="ColorRect" parent="HUD/JumpscareControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MonsterFace" type="Control" parent="HUD/JumpscareControl"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -250.0
+offset_right = 200.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HeadShape" type="ColorRect" parent="HUD/JumpscareControl/MonsterFace"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -210.0
+offset_right = 110.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.05, 0.06, 1)
+
+[node name="EyeLeft" type="ColorRect" parent="HUD/JumpscareControl/MonsterFace"]
+layout_mode = 0
+offset_left = 135.0
+offset_top = 110.0
+offset_right = 175.0
+offset_bottom = 150.0
+color = Color(0.95, 0.05, 0.05, 1)
+
+[node name="EyeRight" type="ColorRect" parent="HUD/JumpscareControl/MonsterFace"]
+layout_mode = 0
+offset_left = 225.0
+offset_top = 110.0
+offset_right = 265.0
+offset_bottom = 150.0
+color = Color(0.95, 0.05, 0.05, 1)
+
+[node name="PupilLeft" type="ColorRect" parent="HUD/JumpscareControl/MonsterFace"]
+layout_mode = 0
+offset_left = 147.0
+offset_top = 122.0
+offset_right = 163.0
+offset_bottom = 138.0
+color = Color(1, 0.9, 0.9, 1)
+
+[node name="PupilRight" type="ColorRect" parent="HUD/JumpscareControl/MonsterFace"]
+layout_mode = 0
+offset_left = 237.0
+offset_top = 122.0
+offset_right = 253.0
+offset_bottom = 138.0
+color = Color(1, 0.9, 0.9, 1)
+
+[node name="MouthOpen" type="ColorRect" parent="HUD/JumpscareControl/MonsterFace"]
+layout_mode = 0
+offset_left = 150.0
+offset_top = 220.0
+offset_right = 250.0
+offset_bottom = 340.0
+color = Color(0, 0, 0, 1)
+
+[node name="TeethTop" type="ColorRect" parent="HUD/JumpscareControl/MonsterFace"]
+layout_mode = 0
+offset_left = 165.0
+offset_top = 220.0
+offset_right = 235.0
+offset_bottom = 235.0
+color = Color(0.85, 0.8, 0.75, 1)
+
+[node name="TeethBottom" type="ColorRect" parent="HUD/JumpscareControl/MonsterFace"]
+layout_mode = 0
+offset_left = 170.0
+offset_top = 325.0
+offset_right = 230.0
+offset_bottom = 340.0
+color = Color(0.85, 0.8, 0.75, 1)
+
+[node name="PhraseLabel" type="Label" parent="HUD/JumpscareControl"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -120.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.85, 0.1, 0.1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 26
+text = "[nome]... você não devia ter vindo."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameOverControl" type="Control" parent="HUD"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOverBackground" type="ColorRect" parent="HUD/GameOverControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.9)
+
+[node name="GameOverLabel" type="Label" parent="HUD/GameOverControl"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -40.0
+offset_right = 200.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.9, 0.1, 0.1, 1)
+theme_override_font_sizes/font_size = 48
+text = "FIM DE JOGO"
+horizontal_alignment = 1
+vertical_alignment = 1
