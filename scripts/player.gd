@@ -363,13 +363,16 @@ func rpc_notify_inventory_full() -> void:
 		inventory_status_label.visible = true
 		_status_clear_timer = 1.5
 
-@rpc("call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func rpc_sync_inventory(new_inventory: Array) -> void:
+	if multiplayer.get_remote_sender_id() not in [0, 1]:
+		return
+	var copia: Array = new_inventory.duplicate(true)
 	inventory.clear()
-	for item in new_inventory:
+	for item in copia:
 		inventory.append(item)
-	_update_inventory_ui()
-
+	_update_inventory_ui()   
+	
 func _select_slot(index: int) -> void:
 	selected_slot_index = clamp(index, 0, inventory_slots - 1)
 	_update_inventory_ui()

@@ -1,6 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://ghost_scene_dedetizadora"]
+[gd_scene format=3 uid="uid://c6uugufufqe8j"]
 
-[ext_resource type="Script" path="res://scripts/ghost.gd" id="1_ghost"]
+[ext_resource type="Script" uid="uid://b0n1w5gpcsy6w" path="res://scripts/ghost.gd" id="1_ghost"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ghost"]
 radius = 0.35
@@ -50,41 +50,40 @@ properties/7/path = NodePath(".:_chase_cooldown_timer")
 properties/7/spawn = true
 properties/7/replication_mode = 2
 
-[node name="Ghost" type="CharacterBody3D" groups=["ghost"]]
+[node name="Ghost" type="CharacterBody3D" unique_id=1578253624 groups=["ghost"]]
 collision_layer = 4
-collision_mask = 1
 script = ExtResource("1_ghost")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1309082292]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 shape = SubResource("CapsuleShape3D_ghost")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1331860828]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 mesh = SubResource("CapsuleMesh_ghost")
 
-[node name="Eyes" type="Node3D" parent="."]
+[node name="Eyes" type="Node3D" parent="." unique_id=1632016464]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.95, 0)
 
-[node name="EyeLeft" type="MeshInstance3D" parent="Eyes"]
+[node name="EyeLeft" type="MeshInstance3D" parent="Eyes" unique_id=737519378]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11, 0, -0.34)
 mesh = SubResource("SphereMesh_ghost_eyes")
 
-[node name="EyeRight" type="MeshInstance3D" parent="Eyes"]
+[node name="EyeRight" type="MeshInstance3D" parent="Eyes" unique_id=1317947096]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11, 0, -0.34)
 mesh = SubResource("SphereMesh_ghost_eyes")
 
-[node name="GhostAuraLight" type="OmniLight3D" parent="."]
+[node name="GhostAuraLight" type="OmniLight3D" parent="." unique_id=515879248]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, -0.3)
 light_color = Color(0.9, 0.1, 0.1, 1)
 light_energy = 0.5
 omni_range = 3.5
 omni_attenuation = 1.8
 
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=903983808]
 path_desired_distance = 0.6
 target_desired_distance = 0.6
 path_height_offset = 0.1
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1163070942]
 replication_config = SubResource("SceneReplicationConfig_ghost")
