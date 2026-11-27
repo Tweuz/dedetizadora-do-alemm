@@ -84,6 +84,8 @@ static func get_sound(sound_name: String) -> AudioStream:
 			generated = _create_wind_sound()
 		"grito":
 			generated = _create_scream_sound()
+		"passos":
+			generated = _create_step_sound()
 		_:
 			push_warning("[SoundBank] Som não reconhecido: " + sound_name + ". Usando som genérico.")
 			generated = _create_slam_sound()
@@ -181,6 +183,29 @@ static func _create_foliage_sound() -> AudioStreamWAV:
 
 		var sample_int: int = int(clamp(crackle, -1.0, 1.0) * 16000.0)
 		data.encode_s16(i * 2, sample_int)
+
+	wav.data = data
+	return wav
+
+# Passo na terra/grama: baque grave abafado + um pouco de ruído
+static func _create_step_sound() -> AudioStreamWAV:
+	var wav = AudioStreamWAV.new()
+	wav.format = AudioStreamWAV.FORMAT_16_BITS
+	wav.mix_rate = 22050
+	var duration: float = 0.22
+	var num_samples: int = int(22050 * duration)
+	var data = PackedByteArray()
+	data.resize(num_samples * 2)
+
+	var lowpass: float = 0.0
+	for i in range(num_samples):
+		var t: float = float(i) / 22050.0
+		var noise: float = randf() * 2.0 - 1.0
+		lowpass += (noise - lowpass) * 0.25 # abafa o ruído
+		var crunch: float = lowpass * exp(-t * 22.0)
+		var thump: float = sin(TAU * 80.0 * t) * exp(-t * 30.0)
+		var sample: float = crunch * 0.8 + thump * 0.7
+		data.encode_s16(i * 2, int(clamp(sample, -1.0, 1.0) * 20000.0))
 
 	wav.data = data
 	return wav

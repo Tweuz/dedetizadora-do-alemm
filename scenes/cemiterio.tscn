@@ -1,16 +1,14 @@
-[gd_scene load_steps=23 format=3 uid="uid://cemiterio_map_dedetizadora"]
+[gd_scene format=3 uid="uid://dot5glc8e8bds"]
 
-[ext_resource type="PackedScene" uid="uid://lamp_post_dedetizadora" path="res://scenes/lamp_post.tscn" id="1_lamp"]
-[ext_resource type="PackedScene" uid="uid://portao_dedetizadora" path="res://scenes/portao.tscn" id="2_gate"]
-
-[sub_resource type="BoxShape3D" id="Shape_ChapelEntrance"]
-size = Vector3(4, 3, 2)
+[ext_resource type="PackedScene" path="res://scenes/lamp_post.tscn" id="1_lamp"]
+[ext_resource type="PackedScene" path="res://scenes/portao.tscn" id="2_gate"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_cemetery"]
+vertices = PackedVector3Array(31.5, 0.5, -36.5, -31.5, 0.5, -36.5, -31, 0.5, -35.75, 31, 0.5, -35.75, 31, 0.5, 35.75, -31, 0.5, 35.75, -31.5, 0.5, 36.5, 31.5, 0.5, 36.5, -29, 0.5, -26.25, -23.75, 0.5, -26, -23.75, 0.5, -27.5, -22, 0.5, -27.75, -22.25, 0.5, -34, -29, 0.5, -34, -13.75, 0.5, -27.75, -13.5, 0.5, -34, -12.25, 0.5, -27.75, -12, 0.5, -26, -7.75, 0.5, -26.25, -7.75, 0.5, -28.5, -6.25, 0.5, -34, -6, 0.5, -28.75, 6, 0.5, -28.75, 6.25, 0.5, -34, 7.25, 0.5, -24.25, 7.25, 0.5, -23.5, 8, 0.5, -23.25, 8, 0.5, -24.75, 17.75, 0.5, -14.75, 21, 0.5, -14, 21.25, 0.5, -14.75, 7.75, 0.5, -14.75, 8, 0.5, -14, 11, 0.5, -14, 11.25, 0.5, -14.75, 8, 0.5, -19.75, 7.25, 0.5, -19, 12.75, 0.5, -14.75, 13, 0.5, -14, 16, 0.5, -14, 18, 0.5, -14, 22.75, 0.5, -14.75, 23, 0.5, -14, 29, 0.5, -14, 16.25, 0.5, -14.75, 7.5, 0.5, -28.75, 8, 0.5, -28.25, 29, 0.5, -34, 6.5, 0.5, -19, 6.75, 0.5, -14.75, -6.75, 5.25, -27.75, -6.75, 5.25, -20.25, 6.75, 5.25, -20.25, 6.75, 5.25, -27.75, 6.25, 0.5, -23.25, 6.25, 0.5, -24.5, 1.75, 0.5, -20.75, 6.25, 0.5, -27, -6, 0.5, -27, -1.5, 0.5, -20.75, -1.25, 0.5, -20, 1.5, 0.5, -19.75, -6, 0.5, -20.75, 6.25, 0.5, -20.75, 11, -3, -27, 10.75, -3, -24.75, 11, -3, -20.75, 19.25, -3, -20.75, 19.25, -3, -27, -22.75, 4.25, -26.75, -22.75, 4.25, -21.25, -13.25, 4.25, -21.25, -13.25, 4.25, -26.75, -22.75, 0.5, -14.75, -22, 0.5, -14.75, -22, 0.5, -20, -23.75, 0.5, -20.25, -23, 0.5, -14.25, -29, 0.5, -14.25, -11.25, 0.5, -14.75, -11, 0.5, -14, -8, 0.5, -14, -7.75, 0.5, -14.75, -7.75, 0.5, -19.25, -12, 0.5, -20.5, -12.75, 0.5, -20, -6.75, 0.5, -14.75, -6.5, 0.5, -19, -12.5, 0.5, -14.75, -18.25, 0.5, -20.75, -17.5, 0.5, -20.75, -17.25, 0.5, -21.75, -18.5, 0.5, -21.75, -13.75, 0.5, -26, -22, 0.5, -26, -13.75, 0.5, -21.75, -22, 0.5, -21.75, -17.25, 0.5, -20, -18.75, 0.5, -20, -17.75, 0.5, -14.75, -16.75, 0.5, -14.75, -16.5, 0.5, -20, -21.25, 0.5, -14.75, -21, 0.5, -14, -18, 0.5, -14, -18, 0.5, -9, -15, 0.5, -9, -14.75, 0.5, -9.75, -16, 0.5, -13.5, -17.5, 0.5, -13.25, -18.5, 0.5, -9.75, -16, 0.5, -14.5, -13, 0.5, -14.5, -13.25, 0.5, -9.75, -12.5, 0.5, -13.25, -13, 0.5, -13.5, 1.75, 0.5, -19, -1.75, 0.5, -19, -6, 0.5, -14.5, -6, 0.5, -13.5, -7.25, 0.5, -13.25, -7.5, 0.5, -9.75, -7, 0.5, -9, 7.5, 0.5, -9.75, 7.25, 0.5, -13.25, 6, 0.5, -13.5, 7, 0.5, -9, 6, 0.5, -14.5, -24.75, 0.5, -9.75, -23.5, 0.5, -9.75, -22.75, 0.5, -13.25, -29, 0.5, -9, -25, 0.5, -9, -21.25, 0.5, -13.25, -20, 0.5, -9.5, -23, 0.5, -9.5, -23, 0.5, -8.5, -19.75, 0.5, -8.25, -23.75, 0.5, -8.25, -23.5, 0.5, -4.75, -22.25, 0.5, -4.75, -18, 0.5, -4.75, -18.5, 0.5, -8.25, -22, 0.5, -4, -18.5, 0.5, -4, -8, 0.5, -13.5, -11.25, 0.5, -13.25, -8.75, 0.5, -9.75, -13.25, 0.5, -8.25, -9, 0.5, -8.5, -11.25, 0.5, -4.75, -11, 0.5, -4, -7.5, 0.5, -4, -7, 0.5, -4.75, -7.25, 0.5, -8.25, -12.5, 0.5, -4.75, 14, 0.5, -9, 17, 0.5, -9, 17, 0.5, -9.5, 13.75, 0.5, -9.75, 7.75, 0.5, -13.25, 8.75, 0.5, -9.75, 9, 0.5, -9, 12, 0.5, -9, 16.25, 0.5, -13.25, 12.75, 0.5, -13.25, 11.25, 0.5, -13.25, 12.25, 0.5, -9.75, 17.75, 0.5, -9.75, 17.5, 0.5, -13.25, 18, 0.5, -4, 21, 0.5, -4, 21.25, 0.5, -4.75, 22, 0.5, -8.5, 18.75, 0.5, -8.25, 17.5, 0.5, -4.75, 21.25, 0.5, -13.25, 17.75, 0.5, -8.25, 22, 0.5, -9.5, 19, 0.5, -9.5, 22.5, 0.5, -4.75, 22.75, 0.5, -8.25, 22.75, 0.5, -9.75, 22.5, 0.5, -13.25, 23.75, 0.5, -9.75, 24, 0.5, -9, 29, 0.5, -9, -24.75, 0.5, -8.25, -24, 0.5, -4, -29, 0.5, -4, -14.75, 0.5, -8.25, -16.5, 0.5, -4.5, -13, 0.5, 0.25, -12.5, 0.5, -3, -13, 0.5, -3.25, -16.75, 0.5, -3.25, -18, 0.5, 0.5, -14.5, 0.5, 0.5, -18, 0.5, -3.25, -18.5, 0.5, 0.25, -13, 0.5, -4.5, -15.25, 0.5, 5.25, -15, 0.5, 5.75, -13.75, 0.5, 1.75, -14.5, 0.5, 1.5, -18, 0.5, 1.5, -18.5, 0.5, 1.75, -16.75, 0.5, 5.25, -17, 0.5, 5.75, 6.25, 0.5, -4.75, 7.25, 0.5, -4.75, 7.5, 0.5, -8.25, -5.75, 0.5, -4.75, 6, 0.5, -4, -5.5, 0.5, -4, 17, 0.5, -8.5, 13.75, 0.5, -8.25, 7.75, 0.5, -4.75, 8.75, 0.5, -8.25, 8, 0.5, -4, 11, 0.5, -4, 12.75, 0.5, -4.75, 13, 0.5, -4, 16, 0.5, -4, 16.25, 0.5, -4.75, 12.25, 0.5, -8.25, 11.25, 0.5, -4.75, 23.75, 0.5, -8.25, 23, 0.5, -4, 29, 0.5, -4, -29, 0.5, 1, -25.5, 0.5, 1, -25.25, 0.5, 0.25, -23.75, 0.5, 0.25, -23.5, 0.5, 1, -20, 0.5, 1, -19.75, 0.5, 0.25, -22.25, 0.5, -3.25, -23.75, 0.5, -3.25, -12.5, 0.5, 0.5, -11.25, 0.5, -3.25, -9, 0.5, 0.5, -7.25, 0.5, 0.25, -7, 0.5, -3.25, -9, 0.5, 5.5, -8.5, 0.5, 1.75, -9, 0.5, 1.5, -12.5, 0.5, 1.5, -10.75, 0.5, 5.25, -15, 0.5, 6, -11, 0.5, 6, 7.5, 0.5, 0.25, 7.25, 0.5, -3.25, 6.25, 0.5, -3.25, 7, 0.5, 1, -5.75, 0.5, -3.25, -7, 0.5, 1, 11.25, 0.5, -3.25, 7.75, 0.5, -3.25, 9, 0.5, 0.5, 12, 0.5, 0.5, 12.75, 0.5, 0.25, 12.5, 0.5, -3.25, 12, 0.5, 1.5, 9, 0.5, 1.5, 10.75, 0.5, 5.25, 11, 0.5, 5.75, 12.5, 0.5, 1.75, 8.5, 0.5, 1.75, 9, 0.5, 5.5, 19, 0.5, 1, 22, 0.5, 1, 22, 0.5, 0.5, 18.75, 0.5, 0.25, 17.75, 0.5, -3.25, 16.25, 0.5, -3.25, 17.25, 0.5, 0.25, 13.75, 0.5, 0.25, 14, 0.5, 1, 17, 0.5, 1, 21.25, 0.5, -3.25, 22.75, 0.5, 0.25, 22.5, 0.5, -3.25, 23.75, 0.5, 0.25, 24, 0.5, 1, 29, 0.5, 1, -18.5, 0.5, 12.25, -18.25, 0.5, 13, -17.5, 0.5, 13, -17.25, 0.5, 12.25, -16, 0.5, 6.75, -17, 0.5, 6.5, -16, 0.5, 12.25, -19.75, 0.5, 1.75, -25.25, 0.5, 1.75, -29, 0.5, 18.5, -23.75, 0.5, 18.25, -23.5, 0.5, 12.25, -23.75, 0.5, 1.75, 7.25, 0.5, 1.75, -7.25, 0.5, 1.75, 9.25, 0.5, 6.75, -9.25, 0.5, 6.75, -10.5, 0.5, 6.75, -12, 0.5, 12.75, -12, 0.5, 17.75, 12.25, 0.5, 12.75, 10.5, 0.5, 6.75, 12.25, 0.5, 18, 13.75, 0.5, 1.75, 15, 0.5, 5.5, 17, 0.5, 5.5, 17.5, 0.5, 1.75, 11, 0.5, 6.5, 15, 0.5, 6.5, 12.5, 0.5, 12.25, 16, 0.5, 12.25, 16, 0.5, 6.75, 17.5, 0.5, 12.25, 17.75, 0.5, 13, 18.5, 0.5, 13, 18.75, 0.5, 12.25, 17, 0.5, 6.5, 22.25, 0.5, 1.75, 18.75, 0.5, 1.75, 23.75, 0.5, 1.75, 23.75, 0.5, 12.25, 24, 0.5, 17.5, 29, 0.5, 17.5, -15.25, 0.5, 6.75, -12.25, 0.5, 12.25, -17.25, 0.5, 14, -18.75, 0.5, 14, -22, 0.5, 18.25, -13.75, 0.5, 18.25, -22, 0.5, 14, -13.75, 0.5, 14, 18.75, 0.5, 14, 17.25, 0.5, 14, 14, 0.5, 18.25, 22.25, 0.5, 18.25, 14, 0.5, 14, 22.25, 0.5, 14, -22.75, 4.25, 13.25, -22.75, 4.25, 18.75, -13.25, 4.25, 18.75, -13.25, 4.25, 13.25, 13.25, 4.25, 13.25, 13.25, 4.25, 18.75, 22.75, 4.25, 18.75, 22.75, 4.25, 13.25, 24, 0.5, 19.5, 23.5, 0.5, 20, 29, 0.5, 34, 14.5, 0.5, 20, 14.5, 0.5, 34, 12.5, 0.5, 20, -12.5, 0.5, 20, -14.5, 0.5, 20, -14.5, 0.5, 34, -12, 0.5, 19.5, -23.5, 0.5, 20, -29, 0.5, 34)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(4, 7, 5), PackedInt32Array(5, 7, 6), PackedInt32Array(4, 3, 7), PackedInt32Array(7, 3, 0), PackedInt32Array(5, 6, 2), PackedInt32Array(2, 6, 1), PackedInt32Array(10, 9, 8), PackedInt32Array(10, 12, 11), PackedInt32Array(8, 13, 10), PackedInt32Array(10, 13, 12), PackedInt32Array(11, 12, 14), PackedInt32Array(14, 12, 15), PackedInt32Array(17, 16, 18), PackedInt32Array(18, 16, 19), PackedInt32Array(16, 14, 19), PackedInt32Array(19, 14, 15), PackedInt32Array(19, 15, 20), PackedInt32Array(20, 21, 19), PackedInt32Array(21, 20, 22), PackedInt32Array(22, 20, 23), PackedInt32Array(26, 25, 24), PackedInt32Array(24, 27, 26), PackedInt32Array(26, 27, 28), PackedInt32Array(28, 27, 30), PackedInt32Array(28, 30, 29), PackedInt32Array(32, 31, 33), PackedInt32Array(33, 31, 34), PackedInt32Array(34, 31, 36), PackedInt32Array(34, 36, 35), PackedInt32Array(39, 38, 37), PackedInt32Array(29, 40, 28), PackedInt32Array(43, 42, 41), PackedInt32Array(39, 37, 44), PackedInt32Array(44, 37, 35), PackedInt32Array(45, 23, 46), PackedInt32Array(46, 23, 47), PackedInt32Array(46, 47, 41), PackedInt32Array(41, 47, 43), PackedInt32Array(48, 36, 49), PackedInt32Array(49, 36, 31), PackedInt32Array(30, 27, 41), PackedInt32Array(41, 27, 46), PackedInt32Array(44, 35, 28), PackedInt32Array(28, 35, 26), PackedInt32Array(45, 22, 23), PackedInt32Array(37, 34, 35), PackedInt32Array(53, 52, 50), PackedInt32Array(50, 52, 51), PackedInt32Array(25, 54, 24), PackedInt32Array(24, 54, 55), PackedInt32Array(55, 56, 57), PackedInt32Array(57, 56, 59), PackedInt32Array(57, 59, 58), PackedInt32Array(60, 59, 61), PackedInt32Array(61, 59, 56), PackedInt32Array(59, 62, 58), PackedInt32Array(54, 63, 56), PackedInt32Array(55, 54, 56), PackedInt32Array(65, 64, 66), PackedInt32Array(66, 64, 68), PackedInt32Array(66, 68, 67), PackedInt32Array(72, 71, 69), PackedInt32Array(69, 71, 70), PackedInt32Array(74, 73, 75), PackedInt32Array(75, 73, 76), PackedInt32Array(8, 9, 76), PackedInt32Array(73, 77, 76), PackedInt32Array(76, 77, 78), PackedInt32Array(76, 78, 8), PackedInt32Array(81, 80, 79), PackedInt32Array(81, 79, 82), PackedInt32Array(82, 79, 83), PackedInt32Array(83, 79, 84), PackedInt32Array(84, 79, 85), PackedInt32Array(86, 82, 87), PackedInt32Array(87, 82, 83), PackedInt32Array(17, 18, 84), PackedInt32Array(84, 18, 83), PackedInt32Array(79, 88, 85), PackedInt32Array(89, 92, 90), PackedInt32Array(90, 92, 91), PackedInt32Array(92, 94, 91), PackedInt32Array(91, 94, 93), PackedInt32Array(93, 95, 91), PackedInt32Array(92, 96, 94), PackedInt32Array(90, 97, 89), PackedInt32Array(89, 97, 98), PackedInt32Array(98, 97, 99), PackedInt32Array(101, 100, 97), PackedInt32Array(97, 100, 99), PackedInt32Array(103, 102, 104), PackedInt32Array(104, 102, 99), PackedInt32Array(99, 102, 98), PackedInt32Array(98, 102, 75), PackedInt32Array(102, 74, 75), PackedInt32Array(106, 105, 107), PackedInt32Array(107, 105, 110), PackedInt32Array(107, 110, 109), PackedInt32Array(107, 109, 108), PackedInt32Array(112, 111, 88), PackedInt32Array(88, 111, 100), PackedInt32Array(88, 100, 101), PackedInt32Array(88, 101, 85), PackedInt32Array(115, 114, 108), PackedInt32Array(108, 114, 107), PackedInt32Array(107, 114, 113), PackedInt32Array(108, 111, 115), PackedInt32Array(115, 111, 112), PackedInt32Array(61, 116, 60), PackedInt32Array(60, 116, 117), PackedInt32Array(119, 118, 117), PackedInt32Array(121, 120, 122), PackedInt32Array(122, 120, 119), PackedInt32Array(123, 126, 124), PackedInt32Array(124, 126, 125), PackedInt32Array(86, 87, 118), PackedInt32Array(118, 87, 117), PackedInt32Array(49, 127, 48), PackedInt32Array(48, 127, 116), PackedInt32Array(116, 127, 125), PackedInt32Array(116, 125, 117), PackedInt32Array(117, 125, 126), PackedInt32Array(117, 126, 119), PackedInt32Array(119, 126, 122), PackedInt32Array(130, 129, 128), PackedInt32Array(128, 132, 131), PackedInt32Array(130, 128, 77), PackedInt32Array(77, 128, 78), PackedInt32Array(78, 128, 131), PackedInt32Array(103, 104, 133), PackedInt32Array(133, 104, 109), PackedInt32Array(133, 109, 110), PackedInt32Array(133, 110, 134), PackedInt32Array(135, 134, 136), PackedInt32Array(136, 134, 137), PackedInt32Array(135, 129, 134), PackedInt32Array(134, 129, 133), PackedInt32Array(133, 129, 130), PackedInt32Array(138, 136, 139), PackedInt32Array(139, 136, 140), PackedInt32Array(137, 142, 141), PackedInt32Array(143, 140, 144), PackedInt32Array(144, 140, 141), PackedInt32Array(141, 140, 137), PackedInt32Array(137, 140, 136), PackedInt32Array(80, 81, 145), PackedInt32Array(80, 145, 146), PackedInt32Array(146, 145, 120), PackedInt32Array(146, 120, 147), PackedInt32Array(147, 120, 121), PackedInt32Array(114, 146, 113), PackedInt32Array(113, 146, 148), PackedInt32Array(148, 146, 147), PackedInt32Array(148, 147, 149), PackedInt32Array(152, 151, 150), PackedInt32Array(153, 152, 154), PackedInt32Array(154, 152, 149), PackedInt32Array(149, 152, 150), PackedInt32Array(149, 150, 148), PackedInt32Array(150, 155, 148), PackedInt32Array(157, 156, 158), PackedInt32Array(158, 156, 159), PackedInt32Array(124, 160, 123), PackedInt32Array(123, 160, 161), PackedInt32Array(163, 162, 161), PackedInt32Array(39, 164, 38), PackedInt32Array(38, 164, 165), PackedInt32Array(165, 164, 159), PackedInt32Array(159, 164, 158), PackedInt32Array(32, 33, 166), PackedInt32Array(32, 166, 160), PackedInt32Array(160, 166, 161), PackedInt32Array(161, 166, 167), PackedInt32Array(161, 167, 163), PackedInt32Array(168, 158, 169), PackedInt32Array(169, 158, 164), PackedInt32Array(159, 167, 165), PackedInt32Array(165, 167, 166), PackedInt32Array(171, 170, 172), PackedInt32Array(172, 170, 175), PackedInt32Array(172, 175, 174), PackedInt32Array(172, 174, 173), PackedInt32Array(40, 29, 176), PackedInt32Array(175, 177, 174), PackedInt32Array(178, 173, 179), PackedInt32Array(179, 173, 174), PackedInt32Array(40, 176, 169), PackedInt32Array(169, 176, 168), PackedInt32Array(168, 176, 179), PackedInt32Array(179, 176, 178), PackedInt32Array(181, 180, 173), PackedInt32Array(173, 180, 172), PackedInt32Array(182, 178, 183), PackedInt32Array(183, 178, 176), PackedInt32Array(182, 183, 184), PackedInt32Array(184, 183, 42), PackedInt32Array(184, 42, 185), PackedInt32Array(185, 42, 186), PackedInt32Array(186, 42, 43), PackedInt32Array(187, 138, 139), PackedInt32Array(139, 188, 187), PackedInt32Array(187, 188, 189), PackedInt32Array(187, 189, 131), PackedInt32Array(131, 132, 187), PackedInt32Array(106, 190, 105), PackedInt32Array(105, 190, 142), PackedInt32Array(142, 190, 141), PackedInt32Array(141, 190, 191), PackedInt32Array(193, 192, 194), PackedInt32Array(194, 192, 197), PackedInt32Array(194, 197, 195), PackedInt32Array(195, 197, 196), PackedInt32Array(199, 198, 196), PackedInt32Array(196, 198, 195), PackedInt32Array(200, 194, 191), PackedInt32Array(191, 194, 195), PackedInt32Array(155, 200, 148), PackedInt32Array(148, 200, 190), PackedInt32Array(190, 200, 191), PackedInt32Array(203, 202, 201), PackedInt32Array(205, 204, 206), PackedInt32Array(206, 204, 203), PackedInt32Array(206, 203, 207), PackedInt32Array(207, 203, 201), PackedInt32Array(207, 208, 206), PackedInt32Array(197, 204, 196), PackedInt32Array(196, 204, 205), PackedInt32Array(210, 209, 211), PackedInt32Array(211, 209, 126), PackedInt32Array(154, 122, 153), PackedInt32Array(153, 122, 212), PackedInt32Array(209, 213, 126), PackedInt32Array(126, 213, 214), PackedInt32Array(126, 214, 212), PackedInt32Array(126, 212, 122), PackedInt32Array(157, 215, 156), PackedInt32Array(156, 215, 216), PackedInt32Array(210, 211, 217), PackedInt32Array(217, 211, 218), PackedInt32Array(220, 219, 217), PackedInt32Array(222, 221, 223), PackedInt32Array(223, 221, 224), PackedInt32Array(224, 221, 216), PackedInt32Array(224, 216, 215), PackedInt32Array(162, 163, 225), PackedInt32Array(162, 225, 218), PackedInt32Array(218, 225, 226), PackedInt32Array(218, 226, 220), PackedInt32Array(218, 220, 217), PackedInt32Array(177, 175, 215), PackedInt32Array(215, 175, 224), PackedInt32Array(216, 221, 225), PackedInt32Array(225, 221, 226), PackedInt32Array(181, 227, 180), PackedInt32Array(180, 227, 228), PackedInt32Array(227, 185, 228), PackedInt32Array(228, 185, 186), PackedInt32Array(228, 186, 229), PackedInt32Array(232, 231, 230), PackedInt32Array(234, 233, 235), PackedInt32Array(235, 233, 236), PackedInt32Array(237, 143, 144), PackedInt32Array(198, 199, 236), PackedInt32Array(232, 238, 233), PackedInt32Array(233, 238, 237), PackedInt32Array(144, 198, 237), PackedInt32Array(237, 198, 236), PackedInt32Array(237, 236, 233), PackedInt32Array(238, 232, 188), PackedInt32Array(188, 232, 189), PackedInt32Array(189, 232, 230), PackedInt32Array(192, 193, 239), PackedInt32Array(239, 193, 240), PackedInt32Array(240, 151, 152), PackedInt32Array(243, 242, 152), PackedInt32Array(152, 242, 241), PackedInt32Array(152, 241, 240), PackedInt32Array(240, 241, 239), PackedInt32Array(246, 245, 247), PackedInt32Array(247, 245, 248), PackedInt32Array(248, 245, 244), PackedInt32Array(249, 202, 250), PackedInt32Array(250, 202, 248), PackedInt32Array(248, 202, 203), PackedInt32Array(248, 203, 247), PackedInt32Array(241, 246, 239), PackedInt32Array(239, 246, 247), PackedInt32Array(252, 251, 253), PackedInt32Array(253, 251, 254), PackedInt32Array(242, 243, 256), PackedInt32Array(256, 243, 255), PackedInt32Array(253, 254, 213), PackedInt32Array(213, 254, 214), PackedInt32Array(214, 254, 255), PackedInt32Array(255, 254, 256), PackedInt32Array(219, 220, 257), PackedInt32Array(219, 257, 258), PackedInt32Array(258, 257, 251), PackedInt32Array(251, 257, 259), PackedInt32Array(259, 257, 260), PackedInt32Array(258, 251, 252), PackedInt32Array(261, 260, 262), PackedInt32Array(262, 260, 257), PackedInt32Array(264, 259, 263), PackedInt32Array(263, 259, 260), PackedInt32Array(267, 266, 265), PackedInt32Array(263, 267, 264), PackedInt32Array(264, 267, 268), PackedInt32Array(268, 267, 265), PackedInt32Array(268, 265, 269), PackedInt32Array(271, 270, 272), PackedInt32Array(272, 270, 273), PackedInt32Array(273, 276, 274), PackedInt32Array(274, 276, 275), PackedInt32Array(279, 278, 277), PackedInt32Array(171, 280, 170), PackedInt32Array(170, 280, 274), PackedInt32Array(274, 280, 273), PackedInt32Array(273, 280, 272), PackedInt32Array(222, 223, 275), PackedInt32Array(279, 277, 276), PackedInt32Array(276, 277, 275), PackedInt32Array(275, 277, 262), PackedInt32Array(275, 262, 222), PackedInt32Array(281, 272, 282), PackedInt32Array(282, 272, 280), PackedInt32Array(277, 261, 262), PackedInt32Array(281, 282, 283), PackedInt32Array(283, 282, 228), PackedInt32Array(283, 228, 284), PackedInt32Array(284, 228, 285), PackedInt32Array(285, 228, 229), PackedInt32Array(287, 286, 288), PackedInt32Array(288, 286, 289), PackedInt32Array(289, 286, 290), PackedInt32Array(290, 286, 291), PackedInt32Array(290, 292, 289), PackedInt32Array(234, 235, 293), PackedInt32Array(231, 294, 230), PackedInt32Array(230, 294, 297), PackedInt32Array(230, 297, 296), PackedInt32Array(230, 296, 295), PackedInt32Array(234, 293, 298), PackedInt32Array(298, 293, 208), PackedInt32Array(298, 208, 291), PackedInt32Array(293, 206, 208), PackedInt32Array(298, 291, 294), PackedInt32Array(294, 291, 286), PackedInt32Array(294, 286, 297), PackedInt32Array(299, 268, 269), PackedInt32Array(244, 245, 300), PackedInt32Array(299, 269, 301), PackedInt32Array(300, 302, 244), PackedInt32Array(303, 302, 304), PackedInt32Array(304, 302, 305), PackedInt32Array(307, 306, 301), PackedInt32Array(301, 306, 308), PackedInt32Array(254, 299, 256), PackedInt32Array(256, 299, 300), PackedInt32Array(302, 300, 305), PackedInt32Array(305, 300, 299), PackedInt32Array(305, 299, 301), PackedInt32Array(305, 301, 308), PackedInt32Array(278, 279, 309), PackedInt32Array(309, 279, 312), PackedInt32Array(309, 312, 310), PackedInt32Array(310, 312, 311), PackedInt32Array(313, 266, 314), PackedInt32Array(314, 266, 310), PackedInt32Array(310, 266, 267), PackedInt32Array(310, 267, 309), PackedInt32Array(313, 314, 307), PackedInt32Array(307, 314, 317), PackedInt32Array(307, 317, 315), PackedInt32Array(315, 317, 316), PackedInt32Array(315, 306, 307), PackedInt32Array(319, 318, 320), PackedInt32Array(320, 318, 321), PackedInt32Array(321, 318, 322), PackedInt32Array(322, 318, 317), PackedInt32Array(318, 316, 317), PackedInt32Array(271, 323, 270), PackedInt32Array(270, 323, 324), PackedInt32Array(323, 325, 322), PackedInt32Array(322, 325, 321), PackedInt32Array(321, 325, 326), PackedInt32Array(311, 312, 324), PackedInt32Array(311, 324, 322), PackedInt32Array(322, 324, 323), PackedInt32Array(284, 285, 325), PackedInt32Array(325, 285, 326), PackedInt32Array(326, 285, 327), PackedInt32Array(327, 285, 328), PackedInt32Array(249, 250, 329), PackedInt32Array(329, 250, 303), PackedInt32Array(329, 303, 330), PackedInt32Array(329, 330, 292), PackedInt32Array(303, 304, 330), PackedInt32Array(292, 290, 329), PackedInt32Array(288, 331, 287), PackedInt32Array(287, 331, 332), PackedInt32Array(332, 331, 333), PackedInt32Array(333, 331, 334), PackedInt32Array(333, 335, 332), PackedInt32Array(331, 336, 334), PackedInt32Array(320, 337, 319), PackedInt32Array(319, 337, 338), PackedInt32Array(338, 337, 339), PackedInt32Array(339, 337, 340), PackedInt32Array(339, 341, 338), PackedInt32Array(337, 342, 340), PackedInt32Array(346, 345, 343), PackedInt32Array(343, 345, 344), PackedInt32Array(350, 349, 347), PackedInt32Array(347, 349, 348), PackedInt32Array(351, 327, 328), PackedInt32Array(351, 328, 352), PackedInt32Array(352, 328, 353), PackedInt32Array(354, 352, 355), PackedInt32Array(355, 352, 353), PackedInt32Array(356, 354, 355), PackedInt32Array(359, 358, 357), PackedInt32Array(357, 360, 359), PackedInt32Array(359, 360, 356), PackedInt32Array(359, 356, 355), PackedInt32Array(305, 308, 360), PackedInt32Array(360, 308, 356), PackedInt32Array(296, 361, 295), PackedInt32Array(295, 361, 362), PackedInt32Array(358, 359, 361), PackedInt32Array(361, 359, 362)]
 agent_height = 1.8
 agent_radius = 0.45
 agent_max_climb = 0.35
-agent_max_slope = 45.0
 
 [sub_resource type="StandardMaterial3D" id="Mat_Ground"]
 albedo_color = Color(0.12, 0.15, 0.11, 1)
@@ -39,28 +37,6 @@ roughness = 0.9
 albedo_color = Color(0.25, 0.23, 0.24, 1)
 roughness = 0.85
 
-[sub_resource type="StandardMaterial3D" id="Mat_TombOld"]
-albedo_color = Color(0.2, 0.22, 0.2, 1)
-roughness = 0.95
-
-[sub_resource type="BoxMesh" id="Mesh_TombOld"]
-material = SubResource("Mat_TombOld")
-size = Vector3(0.7, 1.1, 0.3)
-
-[sub_resource type="BoxShape3D" id="Shape_TombOld"]
-size = Vector3(0.7, 1.1, 0.3)
-
-[sub_resource type="StandardMaterial3D" id="Mat_TombNew"]
-albedo_color = Color(0.32, 0.32, 0.34, 1)
-roughness = 0.75
-
-[sub_resource type="BoxMesh" id="Mesh_TombNew"]
-material = SubResource("Mat_TombNew")
-size = Vector3(0.75, 1.2, 0.3)
-
-[sub_resource type="BoxShape3D" id="Shape_TombNew"]
-size = Vector3(0.75, 1.2, 0.3)
-
 [sub_resource type="StandardMaterial3D" id="Mat_WoodDoor"]
 albedo_color = Color(0.18, 0.12, 0.08, 1)
 roughness = 0.8
@@ -72,868 +48,872 @@ size = Vector3(0.3, 2.4, 1.6)
 [sub_resource type="BoxShape3D" id="Shape_Door"]
 size = Vector3(0.3, 2.4, 1.6)
 
-[sub_resource type="BoxMesh" id="Mesh_StairsStep"]
-material = SubResource("Mat_Building")
-size = Vector3(3, 0.5, 0.6)
+[sub_resource type="StandardMaterial3D" id="Mat_TombOld"]
+albedo_color = Color(0.2, 0.22, 0.2, 1)
+roughness = 0.95
 
-[sub_resource type="BoxShape3D" id="Shape_StairsStep"]
-size = Vector3(3, 0.5, 0.6)
+[sub_resource type="StandardMaterial3D" id="Mat_TombNew"]
+albedo_color = Color(0.32, 0.32, 0.34, 1)
+roughness = 0.75
 
-[node name="Cemiterio" type="Node3D"]
+[sub_resource type="BoxShape3D" id="Shape_ChapelEntrance"]
+size = Vector3(4, 3, 2)
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+[node name="Cemiterio" type="Node3D" unique_id=608158722]
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=352738763]
 navigation_mesh = SubResource("NavigationMesh_cemetery")
 
-[node name="Ground" type="StaticBody3D" parent="NavigationRegion3D"]
+[node name="Ground" type="StaticBody3D" parent="NavigationRegion3D" unique_id=1693400646]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Ground"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Ground" unique_id=126664595]
 mesh = SubResource("Mesh_Ground")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Ground"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Ground" unique_id=1523438848]
 shape = SubResource("Shape_Ground")
 
-[node name="PathMesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground"]
+[node name="PathMesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground" unique_id=1804357868]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 7)
 mesh = SubResource("Mesh_Path")
 
-[node name="PerimeterWalls" type="Node3D" parent="NavigationRegion3D"]
+[node name="PerimeterWalls" type="Node3D" parent="NavigationRegion3D" unique_id=1410185435]
 
-[node name="WallNorth" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls"]
+[node name="WallNorth" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls" unique_id=1214032878]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -35)
 use_collision = true
 size = Vector3(60.6, 2, 0.6)
 material = SubResource("Mat_Wall")
 
-[node name="WallWest" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls"]
+[node name="WallWest" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls" unique_id=256288946]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 1, 0)
 use_collision = true
 size = Vector3(0.6, 2, 70.6)
 material = SubResource("Mat_Wall")
 
-[node name="WallEast" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls"]
+[node name="WallEast" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls" unique_id=772517401]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 1, 0)
 use_collision = true
 size = Vector3(0.6, 2, 70.6)
 material = SubResource("Mat_Wall")
 
-[node name="WallSouthWest" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls"]
+[node name="WallSouthWest" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls" unique_id=2102806403]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.25, 1, 35)
 use_collision = true
 size = Vector3(27.5, 2, 0.6)
 material = SubResource("Mat_Wall")
 
-[node name="WallSouthEast" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls"]
+[node name="WallSouthEast" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls" unique_id=1260967756]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.25, 1, 35)
 use_collision = true
 size = Vector3(27.5, 2, 0.6)
 material = SubResource("Mat_Wall")
 
-[node name="GatePillarW" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls"]
+[node name="GatePillarW" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls" unique_id=1543105543]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, 1.2, 35)
 use_collision = true
 size = Vector3(0.8, 2.4, 0.8)
 material = SubResource("Mat_Wall")
 
-[node name="GatePillarE" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls"]
+[node name="GatePillarE" type="CSGBox3D" parent="NavigationRegion3D/PerimeterWalls" unique_id=128789327]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 1.2, 35)
 use_collision = true
 size = Vector3(0.8, 2.4, 0.8)
 material = SubResource("Mat_Wall")
 
-[node name="Portao" parent="NavigationRegion3D/PerimeterWalls" instance=ExtResource("2_gate")]
+[node name="Portao" parent="NavigationRegion3D/PerimeterWalls" unique_id=1196188218 instance=ExtResource("2_gate")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 35)
 
-[node name="Buildings" type="Node3D" parent="NavigationRegion3D"]
+[node name="Buildings" type="Node3D" parent="NavigationRegion3D" unique_id=500617369]
 
-[node name="Chapel" type="Node3D" parent="NavigationRegion3D/Buildings"]
+[node name="Chapel" type="Node3D" parent="NavigationRegion3D/Buildings" unique_id=476344065]
 
-[node name="WallNorth" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel"]
+[node name="WallNorth" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel" unique_id=1094196962]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, -28)
 use_collision = true
 size = Vector3(14, 4.5, 0.5)
 material = SubResource("Mat_Building")
 
-[node name="WallWest" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel"]
+[node name="WallWest" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel" unique_id=1675529983]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2.25, -24)
 use_collision = true
 size = Vector3(0.5, 4.5, 8.5)
 material = SubResource("Mat_Building")
 
-[node name="WallSouthW" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel"]
+[node name="WallSouthW" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel" unique_id=706257542]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 2.25, -20)
 use_collision = true
 size = Vector3(5, 4.5, 0.5)
 material = SubResource("Mat_Building")
 
-[node name="WallSouthE" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel"]
+[node name="WallSouthE" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel" unique_id=2101176341]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 2.25, -20)
 use_collision = true
 size = Vector3(5, 4.5, 0.5)
 material = SubResource("Mat_Building")
 
-[node name="WallEastN" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel"]
+[node name="WallEastN" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel" unique_id=2000407457]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2.25, -26.5)
 use_collision = true
 size = Vector3(0.5, 4.5, 3)
 material = SubResource("Mat_Building")
 
-[node name="WallEastS" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel"]
+[node name="WallEastS" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel" unique_id=654289623]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2.25, -21.5)
 use_collision = true
 size = Vector3(0.5, 4.5, 3)
 material = SubResource("Mat_Building")
 
-[node name="Roof" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel"]
+[node name="Roof" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Chapel" unique_id=638001970]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.6, -24)
 use_collision = true
 size = Vector3(14.5, 0.3, 8.5)
 material = SubResource("Mat_Building")
 
-[node name="Basement" type="Node3D" parent="NavigationRegion3D/Buildings"]
+[node name="Basement" type="Node3D" parent="NavigationRegion3D/Buildings" unique_id=250768139]
 
-[node name="Floor" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement"]
+[node name="Floor" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement" unique_id=1959429384]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -3.75, -24)
 use_collision = true
 size = Vector3(10, 0.5, 8)
 material = SubResource("Mat_Building")
 
-[node name="WallNorth" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement"]
+[node name="WallNorth" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement" unique_id=430790658]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -2, -28)
 use_collision = true
 size = Vector3(10, 3, 0.5)
 material = SubResource("Mat_Building")
 
-[node name="WallSouth" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement"]
+[node name="WallSouth" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement" unique_id=1078773262]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -2, -20)
 use_collision = true
 size = Vector3(10, 3, 0.5)
 material = SubResource("Mat_Building")
 
-[node name="WallEast" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement"]
+[node name="WallEast" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement" unique_id=396376706]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -2, -24)
 use_collision = true
 size = Vector3(0.5, 3, 8.5)
 material = SubResource("Mat_Building")
 
-[node name="WallWestN" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement"]
+[node name="WallWestN" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement" unique_id=1692404099]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -2, -26.5)
 use_collision = true
 size = Vector3(0.5, 3, 3)
 material = SubResource("Mat_Building")
 
-[node name="WallWestS" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement"]
+[node name="WallWestS" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement" unique_id=381295989]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -2, -21.5)
 use_collision = true
 size = Vector3(0.5, 3, 3)
 material = SubResource("Mat_Building")
 
-[node name="Roof" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement"]
+[node name="Roof" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement" unique_id=1134238213]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -0.4, -24)
 use_collision = true
 size = Vector3(10.5, 0.3, 8.5)
 material = SubResource("Mat_Building")
 
-[node name="LockedBasementDoor" type="StaticBody3D" parent="NavigationRegion3D/Buildings/Basement"]
+[node name="LockedBasementDoor" type="StaticBody3D" parent="NavigationRegion3D/Buildings/Basement" unique_id=1558214079]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -2.3, -24)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Buildings/Basement/LockedBasementDoor"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Buildings/Basement/LockedBasementDoor" unique_id=238119305]
 mesh = SubResource("Mesh_Door")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Buildings/Basement/LockedBasementDoor"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Buildings/Basement/LockedBasementDoor" unique_id=1947152275]
 shape = SubResource("Shape_Door")
 
-[node name="Stairs" type="Node3D" parent="NavigationRegion3D/Buildings/Basement"]
+[node name="Stairs" type="Node3D" parent="NavigationRegion3D/Buildings/Basement" unique_id=1536573570]
 
-[node name="Step1" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement/Stairs"]
+[node name="Step1" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement/Stairs" unique_id=794089508]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.3, -0.25, -24)
 use_collision = true
 size = Vector3(0.6, 0.5, 2)
 material = SubResource("Mat_Building")
 
-[node name="Step2" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement/Stairs"]
+[node name="Step2" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement/Stairs" unique_id=1101502925]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.8, -0.75, -24)
 use_collision = true
 size = Vector3(0.6, 0.5, 2)
 material = SubResource("Mat_Building")
 
-[node name="Step3" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement/Stairs"]
+[node name="Step3" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement/Stairs" unique_id=696274825]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.3, -1.25, -24)
 use_collision = true
 size = Vector3(0.6, 0.5, 2)
 material = SubResource("Mat_Building")
 
-[node name="Step4" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement/Stairs"]
+[node name="Step4" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement/Stairs" unique_id=69009179]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.8, -1.75, -24)
 use_collision = true
 size = Vector3(0.6, 0.5, 2)
 material = SubResource("Mat_Building")
 
-[node name="Step5" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement/Stairs"]
+[node name="Step5" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement/Stairs" unique_id=1297754321]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.3, -2.25, -24)
 use_collision = true
 size = Vector3(0.6, 0.5, 2)
 material = SubResource("Mat_Building")
 
-[node name="Step6" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement/Stairs"]
+[node name="Step6" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Basement/Stairs" unique_id=1612225560]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.8, -2.75, -24)
 use_collision = true
 size = Vector3(0.6, 0.5, 2)
 material = SubResource("Mat_Building")
 
-[node name="StairsRamp" type="CSGPolygon3D" parent="NavigationRegion3D/Buildings/Basement/Stairs"]
+[node name="StairsRamp" type="CSGPolygon3D" parent="NavigationRegion3D/Buildings/Basement/Stairs" unique_id=1061255536]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 10, -3.5, -25)
 polygon = PackedVector2Array(0, 0, 2, 0, 2, 3.5, 0, 0)
 depth = 3.0
 material = SubResource("Mat_Building")
 
-[node name="Crypt" type="Node3D" parent="NavigationRegion3D/Buildings"]
+[node name="Crypt" type="Node3D" parent="NavigationRegion3D/Buildings" unique_id=1548373961]
 
-[node name="WallNorth" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Crypt"]
+[node name="WallNorth" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Crypt" unique_id=1097696629]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 1.75, -27)
 use_collision = true
 size = Vector3(10, 3.5, 0.5)
 material = SubResource("Mat_Building")
 
-[node name="WallSouthW" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Crypt"]
+[node name="WallSouthW" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Crypt" unique_id=148888229]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 1.75, -21)
 use_collision = true
 size = Vector3(4, 3.5, 0.5)
 material = SubResource("Mat_Building")
 
-[node name="WallSouthE" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Crypt"]
+[node name="WallSouthE" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Crypt" unique_id=1151564566]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1.75, -21)
 use_collision = true
 size = Vector3(4, 3.5, 0.5)
 material = SubResource("Mat_Building")
 
-[node name="WallWest" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Crypt"]
+[node name="WallWest" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Crypt" unique_id=1612973036]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 1.75, -24)
 use_collision = true
 size = Vector3(0.5, 3.5, 6.5)
 material = SubResource("Mat_Building")
 
-[node name="WallEast" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Crypt"]
+[node name="WallEast" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Crypt" unique_id=1686692534]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 1.75, -24)
 use_collision = true
 size = Vector3(0.5, 3.5, 6.5)
 material = SubResource("Mat_Building")
 
-[node name="Roof" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Crypt"]
+[node name="Roof" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Crypt" unique_id=1203708286]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 3.6, -24)
 use_collision = true
 size = Vector3(10.5, 0.3, 6.5)
 material = SubResource("Mat_Building")
 
-[node name="Gravedigger" type="Node3D" parent="NavigationRegion3D/Buildings"]
+[node name="Gravedigger" type="Node3D" parent="NavigationRegion3D/Buildings" unique_id=948490702]
 
-[node name="WallNorthW" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Gravedigger"]
+[node name="WallNorthW" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Gravedigger" unique_id=1273499708]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 1.75, 13)
 use_collision = true
 size = Vector3(4, 3.5, 0.5)
 material = SubResource("Mat_Building")
 
-[node name="WallNorthE" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Gravedigger"]
+[node name="WallNorthE" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Gravedigger" unique_id=531912573]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1.75, 13)
 use_collision = true
 size = Vector3(4, 3.5, 0.5)
 material = SubResource("Mat_Building")
 
-[node name="WallSouth" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Gravedigger"]
+[node name="WallSouth" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Gravedigger" unique_id=1795389638]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 1.75, 19)
 use_collision = true
 size = Vector3(10, 3.5, 0.5)
 material = SubResource("Mat_Building")
 
-[node name="WallWest" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Gravedigger"]
+[node name="WallWest" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Gravedigger" unique_id=439855735]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 1.75, 16)
 use_collision = true
 size = Vector3(0.5, 3.5, 6.5)
 material = SubResource("Mat_Building")
 
-[node name="WallEast" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Gravedigger"]
+[node name="WallEast" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Gravedigger" unique_id=2028578440]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 1.75, 16)
 use_collision = true
 size = Vector3(0.5, 3.5, 6.5)
 material = SubResource("Mat_Building")
 
-[node name="Roof" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Gravedigger"]
+[node name="Roof" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Gravedigger" unique_id=2133552384]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 3.6, 16)
 use_collision = true
 size = Vector3(10.5, 0.3, 6.5)
 material = SubResource("Mat_Building")
 
-[node name="Shed" type="Node3D" parent="NavigationRegion3D/Buildings"]
+[node name="Shed" type="Node3D" parent="NavigationRegion3D/Buildings" unique_id=494985761]
 
-[node name="WallNorthW" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Shed"]
+[node name="WallNorthW" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Shed" unique_id=1782551760]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1.75, 13)
 use_collision = true
 size = Vector3(4, 3.5, 0.5)
 material = SubResource("Mat_Building")
 
-[node name="WallNorthE" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Shed"]
+[node name="WallNorthE" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Shed" unique_id=13457114]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 1.75, 13)
 use_collision = true
 size = Vector3(4, 3.5, 0.5)
 material = SubResource("Mat_Building")
 
-[node name="WallSouth" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Shed"]
+[node name="WallSouth" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Shed" unique_id=1061925230]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 1.75, 19)
 use_collision = true
 size = Vector3(10, 3.5, 0.5)
 material = SubResource("Mat_Building")
 
-[node name="WallWest" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Shed"]
+[node name="WallWest" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Shed" unique_id=1338921447]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 1.75, 16)
 use_collision = true
 size = Vector3(0.5, 3.5, 6.5)
 material = SubResource("Mat_Building")
 
-[node name="WallEast" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Shed"]
+[node name="WallEast" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Shed" unique_id=2006690210]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 1.75, 16)
 use_collision = true
 size = Vector3(0.5, 3.5, 6.5)
 material = SubResource("Mat_Building")
 
-[node name="Roof" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Shed"]
+[node name="Roof" type="CSGBox3D" parent="NavigationRegion3D/Buildings/Shed" unique_id=271637130]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 3.6, 16)
 use_collision = true
 size = Vector3(10.5, 0.3, 6.5)
 material = SubResource("Mat_Building")
 
-[node name="Tombs" type="Node3D" parent="NavigationRegion3D"]
+[node name="Tombs" type="Node3D" parent="NavigationRegion3D" unique_id=259893825]
 
-[node name="TombsOld" type="Node3D" parent="NavigationRegion3D/Tombs"]
+[node name="TombsOld" type="Node3D" parent="NavigationRegion3D/Tombs" unique_id=2050066914]
 
-[node name="TombOld1" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+[node name="TombOld1" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld" unique_id=916431130]
 transform = Transform3D(0.995, 0, 0.099, 0, 1, 0, -0.099, 0, 0.995, -7, 0.55, -14)
 use_collision = true
 size = Vector3(0.7, 1.1, 0.3)
 material = SubResource("Mat_TombOld")
 
-[node name="TombOld2" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+[node name="TombOld2" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld" unique_id=2033615187]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.55, -14)
 use_collision = true
 size = Vector3(0.7, 1.1, 0.3)
 material = SubResource("Mat_TombOld")
 
-[node name="TombOld3" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+[node name="TombOld3" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld" unique_id=678286264]
 transform = Transform3D(0.99, 0.1, 0, -0.1, 0.99, 0, 0, 0, 1, -17, 0.55, -14)
 use_collision = true
 size = Vector3(0.7, 1.1, 0.3)
 material = SubResource("Mat_TombOld")
 
-[node name="TombOld4" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+[node name="TombOld4" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld" unique_id=2128973218]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0.55, -14)
 use_collision = true
 size = Vector3(0.7, 1.1, 0.3)
 material = SubResource("Mat_TombOld")
 
-[node name="TombOld5" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+[node name="TombOld5" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld" unique_id=1850018572]
 transform = Transform3D(0.98, 0, -0.19, 0, 1, 0, 0.19, 0, 0.98, -8, 0.55, -9)
 use_collision = true
 size = Vector3(0.7, 1.1, 0.3)
 material = SubResource("Mat_TombOld")
 
-[node name="TombOld6" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+[node name="TombOld6" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld" unique_id=489953217]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0.55, -9)
 use_collision = true
 size = Vector3(0.7, 1.1, 0.3)
 material = SubResource("Mat_TombOld")
 
-[node name="TombOld7" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+[node name="TombOld7" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld" unique_id=1759886203]
 transform = Transform3D(0.995, 0, 0.099, 0, 1, 0, -0.099, 0, 0.995, -19, 0.55, -9)
 use_collision = true
 size = Vector3(0.7, 1.1, 0.3)
 material = SubResource("Mat_TombOld")
 
-[node name="TombOld8" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+[node name="TombOld8" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld" unique_id=1595252987]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.55, -9)
 use_collision = true
 size = Vector3(0.7, 1.1, 0.3)
 material = SubResource("Mat_TombOld")
 
-[node name="TombOld9" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+[node name="TombOld9" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld" unique_id=180951719]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0.55, -4)
 use_collision = true
 size = Vector3(0.7, 1.1, 0.3)
 material = SubResource("Mat_TombOld")
 
-[node name="TombOld10" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+[node name="TombOld10" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld" unique_id=1780233115]
 transform = Transform3D(0.98, 0.1, 0.1, 0, 0.99, -0.1, -0.14, 0.1, 0.98, -12, 0.55, -4)
 use_collision = true
 size = Vector3(0.7, 1.1, 0.3)
 material = SubResource("Mat_TombOld")
 
-[node name="TombOld11" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+[node name="TombOld11" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld" unique_id=1379744645]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 0.55, -4)
 use_collision = true
 size = Vector3(0.7, 1.1, 0.3)
 material = SubResource("Mat_TombOld")
 
-[node name="TombOld12" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+[node name="TombOld12" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld" unique_id=567301830]
 transform = Transform3D(0.99, 0, 0.14, 0, 1, 0, -0.14, 0, 0.99, -23, 0.55, -4)
 use_collision = true
 size = Vector3(0.7, 1.1, 0.3)
 material = SubResource("Mat_TombOld")
 
-[node name="TombOld13" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+[node name="TombOld13" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld" unique_id=175386706]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.55, 1)
 use_collision = true
 size = Vector3(0.7, 1.1, 0.3)
 material = SubResource("Mat_TombOld")
 
-[node name="TombOld14" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+[node name="TombOld14" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld" unique_id=1155276779]
 transform = Transform3D(0.995, 0, -0.099, 0, 1, 0, 0.099, 0, 0.995, -13.5, 0.55, 1)
 use_collision = true
 size = Vector3(0.7, 1.1, 0.3)
 material = SubResource("Mat_TombOld")
 
-[node name="TombOld15" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+[node name="TombOld15" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld" unique_id=1083438252]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0.55, 1)
 use_collision = true
 size = Vector3(0.7, 1.1, 0.3)
 material = SubResource("Mat_TombOld")
 
-[node name="TombOld16" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+[node name="TombOld16" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld" unique_id=276661054]
 transform = Transform3D(0.99, 0, 0.14, 0, 1, 0, -0.14, 0, 0.99, -24.5, 0.55, 1)
 use_collision = true
 size = Vector3(0.7, 1.1, 0.3)
 material = SubResource("Mat_TombOld")
 
-[node name="TombOld17" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+[node name="TombOld17" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld" unique_id=995585111]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.55, 6)
 use_collision = true
 size = Vector3(0.7, 1.1, 0.3)
 material = SubResource("Mat_TombOld")
 
-[node name="TombOld18" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld"]
+[node name="TombOld18" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsOld" unique_id=1172503611]
 transform = Transform3D(0.98, 0, -0.19, 0, 1, 0, 0.19, 0, 0.98, -16, 0.55, 6)
 use_collision = true
 size = Vector3(0.7, 1.1, 0.3)
 material = SubResource("Mat_TombOld")
 
-[node name="TombsNew" type="Node3D" parent="NavigationRegion3D/Tombs"]
+[node name="TombsNew" type="Node3D" parent="NavigationRegion3D/Tombs" unique_id=771734776]
 
-[node name="TombNew1" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+[node name="TombNew1" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew" unique_id=955368453]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0.6, -14)
 use_collision = true
 size = Vector3(0.75, 1.2, 0.3)
 material = SubResource("Mat_TombNew")
 
-[node name="TombNew2" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+[node name="TombNew2" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew" unique_id=2101553837]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.6, -14)
 use_collision = true
 size = Vector3(0.75, 1.2, 0.3)
 material = SubResource("Mat_TombNew")
 
-[node name="TombNew3" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+[node name="TombNew3" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew" unique_id=2032421973]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0.6, -14)
 use_collision = true
 size = Vector3(0.75, 1.2, 0.3)
 material = SubResource("Mat_TombNew")
 
-[node name="TombNew4" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+[node name="TombNew4" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew" unique_id=1887933796]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0.6, -14)
 use_collision = true
 size = Vector3(0.75, 1.2, 0.3)
 material = SubResource("Mat_TombNew")
 
-[node name="TombNew5" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+[node name="TombNew5" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew" unique_id=596940712]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.6, -9)
 use_collision = true
 size = Vector3(0.75, 1.2, 0.3)
 material = SubResource("Mat_TombNew")
 
-[node name="TombNew6" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+[node name="TombNew6" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew" unique_id=312422339]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0.6, -9)
 use_collision = true
 size = Vector3(0.75, 1.2, 0.3)
 material = SubResource("Mat_TombNew")
 
-[node name="TombNew7" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+[node name="TombNew7" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew" unique_id=1359101358]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.6, -9)
 use_collision = true
 size = Vector3(0.75, 1.2, 0.3)
 material = SubResource("Mat_TombNew")
 
-[node name="TombNew8" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+[node name="TombNew8" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew" unique_id=448426096]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 0.6, -9)
 use_collision = true
 size = Vector3(0.75, 1.2, 0.3)
 material = SubResource("Mat_TombNew")
 
-[node name="TombNew9" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+[node name="TombNew9" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew" unique_id=2088870137]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0.6, -4)
 use_collision = true
 size = Vector3(0.75, 1.2, 0.3)
 material = SubResource("Mat_TombNew")
 
-[node name="TombNew10" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+[node name="TombNew10" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew" unique_id=1172592220]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.6, -4)
 use_collision = true
 size = Vector3(0.75, 1.2, 0.3)
 material = SubResource("Mat_TombNew")
 
-[node name="TombNew11" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+[node name="TombNew11" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew" unique_id=898896900]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0.6, -4)
 use_collision = true
 size = Vector3(0.75, 1.2, 0.3)
 material = SubResource("Mat_TombNew")
 
-[node name="TombNew12" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+[node name="TombNew12" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew" unique_id=382799144]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0.6, -4)
 use_collision = true
 size = Vector3(0.75, 1.2, 0.3)
 material = SubResource("Mat_TombNew")
 
-[node name="TombNew13" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+[node name="TombNew13" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew" unique_id=102678006]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.6, 1)
 use_collision = true
 size = Vector3(0.75, 1.2, 0.3)
 material = SubResource("Mat_TombNew")
 
-[node name="TombNew14" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+[node name="TombNew14" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew" unique_id=227584532]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0.6, 1)
 use_collision = true
 size = Vector3(0.75, 1.2, 0.3)
 material = SubResource("Mat_TombNew")
 
-[node name="TombNew15" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+[node name="TombNew15" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew" unique_id=1117671292]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.6, 1)
 use_collision = true
 size = Vector3(0.75, 1.2, 0.3)
 material = SubResource("Mat_TombNew")
 
-[node name="TombNew16" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+[node name="TombNew16" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew" unique_id=221373553]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 0.6, 1)
 use_collision = true
 size = Vector3(0.75, 1.2, 0.3)
 material = SubResource("Mat_TombNew")
 
-[node name="TombNew17" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+[node name="TombNew17" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew" unique_id=1534595202]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.6, 6)
 use_collision = true
 size = Vector3(0.75, 1.2, 0.3)
 material = SubResource("Mat_TombNew")
 
-[node name="TombNew18" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew"]
+[node name="TombNew18" type="CSGBox3D" parent="NavigationRegion3D/Tombs/TombsNew" unique_id=803564537]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.6, 6)
 use_collision = true
 size = Vector3(0.75, 1.2, 0.3)
 material = SubResource("Mat_TombNew")
 
-[node name="GhostRooms" type="Node3D" parent="."]
+[node name="GhostRooms" type="Node3D" parent="." unique_id=260229770]
 
-[node name="RoomChapel" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
+[node name="RoomChapel" type="Marker3D" parent="GhostRooms" unique_id=776440992 groups=["ghost_rooms"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -24)
 
-[node name="RoomCrypt" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
+[node name="RoomCrypt" type="Marker3D" parent="GhostRooms" unique_id=868908153 groups=["ghost_rooms"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.5, -24)
 
-[node name="RoomGravedigger" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
+[node name="RoomGravedigger" type="Marker3D" parent="GhostRooms" unique_id=1251811052 groups=["ghost_rooms"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.5, 16)
 
-[node name="RoomShed" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
+[node name="RoomShed" type="Marker3D" parent="GhostRooms" unique_id=78197479 groups=["ghost_rooms"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.5, 16)
 
-[node name="ExorcismRoom" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
+[node name="ExorcismRoom" type="Marker3D" parent="GhostRooms" unique_id=1646330048 groups=["ghost_rooms"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -3, -24)
 
-[node name="RoomOldGraves" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
+[node name="RoomOldGraves" type="Marker3D" parent="GhostRooms" unique_id=413458878 groups=["ghost_rooms"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0.5, -4)
 
-[node name="RoomNewGraves" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
+[node name="RoomNewGraves" type="Marker3D" parent="GhostRooms" unique_id=161296940 groups=["ghost_rooms"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.5, -4)
 
-[node name="RoomEntrance" type="Marker3D" parent="GhostRooms" groups=["ghost_rooms"]]
+[node name="RoomEntrance" type="Marker3D" parent="GhostRooms" unique_id=907449569 groups=["ghost_rooms"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 28)
 
-[node name="StreetLights" type="Node3D" parent="."]
+[node name="StreetLights" type="Node3D" parent="." unique_id=927426297]
 
-[node name="LampPost_Path_W1" parent="StreetLights" instance=ExtResource("1_lamp")]
+[node name="LampPost_Path_W1" parent="StreetLights" unique_id=593221495 instance=ExtResource("1_lamp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 0, 26)
 
-[node name="LampPost_Path_W2" parent="StreetLights" instance=ExtResource("1_lamp")]
+[node name="LampPost_Path_W2" parent="StreetLights" unique_id=1273494773 instance=ExtResource("1_lamp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 0, 16)
 
-[node name="LampPost_Path_W3" parent="StreetLights" instance=ExtResource("1_lamp")]
+[node name="LampPost_Path_W3" parent="StreetLights" unique_id=764346664 instance=ExtResource("1_lamp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 0, 6)
 
-[node name="LampPost_Path_W4" parent="StreetLights" instance=ExtResource("1_lamp")]
+[node name="LampPost_Path_W4" parent="StreetLights" unique_id=44682436 instance=ExtResource("1_lamp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 0, -4)
 
-[node name="LampPost_Path_W5" parent="StreetLights" instance=ExtResource("1_lamp")]
+[node name="LampPost_Path_W5" parent="StreetLights" unique_id=589532977 instance=ExtResource("1_lamp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 0, -14)
 
-[node name="LampPost_Path_E1" parent="StreetLights" instance=ExtResource("1_lamp")]
+[node name="LampPost_Path_E1" parent="StreetLights" unique_id=1569646166 instance=ExtResource("1_lamp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 0, 21)
 
-[node name="LampPost_Path_E2" parent="StreetLights" instance=ExtResource("1_lamp")]
+[node name="LampPost_Path_E2" parent="StreetLights" unique_id=530531452 instance=ExtResource("1_lamp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 0, 11)
 
-[node name="LampPost_Path_E3" parent="StreetLights" instance=ExtResource("1_lamp")]
+[node name="LampPost_Path_E3" parent="StreetLights" unique_id=521388265 instance=ExtResource("1_lamp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 0, 1)
 
-[node name="LampPost_Path_E4" parent="StreetLights" instance=ExtResource("1_lamp")]
+[node name="LampPost_Path_E4" parent="StreetLights" unique_id=1432782967 instance=ExtResource("1_lamp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 0, -9)
 
-[node name="LampPost_Path_E5" parent="StreetLights" instance=ExtResource("1_lamp")]
+[node name="LampPost_Path_E5" parent="StreetLights" unique_id=1559113370 instance=ExtResource("1_lamp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 0, -19)
 
-[node name="LampPost_Chapel" parent="StreetLights" instance=ExtResource("1_lamp")]
+[node name="LampPost_Chapel" parent="StreetLights" unique_id=550373593 instance=ExtResource("1_lamp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, -18)
 
-[node name="LampPost_Crypt" parent="StreetLights" instance=ExtResource("1_lamp")]
+[node name="LampPost_Crypt" parent="StreetLights" unique_id=2115913784 instance=ExtResource("1_lamp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, -19)
 
-[node name="LampPost_Gravedigger" parent="StreetLights" instance=ExtResource("1_lamp")]
+[node name="LampPost_Gravedigger" parent="StreetLights" unique_id=1914807831 instance=ExtResource("1_lamp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, 11)
 
-[node name="LampPost_Shed" parent="StreetLights" instance=ExtResource("1_lamp")]
+[node name="LampPost_Shed" parent="StreetLights" unique_id=1921368163 instance=ExtResource("1_lamp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, 11)
 
-[node name="LampPost_Basement" parent="StreetLights" instance=ExtResource("1_lamp")]
+[node name="LampPost_Basement" parent="StreetLights" unique_id=1084399459 instance=ExtResource("1_lamp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0, -21)
 
-[node name="LampPost_OldGraves" parent="StreetLights" instance=ExtResource("1_lamp")]
+[node name="LampPost_OldGraves" parent="StreetLights" unique_id=1504268560 instance=ExtResource("1_lamp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, -3)
 
-[node name="LampPost_NewGraves" parent="StreetLights" instance=ExtResource("1_lamp")]
+[node name="LampPost_NewGraves" parent="StreetLights" unique_id=1646348827 instance=ExtResource("1_lamp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -3)
 
-[node name="ItemSpawnPoints" type="Node3D" parent="."]
+[node name="ItemSpawnPoints" type="Node3D" parent="." unique_id=520649027]
 
-[node name="Item_Crypt_1" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Crypt_1" type="Marker3D" parent="ItemSpawnPoints" unique_id=1320382755 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0.3, -25)
 
-[node name="Item_Crypt_2" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Crypt_2" type="Marker3D" parent="ItemSpawnPoints" unique_id=623618057 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0.3, -25)
 
-[node name="Item_Crypt_3" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Crypt_3" type="Marker3D" parent="ItemSpawnPoints" unique_id=1987946739 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.3, -23)
 
-[node name="Item_Crypt_4" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Crypt_4" type="Marker3D" parent="ItemSpawnPoints" unique_id=537679160 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 0.3, -22)
 
-[node name="Item_Crypt_5" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Crypt_5" type="Marker3D" parent="ItemSpawnPoints" unique_id=2011482419 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 0.3, -22)
 
-[node name="Item_Chapel_1" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Chapel_1" type="Marker3D" parent="ItemSpawnPoints" unique_id=1209499186 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -26)
 
-[node name="Item_Chapel_2" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Chapel_2" type="Marker3D" parent="ItemSpawnPoints" unique_id=618464819 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.3, -26)
 
-[node name="Item_Chapel_3" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Chapel_3" type="Marker3D" parent="ItemSpawnPoints" unique_id=194787641 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.3, -26)
 
-[node name="Item_Chapel_4" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Chapel_4" type="Marker3D" parent="ItemSpawnPoints" unique_id=137472861 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.3, -22)
 
-[node name="Item_Chapel_5" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Chapel_5" type="Marker3D" parent="ItemSpawnPoints" unique_id=1842912765 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.3, -22)
 
-[node name="Item_Chapel_6" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Chapel_6" type="Marker3D" parent="ItemSpawnPoints" unique_id=1359824299 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -22)
 
-[node name="Item_Basement_1" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Basement_1" type="Marker3D" parent="ItemSpawnPoints" unique_id=721044470 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, -3.2, -26)
 
-[node name="Item_Basement_2" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Basement_2" type="Marker3D" parent="ItemSpawnPoints" unique_id=1025896588 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, -3.2, -26)
 
-[node name="Item_Basement_3" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Basement_3" type="Marker3D" parent="ItemSpawnPoints" unique_id=664087896 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, -3.2, -22)
 
-[node name="Item_Basement_4" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Basement_4" type="Marker3D" parent="ItemSpawnPoints" unique_id=860060956 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, -3.2, -22)
 
-[node name="Item_Gravedigger_1" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Gravedigger_1" type="Marker3D" parent="ItemSpawnPoints" unique_id=460742715 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0.3, 17)
 
-[node name="Item_Gravedigger_2" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Gravedigger_2" type="Marker3D" parent="ItemSpawnPoints" unique_id=2015878462 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0.3, 17)
 
-[node name="Item_Gravedigger_3" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Gravedigger_3" type="Marker3D" parent="ItemSpawnPoints" unique_id=1730502814 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0.3, 14.5)
 
-[node name="Item_Gravedigger_4" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Gravedigger_4" type="Marker3D" parent="ItemSpawnPoints" unique_id=1330604349 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0.3, 14.5)
 
-[node name="Item_Gravedigger_5" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Gravedigger_5" type="Marker3D" parent="ItemSpawnPoints" unique_id=989295633 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.3, 18)
 
-[node name="Item_Shed_1" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Shed_1" type="Marker3D" parent="ItemSpawnPoints" unique_id=1307659217 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.3, 17)
 
-[node name="Item_Shed_2" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Shed_2" type="Marker3D" parent="ItemSpawnPoints" unique_id=430031469 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0.3, 17)
 
-[node name="Item_Shed_3" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Shed_3" type="Marker3D" parent="ItemSpawnPoints" unique_id=155695626 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.3, 14.5)
 
-[node name="Item_Shed_4" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Shed_4" type="Marker3D" parent="ItemSpawnPoints" unique_id=63222763 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0.3, 14.5)
 
-[node name="Item_Shed_5" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Shed_5" type="Marker3D" parent="ItemSpawnPoints" unique_id=1147807190 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.3, 18)
 
-[node name="Item_OldGraves_1" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_OldGraves_1" type="Marker3D" parent="ItemSpawnPoints" unique_id=377758312 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0.3, -15)
 
-[node name="Item_OldGraves_2" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_OldGraves_2" type="Marker3D" parent="ItemSpawnPoints" unique_id=1951440335 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.3, -15)
 
-[node name="Item_OldGraves_3" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_OldGraves_3" type="Marker3D" parent="ItemSpawnPoints" unique_id=1088087339 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0.3, -15)
 
-[node name="Item_OldGraves_4" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_OldGraves_4" type="Marker3D" parent="ItemSpawnPoints" unique_id=1144906576 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.3, -10)
 
-[node name="Item_OldGraves_5" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_OldGraves_5" type="Marker3D" parent="ItemSpawnPoints" unique_id=1240916837 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0.3, -10)
 
-[node name="Item_OldGraves_6" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_OldGraves_6" type="Marker3D" parent="ItemSpawnPoints" unique_id=314064084 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0.3, -10)
 
-[node name="Item_OldGraves_7" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_OldGraves_7" type="Marker3D" parent="ItemSpawnPoints" unique_id=1091072032 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0.3, -5)
 
-[node name="Item_OldGraves_8" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_OldGraves_8" type="Marker3D" parent="ItemSpawnPoints" unique_id=673683522 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.3, -5)
 
-[node name="Item_OldGraves_9" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_OldGraves_9" type="Marker3D" parent="ItemSpawnPoints" unique_id=795881751 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 0.3, -5)
 
-[node name="Item_OldGraves_10" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_OldGraves_10" type="Marker3D" parent="ItemSpawnPoints" unique_id=869241267 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.3, 0)
 
-[node name="Item_OldGraves_11" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_OldGraves_11" type="Marker3D" parent="ItemSpawnPoints" unique_id=190939910 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5, 0.3, 0)
 
-[node name="Item_NewGraves_1" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_NewGraves_1" type="Marker3D" parent="ItemSpawnPoints" unique_id=1426893190 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0.3, -15)
 
-[node name="Item_NewGraves_2" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_NewGraves_2" type="Marker3D" parent="ItemSpawnPoints" unique_id=1250953549 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.3, -15)
 
-[node name="Item_NewGraves_3" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_NewGraves_3" type="Marker3D" parent="ItemSpawnPoints" unique_id=1525987812 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0.3, -15)
 
-[node name="Item_NewGraves_4" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_NewGraves_4" type="Marker3D" parent="ItemSpawnPoints" unique_id=1452611530 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.3, -10)
 
-[node name="Item_NewGraves_5" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_NewGraves_5" type="Marker3D" parent="ItemSpawnPoints" unique_id=1138529044 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0.3, -10)
 
-[node name="Item_NewGraves_6" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_NewGraves_6" type="Marker3D" parent="ItemSpawnPoints" unique_id=1385497394 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.3, -10)
 
-[node name="Item_NewGraves_7" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_NewGraves_7" type="Marker3D" parent="ItemSpawnPoints" unique_id=2110352779 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0.3, -5)
 
-[node name="Item_NewGraves_8" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_NewGraves_8" type="Marker3D" parent="ItemSpawnPoints" unique_id=2079904906 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.3, -5)
 
-[node name="Item_NewGraves_9" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_NewGraves_9" type="Marker3D" parent="ItemSpawnPoints" unique_id=489948644 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0.3, -5)
 
-[node name="Item_NewGraves_10" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_NewGraves_10" type="Marker3D" parent="ItemSpawnPoints" unique_id=603159236 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.3, 0)
 
-[node name="Item_NewGraves_11" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_NewGraves_11" type="Marker3D" parent="ItemSpawnPoints" unique_id=1555703356 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0.3, 0)
 
-[node name="Item_Perimeter_1" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Perimeter_1" type="Marker3D" parent="ItemSpawnPoints" unique_id=390153975 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0.3, -33)
 
-[node name="Item_Perimeter_2" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Perimeter_2" type="Marker3D" parent="ItemSpawnPoints" unique_id=68150891 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.3, -33)
 
-[node name="Item_Perimeter_3" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Perimeter_3" type="Marker3D" parent="ItemSpawnPoints" unique_id=1388695788 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0.3, 33)
 
-[node name="Item_Perimeter_4" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Perimeter_4" type="Marker3D" parent="ItemSpawnPoints" unique_id=1560177883 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.3, 33)
 
-[node name="Item_Perimeter_5" type="Marker3D" parent="ItemSpawnPoints" groups=["item_spawn"]]
+[node name="Item_Perimeter_5" type="Marker3D" parent="ItemSpawnPoints" unique_id=1214410058 groups=["item_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 32)
 
-[node name="ChapelEntranceArea" type="Area3D" parent="." groups=["chapel_entrance"]]
+[node name="ChapelEntranceArea" type="Area3D" parent="." unique_id=853359313 groups=["chapel_entrance"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -20)
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ChapelEntranceArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ChapelEntranceArea" unique_id=1041546152]
 shape = SubResource("Shape_ChapelEntrance")
 
-[node name="PatrolPoints" type="Node3D" parent="."]
+[node name="PatrolPoints" type="Node3D" parent="." unique_id=1935551287]
 
-[node name="Patrol_Path_South" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+[node name="Patrol_Path_South" type="Marker3D" parent="PatrolPoints" unique_id=1960852952 groups=["patrol_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 25)
 
-[node name="Patrol_Path_MidSouth" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+[node name="Patrol_Path_MidSouth" type="Marker3D" parent="PatrolPoints" unique_id=334284725 groups=["patrol_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 12)
 
-[node name="Patrol_Path_Center" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+[node name="Patrol_Path_Center" type="Marker3D" parent="PatrolPoints" unique_id=358862104 groups=["patrol_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="Patrol_Path_MidNorth" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+[node name="Patrol_Path_MidNorth" type="Marker3D" parent="PatrolPoints" unique_id=432169319 groups=["patrol_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -10)
 
-[node name="Patrol_Chapel_Door" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+[node name="Patrol_Chapel_Door" type="Marker3D" parent="PatrolPoints" unique_id=999021204 groups=["patrol_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -18)
 
-[node name="Patrol_Chapel_Inside" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+[node name="Patrol_Chapel_Inside" type="Marker3D" parent="PatrolPoints" unique_id=1465783052 groups=["patrol_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -24)
 
-[node name="Patrol_OldGraves_South" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+[node name="Patrol_OldGraves_South" type="Marker3D" parent="PatrolPoints" unique_id=525703229 groups=["patrol_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.5, 0)
 
-[node name="Patrol_OldGraves_North" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+[node name="Patrol_OldGraves_North" type="Marker3D" parent="PatrolPoints" unique_id=541481804 groups=["patrol_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0.5, -12)
 
-[node name="Patrol_NewGraves_South" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+[node name="Patrol_NewGraves_South" type="Marker3D" parent="PatrolPoints" unique_id=940237611 groups=["patrol_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.5, 0)
 
-[node name="Patrol_NewGraves_North" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+[node name="Patrol_NewGraves_North" type="Marker3D" parent="PatrolPoints" unique_id=1738578868 groups=["patrol_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.5, -12)
 
-[node name="Patrol_Crypt_Entrance" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+[node name="Patrol_Crypt_Entrance" type="Marker3D" parent="PatrolPoints" unique_id=2147254775 groups=["patrol_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.5, -19)
 
-[node name="Patrol_Crypt_Inside" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+[node name="Patrol_Crypt_Inside" type="Marker3D" parent="PatrolPoints" unique_id=534436583 groups=["patrol_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.5, -24)
 
-[node name="Patrol_Gravedigger_Outside" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+[node name="Patrol_Gravedigger_Outside" type="Marker3D" parent="PatrolPoints" unique_id=1757489663 groups=["patrol_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.5, 11)
 
-[node name="Patrol_Gravedigger_Inside" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+[node name="Patrol_Gravedigger_Inside" type="Marker3D" parent="PatrolPoints" unique_id=1989133581 groups=["patrol_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.5, 16)
 
-[node name="Patrol_Shed_Outside" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+[node name="Patrol_Shed_Outside" type="Marker3D" parent="PatrolPoints" unique_id=36144622 groups=["patrol_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.5, 11)
 
-[node name="Patrol_Shed_Inside" type="Marker3D" parent="PatrolPoints" groups=["patrol_points"]]
+[node name="Patrol_Shed_Inside" type="Marker3D" parent="PatrolPoints" unique_id=109839564 groups=["patrol_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.5, 16)
 
-[node name="CapturedSpots" type="Node3D" parent="."]
+[node name="CapturedSpots" type="Node3D" parent="." unique_id=461837513]
 
-[node name="Spot_OldGraves" type="Marker3D" parent="CapturedSpots" groups=["captured_spots"]]
+[node name="Spot_OldGraves" type="Marker3D" parent="CapturedSpots" unique_id=953660315 groups=["captured_spots"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.5, -6)
 
-[node name="Spot_NewGraves" type="Marker3D" parent="CapturedSpots" groups=["captured_spots"]]
+[node name="Spot_NewGraves" type="Marker3D" parent="CapturedSpots" unique_id=1864937126 groups=["captured_spots"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.5, -6)
 
-[node name="Spot_Gravedigger" type="Marker3D" parent="CapturedSpots" groups=["captured_spots"]]
+[node name="Spot_Gravedigger" type="Marker3D" parent="CapturedSpots" unique_id=690725292 groups=["captured_spots"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0.5, 14)
 
-[node name="Spot_Shed" type="Marker3D" parent="CapturedSpots" groups=["captured_spots"]]
+[node name="Spot_Shed" type="Marker3D" parent="CapturedSpots" unique_id=1236203207 groups=["captured_spots"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0.5, 14)
 
-[node name="Spot_Crypt" type="Marker3D" parent="CapturedSpots" groups=["captured_spots"]]
+[node name="Spot_Crypt" type="Marker3D" parent="CapturedSpots" unique_id=2073638768 groups=["captured_spots"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0.5, -23)
 
-[node name="CellSpot" type="Marker3D" parent="." groups=["cell_spot"]]
+[node name="CellSpot" type="Marker3D" parent="." unique_id=384291388 groups=["cell_spot"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.5, 0.5, -24.5)

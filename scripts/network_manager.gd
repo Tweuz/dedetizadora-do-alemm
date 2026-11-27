@@ -100,6 +100,7 @@ func _on_host_requested(p_name: String) -> void:
 	menu.visible = false
 	print("[MULTIPLAYER] Servidor criado com sucesso na porta %d. Máximo de %d jogadores." % [PORT, MAX_PLAYERS])
 
+	_ensure_navmesh()
 	_spawn_player(1, _my_player_name)
 	_spawn_ghost()
 
@@ -198,6 +199,20 @@ func _spawn_player(id: int, initial_name: String = "Jogador") -> void:
 	player.position = spawn_pos
 	players_container.add_child(player, true)
 	print("[MULTIPLAYER] Jogador instanciado com sucesso para o peer: %d na posição %v" % [id, spawn_pos])
+
+# Garante que o mapa de navegação do fantasma existe. Se o NavigationMesh salvo na cena
+# estiver vazio (nunca foi "baked"), gera agora. Só o servidor precisa disso.
+func _ensure_navmesh() -> void:
+	var region = find_child("NavigationRegion3D", true, false) as NavigationRegion3D
+	if not region or not region.navigation_mesh:
+		push_warning("[NAV] NavigationRegion3D não encontrado.")
+		return
+	if region.navigation_mesh.get_polygon_count() > 0:
+		return
+	var t0: int = Time.get_ticks_msec()
+	region.bake_navigation_mesh(false)
+	print("[NAV] NavigationMesh estava vazio. Gerado na hora: %d polígonos (%d ms)." % [
+		region.navigation_mesh.get_polygon_count(), Time.get_ticks_msec() - t0])
 
 func _spawn_ghost() -> void:
 	if players_container.has_node("Ghost"):
