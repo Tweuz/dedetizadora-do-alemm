@@ -15,7 +15,8 @@ enum Phase {
 enum State {
 	PATROL = 0, # Patrulha entre pontos
 	CHASE = 1,  # Perseguição direta ao jogador avistado ou ouvido
-	SEARCH = 2  # Procura no último local visto
+	SEARCH = 2, # Procura no último local visto
+	SUSPICIOUS = 3 # Ouviu um barulho: para, vira pra olhar e decide se persegue
 }
 
 # --- PROPRIEDADES EXPORTADAS (CONFIGURAÇÃO E BALANCEAMENTO) ---
@@ -41,10 +42,15 @@ enum State {
 
 # Detecção e Percepção
 @export_group("Percepção")
-@export var fov_angle_deg: float = 70.0        # Cone de visão total (graus)
-@export var max_view_distance: float = 18.0    # Alcance máximo de visão (metros)
-@export var hearing_distance_sprint: float = 12.0 # Alcance para ouvir jogador correndo com Shift
+@export var fov_angle_deg: float = 90.0        # Cone de visão total (graus)
+@export var max_view_distance: float = 20.0    # Alcance máximo de visão (metros)
 @export var eye_height_offset: float = 1.95    # Altura dos olhos para checagem de Raycast
+@export var target_chest_height: float = 1.2   # Altura do peito do jogador (1º raycast)
+@export var target_head_height: float = 1.6    # Altura da cabeça do jogador (2º raycast)
+@export var suspicion_time: float = 3.0        # Tempo parado olhando na direção do barulho
+@export var suspicion_turn_speed: float = 3.0  # Velocidade de giro até o barulho
+@export var wait_scan_angle_deg: float = 60.0  # Quanto ele gira pra cada lado nos pontos de espera
+@export var wait_scan_speed: float = 1.2       # Velocidade do giro nos pontos de espera
 @export var catch_distance: float = 1.2        # Distância para capturar o jogador
 
 # Busca e Cooldown
@@ -102,6 +108,18 @@ var _last_stuck_check_pos: Vector3 = Vector3.ZERO
 var _patrol_points: Array[Node] = []
 var _current_patrol_marker: Marker3D = null
 var _is_waiting_at_point: bool = false
+var _wait_timer: float = 0.0
+var _scan_time: float = 0.0
+var _scan_base_yaw: float = 0.0
+
+# Audição / desconfiança
+var _suspicion_timer: float = 0.0
+var _last_noise_pos: Vector3 = Vector3.ZERO
+var _last_noise_msec: int = -1
+
+# Texto de depuração (F3) - preenchido só no servidor
+var debug_text: String = ""
+var _debug_text_timer: float = 0.0
 var _blackout_active_posts: Dictionary = {} # Para evitar acionar o mesmo poste repetidamente
 
 func _enter_tree() -> void:
@@ -243,6 +261,10 @@ func _physics_process(delta: float) -> void:
 			_state_chase_process(delta)
 		State.SEARCH:
 			_state_search_process(delta)
+		State.SUSPICIOUS:
+			_state_suspicious_process(delta)
+
+	_update_debug_text(delta)
 
 func _check_gate_status_fallback() -> void:
 	var gate = get_tree().get_first_node_in_group("portao")
@@ -331,7 +353,7 @@ func _flicker_post_briefly(post_path: NodePath) -> void:
 # ==============================================================================
 
 func _state_patrol_process(delta: float) -> void:
-	# Na Fase 2 (Ativa), verifica continuamente se vê ou ouve algum jogador
+	# Na Fase 2 (Ativa), verifica continuamente se VÊ algum jogador
 	if current_phase == Phase.ACTIVE and _chase_cooldown_timer <= 0.0:
 		var target = _detect_target_player()
 		if target:
@@ -339,6 +361,14 @@ func _state_patrol_process(delta: float) -> void:
 			return
 
 	if _is_waiting_at_point:
+		# Parado no ponto: gira devagar de um lado pro outro olhando ao redor
+		velocity = Vector3.ZERO
+		_scan_time += delta
+		rotation.y = _scan_base_yaw + sin(_scan_time * wait_scan_speed) * deg_to_rad(wait_scan_angle_deg)
+		_wait_timer -= delta
+		if _wait_timer <= 0.0:
+			_is_waiting_at_point = false
+			_pick_next_patrol_point()
 		return
 
 	# Chegou ao ponto de patrulha atual?
@@ -346,9 +376,9 @@ func _state_patrol_process(delta: float) -> void:
 	if nav_agent.is_navigation_finished() or dist <= 0.8:
 		velocity = Vector3.ZERO
 		_is_waiting_at_point = true
-		await get_tree().create_timer(randf_range(2.0, 4.0)).timeout
-		if is_inside_tree() and multiplayer.is_server() and current_state == State.PATROL:
-			_pick_next_patrol_point()
+		_wait_timer = randf_range(2.0, 4.0)
+		_scan_time = 0.0
+		_scan_base_yaw = rotation.y
 		return
 
 	_move_along_path(patrol_speed, delta)
@@ -422,7 +452,9 @@ func _is_target_reachable(target_pos: Vector3) -> bool:
 
 func _check_stuck(delta: float) -> void:
 	# Só verifica se estiver se deslocando ativamente
-	if _is_waiting_at_point:
+	var parado_de_proposito: bool = (current_state == State.SUSPICIOUS) \
+		or (current_state == State.SEARCH and _search_spin_timer > 0.0)
+	if _is_waiting_at_point or parado_de_proposito:
 		_stuck_timer = 0.0
 		_last_stuck_check_pos = global_position
 		return
@@ -444,16 +476,19 @@ func _check_stuck(delta: float) -> void:
 			_last_stuck_check_pos = global_position
 
 func _is_player_in_safe_spot(player: CharacterBody3D) -> bool:
-	# Se o jogador capturado estiver no CellSpot ou em um captured_spot, o fantasma não deve tentar ir até lá
+	# A cela é sempre protegida (o jogador preso lá fica seguro)
 	var cell_spot = get_tree().get_first_node_in_group("cell_spot")
 	if cell_spot and cell_spot is Node3D:
 		if player.global_position.distance_to(cell_spot.global_position) < 3.5:
 			return true
 
-	var cap_spots = get_tree().get_nodes_in_group("captured_spots")
-	for sp in cap_spots:
-		if sp is Node3D and player.global_position.distance_to(sp.global_position) < 3.5:
-			return true
+	# O local de jogador caído só protege enquanto o fantasma está em pausa
+	# pós-captura. Depois disso ele pode pegar o jogador de novo.
+	if _chase_cooldown_timer > 0.0:
+		var cap_spots = get_tree().get_nodes_in_group("captured_spots")
+		for sp in cap_spots:
+			if sp is Node3D and player.global_position.distance_to(sp.global_position) < 3.5:
+				return true
 
 	return false
 
@@ -508,6 +543,57 @@ func _state_chase_process(delta: float) -> void:
 	_move_along_path(chase_speed, delta)
 
 # ==============================================================================
+# ESTADO 4: DESCONFIANÇA (OUVIU UM BARULHO)
+# ==============================================================================
+
+# Chamado no servidor por quem faz barulho (corrida, item, etc.)
+func hear_noise(pos: Vector3, radius: float) -> void:
+	if not multiplayer.is_server():
+		return
+	if current_phase != Phase.ACTIVE:
+		return
+	# Já perseguindo ou procurando: ignora, ele já está atento
+	if current_state == State.CHASE or current_state == State.SEARCH:
+		return
+	if _chase_cooldown_timer > 0.0:
+		return
+	if global_position.distance_to(pos) > radius:
+		return
+
+	_last_noise_pos = pos
+	_last_noise_msec = Time.get_ticks_msec()
+	_suspicion_timer = suspicion_time # barulho repetido reinicia o tempo
+	if current_state != State.SUSPICIOUS:
+		current_state = State.SUSPICIOUS
+		velocity = Vector3.ZERO
+		print("[FANTASMA] Ouviu um barulho em %v. Desconfiado!" % pos)
+
+func _state_suspicious_process(delta: float) -> void:
+	velocity = Vector3.ZERO
+
+	# Vira devagar na direção do barulho
+	var dir = _last_noise_pos - global_position
+	dir.y = 0.0
+	if dir.length_squared() > 0.01:
+		var target_yaw = atan2(-dir.x, -dir.z)
+		rotation.y = lerp_angle(rotation.y, target_yaw, suspicion_turn_speed * delta)
+
+	# Enquanto olha, a visão normal continua valendo
+	var target = _detect_target_player()
+	if target:
+		_enter_chase(target)
+		return
+
+	_suspicion_timer -= delta
+	if _suspicion_timer <= 0.0:
+		print("[FANTASMA] Não achou ninguém. Voltando à patrulha.")
+		current_state = State.PATROL
+		# Retoma o caminho atual (não escolhe ponto novo)
+		if _is_waiting_at_point:
+			_scan_base_yaw = rotation.y
+			_scan_time = 0.0
+
+# ==============================================================================
 # ESTADO 3: BUSCA
 # ==============================================================================
 
@@ -543,7 +629,7 @@ func _state_search_process(delta: float) -> void:
 		_pick_next_patrol_point()
 
 # ==============================================================================
-# SISTEMA DE PERCEPÇÃO (VISÃO POR CONE + RAYCAST E AUDIÇÃO DE SPRINT)
+# SISTEMA DE PERCEPÇÃO (VISÃO POR CONE + RAYCAST; AUDIÇÃO VIA hear_noise)
 # ==============================================================================
 
 func _detect_target_player() -> CharacterBody3D:
@@ -556,59 +642,96 @@ func _detect_target_player() -> CharacterBody3D:
 			continue
 		if p.get("is_dead") == true:
 			continue
-		# Não persegue se o jogador estiver no CellSpot ou em um captured_spot
+		# Não persegue se o jogador estiver protegido (cela, ou caído em pausa)
 		if _is_player_in_safe_spot(p):
 			continue
 
-		var dist = global_position.distance_to(p.global_position)
-
-		# 1. Checagem de Audição: jogador correndo (Shift pressionado ou velocidade de sprint) a < 12m
-		var is_sprinting: bool = false
-		if p.velocity.length() > 4.5: # Walk é 3.5, sprint é 6.0
-			is_sprinting = true
-
-		if is_sprinting and dist <= hearing_distance_sprint:
+		if _vision_reason(p) == "enxerga":
+			var dist = global_position.distance_to(p.global_position)
 			if dist < min_distance:
 				min_distance = dist
 				closest_player = p
-			continue
-
-		# 2. Checagem de Visão: dentro do cone de visão até 18 m sem obstáculos
-		if dist <= max_view_distance:
-			var to_player = (p.global_position - global_position).normalized()
-			to_player.y = 0.0
-			var forward = -transform.basis.z.normalized()
-			forward.y = 0.0
-			var angle_deg = rad_to_deg(forward.angle_to(to_player))
-
-			# Dentro do cone de visão (~70 graus total = ~35 graus para cada lado)
-			if angle_deg <= (fov_angle_deg * 0.5):
-				if _has_line_of_sight(p):
-					if dist < min_distance:
-						min_distance = dist
-						closest_player = p
 
 	return closest_player
 
+# Devolve o motivo de ver ou não ver o jogador (usado na visão e no painel F3)
+func _vision_reason(p: CharacterBody3D) -> String:
+	var dist = global_position.distance_to(p.global_position)
+	if dist > max_view_distance:
+		return "longe demais"
+
+	var to_player = p.global_position - global_position
+	to_player.y = 0.0
+	var forward = -transform.basis.z
+	forward.y = 0.0
+	if to_player.length_squared() > 0.0001 and forward.length_squared() > 0.0001:
+		var angle_deg = rad_to_deg(forward.normalized().angle_to(to_player.normalized()))
+		if angle_deg > (fov_angle_deg * 0.5):
+			return "fora do cone"
+
+	return _line_of_sight_reason(p)
+
 func _has_line_of_sight(player: CharacterBody3D) -> bool:
+	return _line_of_sight_reason(player) == "enxerga"
+
+# Dois raycasts (peito e cabeça): basta um chegar até o jogador
+func _line_of_sight_reason(player: CharacterBody3D) -> String:
 	var space_state = get_world_3d().direct_space_state
 	var origin = global_position + Vector3(0, eye_height_offset, 0)
-	var target = player.global_position + Vector3(0, 1.5, 0) # Altura do tronco/cabeça
+	var blocker: String = ""
 
-	var query = PhysicsRayQueryParameters3D.create(origin, target)
-	query.collision_mask = 1 # Colisão contra paredes, muros, lápides (Camada 1)
-	query.exclude = [self.get_rid()]
+	for h in [target_chest_height, target_head_height]:
+		var target = player.global_position + Vector3(0, h, 0)
+		var query = PhysicsRayQueryParameters3D.create(origin, target)
+		query.collision_mask = 1 # Só cenário: muros, construções, lápides, árvores
+		query.exclude = [self.get_rid()]
 
-	var result = space_state.intersect_ray(query)
-	# Se colidir com algo no caminho, bloqueou a visão
-	if result.is_empty():
-		return true
+		var result = space_state.intersect_ray(query)
+		if result.is_empty() or result.collider == player:
+			return "enxerga"
+		if blocker == "" and result.collider is Node:
+			blocker = str(result.collider.name)
 
-	# Se colidir com o próprio corpo do jogador ou nada antes dele, há visão direta
-	if result.collider == player:
-		return true
+	return "bloqueado por %s" % blocker
 
-	return false
+# ==============================================================================
+# TEXTO DE DEPURAÇÃO (F3) - LIDO PELO player.gd NO HOST
+# ==============================================================================
+
+func _state_name() -> String:
+	match current_state:
+		State.PATROL: return "Patrulha"
+		State.CHASE: return "Perseguição"
+		State.SEARCH: return "Busca"
+		State.SUSPICIOUS: return "Desconfiado"
+	return "?"
+
+func _update_debug_text(delta: float) -> void:
+	_debug_text_timer -= delta
+	if _debug_text_timer > 0.0:
+		return
+	_debug_text_timer = 0.25
+
+	var txt = "Estado: %s\n" % _state_name()
+	if _last_noise_msec >= 0:
+		txt += "Ouviu barulho há %.1f s\n" % ((Time.get_ticks_msec() - _last_noise_msec) / 1000.0)
+	else:
+		txt += "Ainda não ouviu barulho\n"
+
+	var closest: CharacterBody3D = null
+	var min_d: float = INF
+	for p in get_tree().get_nodes_in_group("players"):
+		if is_instance_valid(p) and p is CharacterBody3D and p.get("is_dead") != true:
+			var d = global_position.distance_to(p.global_position)
+			if d < min_d:
+				min_d = d
+				closest = p
+	if closest:
+		var motivo = "protegido (safe spot)" if _is_player_in_safe_spot(closest) else _vision_reason(closest)
+		txt += "Jogador mais próximo (%.1f m): %s" % [min_d, motivo]
+	else:
+		txt += "Sem jogadores vivos"
+	debug_text = txt
 
 # ==============================================================================
 # MOVIMENTAÇÃO E NAVEGAÇÃO

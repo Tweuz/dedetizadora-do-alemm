@@ -62,7 +62,7 @@ func server_request_pickup(player_path: NodePath) -> void:
 
 func _server_process_pickup(player: Node) -> void:
 	if player.has_method("server_try_add_item"):
-		var added = player.server_try_add_item(item_id, display_name)
+		var added = player.server_try_add_item(item_id, display_name, item_color)
 		if added:
 			picked_up.emit(player)
 			# Despacha sinal global no servidor se necessário

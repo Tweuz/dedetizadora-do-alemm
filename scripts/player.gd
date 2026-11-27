@@ -36,6 +36,17 @@ var selected_slot_index: int = 0
 @export var jumpscare_volumes_db: Array[float] = [0.0, 4.0, 7.5] # Volume calibrado para não clipar o bus Master
 @export var jumpscare_shake_multipliers: Array[float] = [1.0, 1.5, 2.0]
 
+# Barulho que o fantasma pode ouvir
+@export_group("Barulho")
+@export var run_noise_radius: float = 20.0     # Alcance do barulho de correr
+@export var run_noise_interval: float = 0.4    # De quanto em quanto tempo avisa enquanto corre
+@export var item_noise_radius: float = 12.0    # Alcance do barulho de pegar/soltar item
+
+# Item na mão
+@export_group("Item na Mão")
+@export var held_offset: Vector3 = Vector3(0.35, -0.3, -0.6)
+@export var held_bob_amount: float = 0.01
+
 # Depuração
 @export_group("Depuração")
 @export var debug_overlay_enabled: bool = true
@@ -83,6 +94,10 @@ var _last_jumpscare_phrase_idx: int = -1
 var _debug_timer: float = 0.0
 var _current_target_item: Node = null
 var _status_clear_timer: float = 0.0
+var _noise_timer: float = 0.0
+var held_pivot: Node3D = null
+var held_mesh: MeshInstance3D = null
+var _bob_time: float = 0.0
 
 func _enter_tree() -> void:
 	var peer_id: int = name.to_int()
@@ -106,6 +121,8 @@ func _ready() -> void:
 		if has_node("Head/Detector"):
 			detector.set_active(false)
 		
+		_setup_held_item()
+
 		if hud:
 			hud.visible = true
 			_update_inventory_ui()
@@ -273,6 +290,9 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
+	_process_run_noise(delta)
+	_update_held_bob(delta)
+
 func _physics_process_spectator(delta: float) -> void:
 	var input_dir: Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var cam_basis = camera.global_transform.basis
@@ -329,7 +349,7 @@ func _try_interact() -> void:
 			_current_target_item.interact_pickup(self)
 
 # Executado no servidor para validar adição de item
-func server_try_add_item(item_id: String, item_name: String) -> bool:
+func server_try_add_item(item_id: String, item_name: String, item_color: Color = Color(0.6, 0.6, 0.6)) -> bool:
 	if not multiplayer.is_server():
 		return false
 
@@ -339,6 +359,7 @@ func server_try_add_item(item_id: String, item_name: String) -> bool:
 			if slot["id"] == "bala":
 				slot["count"] += 1
 				rpc_sync_inventory.rpc(inventory)
+				_server_make_noise(global_position, item_noise_radius)
 				return true
 
 	# Checa se há espaço livre
@@ -349,12 +370,14 @@ func server_try_add_item(item_id: String, item_name: String) -> bool:
 	inventory.append({
 		"id": item_id,
 		"name": item_name,
-		"count": 1
+		"count": 1,
+		"color": item_color
 	})
 	rpc_sync_inventory.rpc(inventory)
+	_server_make_noise(global_position, item_noise_radius)
 	return true
 
-@rpc("call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func rpc_notify_inventory_full() -> void:
 	if not is_multiplayer_authority():
 		return
@@ -380,6 +403,8 @@ func _select_slot(index: int) -> void:
 func _update_inventory_ui() -> void:
 	if not inventory_slots_vbox or not is_multiplayer_authority():
 		return
+
+	_update_held_item()
 
 	# Limpa labels anteriores
 	for child in inventory_slots_vbox.get_children():
@@ -432,11 +457,99 @@ func server_request_drop_item(slot_idx: int, drop_pos: Vector3) -> void:
 		inventory.remove_at(slot_idx)
 
 	rpc_sync_inventory.rpc(inventory)
+	_server_make_noise(drop_pos, item_noise_radius)
 
 	# Spawna o item de volta no chão
 	var nm = get_tree().current_scene
 	if nm and nm.has_method("spawn_item_in_world"):
 		nm.spawn_item_in_world(item_id, item_name, drop_pos)
+
+# ==============================================================================
+# BARULHO (O FANTASMA OUVE) E ITEM NA MÃO
+# ==============================================================================
+
+# Corre fazendo barulho: o dono avisa o servidor, que avisa o fantasma
+func _process_run_noise(delta: float) -> void:
+	var horizontal_speed: float = Vector2(velocity.x, velocity.z).length()
+	if Input.is_action_pressed("sprint") and horizontal_speed > 4.5:
+		_noise_timer -= delta
+		if _noise_timer <= 0.0:
+			_noise_timer = run_noise_interval
+			if multiplayer.is_server():
+				_server_make_noise(global_position, run_noise_radius)
+			else:
+				server_report_noise.rpc_id(1, global_position)
+	else:
+		_noise_timer = 0.0
+
+@rpc("any_peer", "call_remote", "reliable")
+func server_report_noise(pos: Vector3) -> void:
+	if not multiplayer.is_server():
+		return
+	# Só aceita aviso vindo do próprio dono deste jogador
+	if multiplayer.get_remote_sender_id() != name.to_int():
+		return
+	_server_make_noise(pos, run_noise_radius)
+
+func _server_make_noise(pos: Vector3, radius: float) -> void:
+	if not multiplayer.is_server():
+		return
+	for g in get_tree().get_nodes_in_group("ghost"):
+		if is_instance_valid(g) and g.has_method("hear_noise"):
+			g.hear_noise(pos, radius)
+
+# Item na mão: bloco colorido na frente da câmera (provisório, até ter modelos)
+func _setup_held_item() -> void:
+	held_pivot = Node3D.new()
+	held_pivot.name = "HeldItem"
+	held_pivot.position = held_offset
+	held_pivot.visible = false
+	camera.add_child(held_pivot)
+
+	held_mesh = MeshInstance3D.new()
+	held_mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	held_pivot.add_child(held_mesh)
+
+func _update_held_item() -> void:
+	if not held_pivot or not held_mesh:
+		return
+	if selected_slot_index >= inventory.size():
+		held_pivot.visible = false
+		return
+
+	var it: Dictionary = inventory[selected_slot_index]
+	var col: Color = it.get("color", Color(0.6, 0.6, 0.6))
+
+	if it["id"] == "bala":
+		var cil := CylinderMesh.new()
+		cil.top_radius = 0.04
+		cil.bottom_radius = 0.04
+		cil.height = 0.18
+		held_mesh.mesh = cil
+	else:
+		var box := BoxMesh.new()
+		box.size = Vector3(0.15, 0.15, 0.25)
+		held_mesh.mesh = box
+
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = col
+	mat.roughness = 0.5
+	held_mesh.material_override = mat
+	held_pivot.visible = true
+
+# Balanço leve ao andar (só visual)
+func _update_held_bob(delta: float) -> void:
+	if not held_pivot or not held_pivot.visible:
+		return
+	var horizontal_speed: float = Vector2(velocity.x, velocity.z).length()
+	if horizontal_speed > 0.5 and is_on_floor():
+		_bob_time += delta * horizontal_speed * 2.0
+		held_pivot.position = held_offset + Vector3(
+			cos(_bob_time * 0.5) * held_bob_amount * 0.5,
+			sin(_bob_time) * held_bob_amount,
+			0.0)
+	else:
+		held_pivot.position = held_pivot.position.lerp(held_offset, 8.0 * delta)
 
 # ==============================================================================
 # PAINEL DE DEPURAÇÃO [F3]
@@ -486,6 +599,8 @@ func _update_debug_overlay() -> void:
 				ghost_state_str = "Perseguição"
 			elif s_num == 2:
 				ghost_state_str = "Busca"
+			elif s_num == 3:
+				ghost_state_str = "Desconfiado"
 
 		if ghost.visible:
 			ghost_dist_str = "%.1f m" % global_position.distance_to(ghost.global_position)
@@ -508,12 +623,19 @@ func _update_debug_overlay() -> void:
 				min_s_dist = d
 				nearest_spawn_name = "%s (%.1fm)" % [sp.name, d]
 
+	var ghost_extra: String = ""
+	if ghost and is_instance_valid(ghost) and multiplayer.is_server():
+		var dt = ghost.get("debug_text")
+		if dt != null and dt != "":
+			ghost_extra = "--- Fantasma (IA) ---\n%s\n" % dt
+
 	debug_label.text = (
 		"=== DEPURAÇÃO [F3] ===\n" +
 		"Tempo Portão: %s\n" % gate_time_str +
 		"Fantasma Fase: %s (Restam %s)\n" % [phase_str, phase_rem_str] +
 		"Fantasma Estado: %s\n" % ghost_state_str +
 		"Distância Fantasma: %s\n" % ghost_dist_str +
+		ghost_extra +
 		"Vidas dos Jogadores:\n%s" % players_info +
 		"Ponto Item mais próximo: %s" % nearest_spawn_name
 	)
@@ -595,11 +717,11 @@ func _server_set_player_dead() -> void:
 		print("[MULTIPLAYER] TODOS OS JOGADORES MORRERAM! FIM DE JOGO!")
 		rpc_show_game_over.rpc()
 
-@rpc("call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func sync_lives(new_lives: int) -> void:
 	lives = new_lives
 
-@rpc("call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func rpc_play_distant_scream(at_pos: Vector3) -> void:
 	if is_multiplayer_authority() and not multiplayer.is_server():
 		return
@@ -610,7 +732,7 @@ func rpc_play_distant_scream(at_pos: Vector3) -> void:
 		scream_audio_player.volume_db = 0.0
 		scream_audio_player.play()
 
-@rpc("call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func rpc_trigger_jumpscare(capture_index: int) -> void:
 	if not is_multiplayer_authority():
 		return
@@ -698,7 +820,7 @@ func _play_jumpscare_sequence(phrase_text: String, capture_idx: int) -> void:
 	await tween.finished
 	jumpscare_control.visible = false
 
-@rpc("call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func rpc_become_spectator() -> void:
 	is_dead = true
 	remove_from_group("players")
@@ -712,12 +834,12 @@ func rpc_become_spectator() -> void:
 		detector.visible = false
 		detector.set_active(false)
 
-@rpc("call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func rpc_show_game_over() -> void:
 	if game_over_control:
 		game_over_control.visible = true
 
-@rpc("call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func rpc_teleport(target_position: Vector3) -> void:
 	global_position = target_position
 	velocity = Vector3.ZERO
